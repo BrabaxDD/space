@@ -20,11 +20,11 @@ public class AsteroidsApplet extends PApplet {
 
     @Override
     public void settings() {
-        this.size(500,500);
+        this.fullScreen();
         this.mainmenu = new Scene(new ArrayList<>());
         this.activeScene = this.mainmenu;
         this.mainmenu.addObject(new Circle());
-        Button b = new Button();
+        Button b = new SceneSwitcherButton();
         this.activeScene.getEventbus().registerEventMouseLeftClick(b);
         this.mainmenu.addObject(b);
         AsteroidsApplet.asteroidsApplet = this;
@@ -36,6 +36,9 @@ public class AsteroidsApplet extends PApplet {
         //Inputs
         if(this.mousePressed == true&& mousePressedPreviousFrame == false){
             this.activeScene.getEventbus().MouseLeftClick(this.mouseX,this.mouseY);
+        }
+        if(this.keyPressed){
+            this.activeScene.getEventbus().ButtonPressed();
         }
 
         this.activeScene.process();
