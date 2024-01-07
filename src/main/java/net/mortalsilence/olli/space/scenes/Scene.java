@@ -14,7 +14,7 @@ public class Scene {
     private ArrayList<GameObject> gameObjects;
 
     public Scene(ArrayList<GameObject> objects){
-
+        this.eventbus = new Eventbus();
         this.gameObjects = objects;
     }
     public void process (){
