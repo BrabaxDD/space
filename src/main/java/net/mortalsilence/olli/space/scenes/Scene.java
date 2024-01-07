@@ -12,9 +12,9 @@ public class Scene {
 
     private Eventbus eventbus;
     private ArrayList<GameObject> gameObjects;
-    private AsteroidsApplet applet;
-    public Scene(ArrayList<GameObject> objects, AsteroidsApplet applet){
-        this.applet = applet;
+
+    public Scene(ArrayList<GameObject> objects){
+
         this.gameObjects = objects;
     }
     public void process (){
@@ -24,7 +24,7 @@ public class Scene {
     }
     public void render(){
         for(GameObject object: this.gameObjects){
-            object.render(this.applet);
+            object.render();
         }
     }
 

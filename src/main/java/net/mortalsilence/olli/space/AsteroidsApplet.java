@@ -7,6 +7,7 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class AsteroidsApplet extends PApplet {
+    public static AsteroidsApplet asteroidsApplet;
     private Scene mainmenu;
     private  Scene activeScene;
 
@@ -17,9 +18,10 @@ public class AsteroidsApplet extends PApplet {
     @Override
     public void settings() {
         this.size(500,500);
-        this.mainmenu = new Scene(new ArrayList<>(),this);
+        this.mainmenu = new Scene(new ArrayList<>());
         this.activeScene = this.mainmenu;
         this.mainmenu.addObject(new Circle());
+        AsteroidsApplet.asteroidsApplet = this;
     }
 
     @Override

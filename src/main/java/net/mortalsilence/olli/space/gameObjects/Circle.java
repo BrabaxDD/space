@@ -5,7 +5,7 @@ import processing.core.PApplet;
 
 public class Circle extends GameObject{
     @Override
-    public void render(AsteroidsApplet applet){
-        applet.circle(50,50,50);
+    public void render(){
+        AsteroidsApplet.asteroidsApplet.circle(50,50,50);
     }
 }
