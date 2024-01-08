@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GameSceneFactory {
     public Scene buildGameScene(){
         Scene s = new Scene(new ArrayList<>());
-        Spaceship ship = new Spaceship();
+        Spaceship ship = new Spaceship(s);
         s.getEventbus().registerEventButtonPressed(ship);
         s.addObject(ship);
         return s;

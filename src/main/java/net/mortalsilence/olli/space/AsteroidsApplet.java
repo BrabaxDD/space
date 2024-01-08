@@ -1,7 +1,6 @@
 package net.mortalsilence.olli.space;
 
 import net.mortalsilence.olli.space.gameObjects.Button;
-import net.mortalsilence.olli.space.gameObjects.Circle;
 import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
@@ -23,8 +22,7 @@ public class AsteroidsApplet extends PApplet {
         this.fullScreen();
         this.mainmenu = new Scene(new ArrayList<>());
         this.activeScene = this.mainmenu;
-        this.mainmenu.addObject(new Circle());
-        Button b = new SceneSwitcherButton();
+        Button b = new SceneSwitcherButton(this.mainmenu);
         this.activeScene.getEventbus().registerEventMouseLeftClick(b);
         this.mainmenu.addObject(b);
         AsteroidsApplet.asteroidsApplet = this;

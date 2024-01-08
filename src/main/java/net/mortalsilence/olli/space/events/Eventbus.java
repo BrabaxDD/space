@@ -3,22 +3,34 @@ package net.mortalsilence.olli.space.events;
 import java.util.ArrayList;
 
 public class Eventbus {
-    private ArrayList<MouseLeftClickListener> MouseLeftClickListeners = new ArrayList<>();
-    private ArrayList<ButtonPressedListener> ButtonPressedListeners = new ArrayList<>();
+    private ArrayList<MouseLeftClickListener> mouseLeftClickListeners = new ArrayList<>();
+    private ArrayList<ButtonPressedListener> buttonPressedListeners = new ArrayList<>();
+
+    private ArrayList<ProjektileMovedListener> projektileMovedListeners = new ArrayList<>();
     public void registerEventMouseLeftClick (MouseLeftClickListener listener){
-        this.MouseLeftClickListeners.add(listener);
+        this.mouseLeftClickListeners.add(listener);
     }
     public void registerEventButtonPressed(ButtonPressedListener listener){
-        this.ButtonPressedListeners.add(listener);
+        this.buttonPressedListeners.add(listener);
+    }
+
+
+    public void registerEventProjektileMoved(ProjektileMovedListener listener){
+        this.projektileMovedListeners.add(listener);
     }
     public void MouseLeftClick(int x,int y){
-        for(MouseLeftClickListener listener: this.MouseLeftClickListeners){
+        for(MouseLeftClickListener listener: this.mouseLeftClickListeners){
             listener.mouseLeftClick(x,y);
         }
     }
     public void ButtonPressed(){
-        for(ButtonPressedListener listener: this.ButtonPressedListeners){
+        for(ButtonPressedListener listener: this.buttonPressedListeners){
             listener.buttonPressed();
+        }
+    }
+    public void ProjektileMoved(int x,int y){
+        for(ProjektileMovedListener projektileMovedListener:this.projektileMovedListeners){
+            projektileMovedListener.ProjektileMoved(x,y);
         }
     }
 
