@@ -42,7 +42,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
     }
 
     public void render(){
-
+        AsteroidsApplet.asteroidsApplet.color(255,0,0);
+        AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
+        AsteroidsApplet.asteroidsApplet.fill(255,0,0);
         AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,30,30);
         AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);
     }

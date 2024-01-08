@@ -22,6 +22,9 @@ public class Projektile extends GameObject{
     }
     @Override
     public void render(){
+        AsteroidsApplet.asteroidsApplet.color(0,255,0);
+        AsteroidsApplet.asteroidsApplet.stroke(0,255,0);
+        AsteroidsApplet.asteroidsApplet.fill(0,255,0);
         AsteroidsApplet.asteroidsApplet.square(this.pos.x-5,this.pos.y - 5,10);
 
     }
