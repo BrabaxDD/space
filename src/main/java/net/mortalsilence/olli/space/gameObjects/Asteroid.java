@@ -11,6 +11,7 @@ import static processing.core.PApplet.dist;
 
 public class Asteroid extends GameObject {
     private ArrayList<PVector> points;
+    PVector test;
 
     private float xDeplacement;
     private float yDeplacement;
