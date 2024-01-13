@@ -28,7 +28,7 @@ public class Asteroid extends GameObject {
 
     final private int pointsPQuarter;
 
-    public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, Scene scene) {
+    public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, PVector speed, Scene scene) {
         super(scene);
         this.pointsPQuarter = pointsPerQuarter;
         this.pos.x = xdep;
@@ -36,7 +36,7 @@ public class Asteroid extends GameObject {
         this.size = sizeH;
         this.points = new ArrayList<PVector>();
         this.deplacement = new PVector();
-        this.speed = new PVector(0,0);
+        this.speed = speed;
         PVector xBorder = new PVector(0, 1);
         PVector yBorder = new PVector(-1, 0);
 
@@ -138,8 +138,10 @@ public class Asteroid extends GameObject {
 
     public void asteroidHit() {
         if(this.size > 20) {
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,scene));
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,new PVector(this.speed.x,this.speed.y),scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x,this.speed.y),scene));
+        }else  {
+        this.scene.deleteObject(this);
         }
         this.scene.deleteObject(this);
     }
