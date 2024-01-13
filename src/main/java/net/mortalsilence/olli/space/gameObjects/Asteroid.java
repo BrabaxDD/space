@@ -26,6 +26,8 @@ public class Asteroid extends GameObject {
 
     final private boolean cornersOn = false;
 
+    final private
+
     public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, Scene scene) {
         super(scene);
         this.pos.x = xdep;
@@ -115,6 +117,10 @@ public class Asteroid extends GameObject {
         this.speed = speed;
     }
 
+    public void setPos(PVector pos) {
+        this.pos = pos;
+    }
+
     @Override
     public void process() {
         for (PVector i : this.points) {
@@ -122,6 +128,14 @@ public class Asteroid extends GameObject {
         }
         this.pos.x += this.speed.x;
         this.pos.y += this.speed.y;
+    }
+
+    private void asteroidHit() {
+        this.scene.deleteObject(this);
+        if(this.size > 20) {
+            this.scene.addObject(new Asteroid(this.));
+
+        }
     }
 }
 

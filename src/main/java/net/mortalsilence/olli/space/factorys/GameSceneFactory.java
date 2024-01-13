@@ -3,6 +3,7 @@ package net.mortalsilence.olli.space.factorys;
 import net.mortalsilence.olli.space.gameObjects.Asteroid;
 import net.mortalsilence.olli.space.gameObjects.Spaceship;
 import net.mortalsilence.olli.space.scenes.Scene;
+import processing.core.PVector;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class GameSceneFactory {
         s.getEventbus().registerEventButtonPressed(ship);
         s.addObject(ship);
         Asteroid a1 = new Asteroid(3,50,200,200,s);
+        a1.setPos(new PVector(200,200));
+        a1.setSpeed(new PVector(10,3));
         s.addObject(a1);
         return s;
     }

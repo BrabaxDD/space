@@ -28,6 +28,8 @@ public class Scene {
         }
     }
 
+    public void deleteObject(GameObject object){this.gameObjects.remove(object);};
+
     public void addObject (GameObject object){
         this.gameObjects.add(object);
     }
