@@ -1,13 +1,14 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.AsteroidMovedListener;
 import net.mortalsilence.olli.space.events.ButtonPressedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PVector;
 
-public class Spaceship extends GameObject implements ButtonPressedListener{
-    PVector pos = new PVector(1000,500);
-
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener {
+    private PVector pos = new PVector(1000,500);
+    private int size;
     private int cooldownTurret;
     private int cooldownTurretakt;
 
@@ -27,6 +28,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
         this.direction = new PVector(1,0);
         this.vel = new PVector();
         this.bulletVelocity = 20.0F;
+        this.size = 30;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
 
     }
@@ -103,5 +105,14 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
 
         this.cooldownTurretakt = this.cooldownTurretakt -1;
 
+    }
+
+    @Override
+    public void astroidMoved(Asteroid asteroid) {
+        System.out.println("Debug: AsteroidMovedListener triggered at Spaceship");
+        if(asteroid.getPos().sub(this.pos).mag() < asteroid.getSize() + this.size){
+            AsteroidsApplet.asteroidsApplet.background(255,0,0);
+            System.out.println("Debug: Spaceship hit bei an Asteroid");
+        }
     }
 }
