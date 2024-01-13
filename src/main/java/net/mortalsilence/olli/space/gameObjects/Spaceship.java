@@ -36,7 +36,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
         if(AsteroidsApplet.asteroidsApplet.key == ' '){
             System.out.println("Debug: SpacePressed proccesed by Spaceship");
             wPressed = true;
-            PVector velmax = direction.mult(velocity);// velmax ist die Geschwindigkeit die das Raumschiff anstrebt
+            PVector traveldirection = new PVector(AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x,AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y);// schlecht programmiert posy   and posx direkt abgefragt
+            traveldirection = traveldirection.normalize();
+            PVector velmax = traveldirection.mult(velocity);// velmax ist die Geschwindigkeit die das Raumschiff anstrebt
             this.vel = this.vel.mult(0.95f).add(velmax.mult(0.05f));
         }
         if(AsteroidsApplet.asteroidsApplet.key == 'a'){
