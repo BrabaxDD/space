@@ -1,5 +1,6 @@
 package net.mortalsilence.olli.space.factorys;
 
+import net.mortalsilence.olli.space.gameObjects.Asteroid;
 import net.mortalsilence.olli.space.gameObjects.Spaceship;
 import net.mortalsilence.olli.space.scenes.Scene;
 
@@ -11,6 +12,8 @@ public class GameSceneFactory {
         Spaceship ship = new Spaceship(s);
         s.getEventbus().registerEventButtonPressed(ship);
         s.addObject(ship);
+        Asteroid a1 = new Asteroid(3,50,200,200,s);
+        s.addObject(a1);
         return s;
     }
 }
