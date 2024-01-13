@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static processing.core.PApplet.dist;
 
 public class Asteroid extends GameObject {
+    PVector velo;
     private ArrayList<PVector> points;
     PVector test;
 
