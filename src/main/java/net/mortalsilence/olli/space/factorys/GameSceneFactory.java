@@ -12,11 +12,12 @@ public class GameSceneFactory {
         Scene s = new Scene(new ArrayList<>());
         Spaceship ship = new Spaceship(s);
         s.getEventbus().registerEventButtonPressed(ship);
+        s.getEventbus().registerAsteroidMovedListener(ship);
         s.addObject(ship);
         Asteroid a1 = new Asteroid(3,50,200,200,s);
         a1.setPos(new PVector(200,200));
         a1.setSpeed(new PVector(0,0));
-        a1.asteroidHit();
+        //a1.asteroidHit();
         s.addObject(a1);
         return s;
     }

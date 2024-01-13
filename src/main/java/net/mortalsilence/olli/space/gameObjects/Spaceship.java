@@ -109,8 +109,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     @Override
     public void astroidMoved(Asteroid asteroid) {
-        System.out.println("Debug: AsteroidMovedListener triggered at Spaceship");
-        if(asteroid.getPos().sub(this.pos).mag() < asteroid.getSize() + this.size){
+        PVector astpos = new PVector(asteroid.getPos().x,asteroid.getPos().y);
+        if(astpos.sub(this.pos).mag() < asteroid.getSize() + this.size){
             AsteroidsApplet.asteroidsApplet.background(255,0,0);
             System.out.println("Debug: Spaceship hit bei an Asteroid");
         }
