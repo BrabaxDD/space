@@ -13,22 +13,26 @@ import static processing.core.PApplet.*;
 
 public class Asteroid extends GameObject {
     private final ArrayList<PVector> points;
-    private float xDeplacement;
-    private float yDeplacement;
+    private PVector deplacement;
     private final int size;
 
-    private PVector speed;
+    private PVector speed = new PVector(0,0);
 
-    private PVector pos;
+    private PVector pos = new PVector();
 
+    final private boolean linesOn = true;
+
+    final private  boolean  hitBoxOn = false;
+
+    final private boolean cornersOn = false;
 
     public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, Scene scene) {
         super(scene);
-        this.xDeplacement = xdep;
-        this.yDeplacement = ydep;
+        this.pos.x = xdep;
+        this.pos.y = ydep;
         this.size = sizeH;
         this.points = new ArrayList<PVector>();
-        this.pos = new PVector();
+        this.deplacement = new PVector();
         this.speed = new PVector(0,0);
         PVector xBorder = new PVector(0, 1);
         PVector yBorder = new PVector(-1, 0);
@@ -66,11 +70,11 @@ public class Asteroid extends GameObject {
             }
             for (int i = 0; i < pointsPerQuarter; i++) {
                 do {
-                    this.pos.x = AsteroidsApplet.asteroidsApplet.random(xBorder.x, xBorder.y) * this.size;
-                    this.pos.y = AsteroidsApplet.asteroidsApplet.random(yBorder.x, yBorder.y) * this.size;
-                } while (dist(0, 0, this.pos.x, this.pos.y) > this.size || dist(0, 0, this.pos.x, this.pos.y) < (float) this.size / 2);
+                    this.deplacement.x = AsteroidsApplet.asteroidsApplet.random(xBorder.x, xBorder.y) * this.size;
+                    this.deplacement.y = AsteroidsApplet.asteroidsApplet.random(yBorder.x, yBorder.y) * this.size;
+                } while (dist(0, 0, this.deplacement.x, this.deplacement.y) > this.size || dist(0, 0, this.deplacement.x, this.deplacement.y) < (float) this.size / 2);
 
-                cache.add(new PVector(this.pos.x, this.pos.y, PApplet.atan2( this.pos.y,this.pos.x)));
+                cache.add(new PVector(this.deplacement.x, this.deplacement.y, PApplet.atan2( this.deplacement.y,this.deplacement.x)));
             }
 
             cache.sort( Comparator.comparing(v -> v.z));
@@ -81,16 +85,16 @@ public class Asteroid extends GameObject {
 
         }
         for (PVector i : points) {
-            i.add(new PVector(this.xDeplacement, this.yDeplacement));
+            i.add(new PVector(this.pos.x, this.pos.y));
         }
     }
-    public void render(boolean linesOn, boolean hitBoxOn, boolean cornersOn) {
+    public void render() {
 
         AsteroidsApplet.asteroidsApplet.fill(255,255,255);
         AsteroidsApplet.asteroidsApplet.stroke(255,255,255);
         if (hitBoxOn) {
             AsteroidsApplet.asteroidsApplet.fill(150);
-            AsteroidsApplet.asteroidsApplet.circle(this.xDeplacement, this.yDeplacement, this.size*2);
+            AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, this.size*2);
         }
 
         if (cornersOn) {
@@ -111,12 +115,13 @@ public class Asteroid extends GameObject {
         this.speed = speed;
     }
 
+    @Override
     public void process() {
         for (PVector i : this.points) {
             i.add(this.speed);
         }
-        this.xDeplacement += this.speed.x;
-        this.yDeplacement += this.speed.y;
+        this.pos.x += this.speed.x;
+        this.pos.y += this.speed.y;
     }
 }
 
