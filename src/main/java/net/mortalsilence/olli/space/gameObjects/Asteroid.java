@@ -122,6 +122,10 @@ public class Asteroid extends GameObject {
         this.pos = pos;
     }
 
+    public int getSize(){return this.size;}
+
+    public PVector getPos(){return this.pos;}
+
     @Override
     public void process() {
         for (PVector i : this.points) {
@@ -129,13 +133,14 @@ public class Asteroid extends GameObject {
         }
         this.pos.x += this.speed.x;
         this.pos.y += this.speed.y;
+        this.scene.getEventbus().AstroidMoved(this);
     }
 
     private void asteroidHit() {
         this.scene.deleteObject(this);
         if(this.size > 20) {
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,3,3,3,scene));
-
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size*3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size*3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,scene));
         }
     }
 }
