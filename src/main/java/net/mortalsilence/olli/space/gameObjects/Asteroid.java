@@ -136,12 +136,12 @@ public class Asteroid extends GameObject {
         this.scene.getEventbus().AstroidMoved(this);
     }
 
-    private void asteroidHit() {
-        this.scene.deleteObject(this);
+    public void asteroidHit() {
         if(this.size > 20) {
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size*3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,scene));
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size*3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,scene));
         }
+        this.scene.deleteObject(this);
     }
 }
 

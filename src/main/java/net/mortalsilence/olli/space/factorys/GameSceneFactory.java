@@ -16,6 +16,7 @@ public class GameSceneFactory {
         Asteroid a1 = new Asteroid(3,50,200,200,s);
         a1.setPos(new PVector(200,200));
         a1.setSpeed(new PVector(10,3));
+        a1.asteroidHit();
         s.addObject(a1);
         return s;
     }
