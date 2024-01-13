@@ -6,69 +6,84 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-import static processing.core.PApplet.dist;
+import static processing.core.PApplet.*;
 
 public class Asteroid extends GameObject {
-    private ArrayList<PVector> points;
-    PVector test;
-
+    private final ArrayList<PVector> points;
     private float xDeplacement;
     private float yDeplacement;
     private final int size;
 
+    private PVector speed;
 
-    public Asteroid(int pointsPerQuarter, int sizeH, int posx, int posy,Scene scene){
+    private PVector pos;
+
+
+    public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, Scene scene) {
         super(scene);
-        this.xDeplacement = posx;
-        this.yDeplacement = posy;
+        this.xDeplacement = xdep;
+        this.yDeplacement = ydep;
         this.size = sizeH;
         this.points = new ArrayList<PVector>();
-        float x = 0;
-        float y = 0;
+        this.pos = new PVector();
+        this.speed = new PVector(0,0);
         PVector xBorder = new PVector(0, 1);
         PVector yBorder = new PVector(-1, 0);
 
-        for (int cycle = 0; cycle<4; cycle++) {
 
-            switch(cycle) {
 
-                case 0 :
-                    points.add(new PVector(size, 0));
+        for (int cycle = 0; cycle < 4; cycle++) {
+
+
+            ArrayList<PVector> cache = new ArrayList<>();
+            switch (cycle) {
+
+                case 0:
+                    points.add(new PVector(this.size, 0,PApplet.atan2(0, this.size)));
+                    println(atan2(-0, this.size-50));
                     break;
 
                 case 1:
                     xBorder = new PVector(-1, 0);
                     yBorder = new PVector(-1, 0);
-                    points.add(new PVector(0, -size));
+                    points.add(new PVector(0, -this.size,PApplet.atan2(-this.size, 0)));
                     break;
 
                 case 2:
                     xBorder = new PVector(-1, 0);
                     yBorder = new PVector(0, 1);
-                    points.add(new PVector(-size, 0));
+                    points.add(new PVector(-this.size, 0,PApplet.atan2(0, -this.size)));
                     break;
 
                 case 3:
                     xBorder = new PVector(0, 1);
                     yBorder = new PVector(0, 1);
-                    points.add(new PVector(0, size));
+                    points.add(new PVector(0, this.size,PApplet.atan2(this.size, 0)));
                     break;
             }
-            for (int i = 0; i<pointsPerQuarter; i++) {
+            for (int i = 0; i < pointsPerQuarter; i++) {
                 do {
-                    x = AsteroidsApplet.asteroidsApplet.random(xBorder.x, xBorder.y) * this.size;
-                    y = AsteroidsApplet.asteroidsApplet.random(yBorder.x, yBorder.y) * this.size;
-                } while (dist(0, 0, x, y)>this.size || dist(0, 0, x, y)<this.size/10);
-                points.add(new PVector(x, y));
+                    this.pos.x = AsteroidsApplet.asteroidsApplet.random(xBorder.x, xBorder.y) * this.size;
+                    this.pos.y = AsteroidsApplet.asteroidsApplet.random(yBorder.x, yBorder.y) * this.size;
+                } while (dist(0, 0, this.pos.x, this.pos.y) > this.size || dist(0, 0, this.pos.x, this.pos.y) < (float) this.size / 2);
+
+                cache.add(new PVector(this.pos.x, this.pos.y, PApplet.atan2( this.pos.y,this.pos.x)));
             }
+
+            cache.sort( Comparator.comparing(v -> v.z));
+            Collections.reverse(cache);
+            println("cache: " + cache);
+            points.addAll(cache);
+            PApplet.println("points: "+points);
 
         }
         for (PVector i : points) {
             i.add(new PVector(this.xDeplacement, this.yDeplacement));
         }
     }
-
     public void render(boolean linesOn, boolean hitBoxOn, boolean cornersOn) {
 
         AsteroidsApplet.asteroidsApplet.fill(255,255,255);
@@ -79,8 +94,8 @@ public class Asteroid extends GameObject {
         }
 
         if (cornersOn) {
-            for(int i = 0; i < this.points.size(); i++) {
-                AsteroidsApplet.asteroidsApplet.circle(this.points.get(i).x, this.points.get(i).y, 10);
+            for(PVector i : this.points) {
+                AsteroidsApplet.asteroidsApplet.circle(i.x, i.y, 10);
             }
         }
 
@@ -92,12 +107,16 @@ public class Asteroid extends GameObject {
         }
     }
 
-    public void process(PVector speed) {
+    public void setSpeed(PVector speed) {
+        this.speed = speed;
+    }
+
+    public void process() {
         for (PVector i : this.points) {
-            i.add(speed);
+            i.add(this.speed);
         }
-        this.xDeplacement += speed.x;
-        this.yDeplacement += speed.y;
+        this.xDeplacement += this.speed.x;
+        this.yDeplacement += this.speed.y;
     }
 }
 
