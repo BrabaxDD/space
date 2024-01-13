@@ -8,6 +8,9 @@ import processing.core.PVector;
 public class Spaceship extends GameObject implements ButtonPressedListener{
     PVector pos = new PVector(1000,500);
 
+    private int cooldownTurret;
+    private int cooldownTurretakt;
+
     public float turretTurnVelocity;
     private float velocity;
     private float bulletVelocity;
@@ -17,12 +20,15 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
 
     public Spaceship(Scene scene) {
         super(scene);
-        this.velocity = 20;
+        this.cooldownTurret = 30;
+        this.cooldownTurretakt = 0;
+        this.velocity = 15;
         this.turretTurnVelocity = (float) 1/45;
         this.direction = new PVector(1,0);
         this.vel = new PVector();
-        this.bulletVelocity = 5.0F;
+        this.bulletVelocity = 20.0F;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
+
     }
 
     @Override
@@ -34,10 +40,13 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
             this.vel = this.vel.mult(0.95f).add(velmax.mult(0.05f));
         }
         if(AsteroidsApplet.asteroidsApplet.key == 'a'){
-            this.direction = this.direction.normalize();
-            PVector bulletdirection = new PVector(this.direction.x,this.direction.y);
-            bulletdirection.mult(bulletVelocity);
-            this.scene.addObject(new Projektile(this.scene,new PVector(this.pos.x,this.pos.y),new PVector(bulletdirection.x,bulletdirection.y)));
+            if(this.cooldownTurretakt <= 0) {
+                this.cooldownTurretakt = this.cooldownTurret;
+                this.direction = this.direction.normalize();
+                PVector bulletdirection = new PVector(this.direction.x, this.direction.y);
+                bulletdirection.mult(bulletVelocity);
+                this.scene.addObject(new Projektile(this.scene, new PVector(this.pos.x, this.pos.y), new PVector(bulletdirection.x, bulletdirection.y)));
+            }
         }
     }
 
@@ -51,6 +60,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
 
     @Override
     public void process() {
+
+        //facing Turret
+
         PVector v1 = new PVector(AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x,AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y);// schlecht programmiert posy   and posx direkt abgefragt
         v1 = v1.normalize(); // SOLL RICHTUNG
         System.out.println("Debug: Heading of connection vector Mouse,Spaceship "+v1.heading());
@@ -75,11 +87,19 @@ public class Spaceship extends GameObject implements ButtonPressedListener{
         System.out.println("Debug: theta Spaceship " + theta);
         direction = direction.rotate((float) ( theta));
         this.direction = this.direction.normalize();
+
+        //Movement
+
         if(this.wPressed == false){
             this.vel = this.vel.mult(0.95f);
         }
         this.pos.add(vel);
         System.out.println("Debug: Velx Spaceship: " + vel.x +" Vely Spaceship: " + vel.y);
         this.wPressed = false;
+
+        //Turret Cooldown
+
+        this.cooldownTurretakt = this.cooldownTurretakt -1;
+
     }
 }
