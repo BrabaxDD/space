@@ -13,7 +13,7 @@ public class GameSceneFactory {
         Spaceship ship = new Spaceship(s);
         s.getEventbus().registerEventButtonPressed(ship);
         s.addObject(ship);
-        Asteroid a1 = new Asteroid(3,50,200,200,s);
+        Asteroid a1 = new Asteroid(3,50,200,200,new PVector(0,1),s);
         a1.setPos(new PVector(200,200));
         a1.setSpeed(new PVector(0,0));
         s.addObject(a1);
