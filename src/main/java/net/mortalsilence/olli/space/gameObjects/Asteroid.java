@@ -26,10 +26,11 @@ public class Asteroid extends GameObject {
 
     final private boolean cornersOn = false;
 
-    final private
+    final private int pointsPQuarter;
 
     public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, Scene scene) {
         super(scene);
+        this.pointsPQuarter = pointsPerQuarter;
         this.pos.x = xdep;
         this.pos.y = ydep;
         this.size = sizeH;
@@ -133,7 +134,7 @@ public class Asteroid extends GameObject {
     private void asteroidHit() {
         this.scene.deleteObject(this);
         if(this.size > 20) {
-            this.scene.addObject(new Asteroid(this.));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,3,3,3,scene));
 
         }
     }
