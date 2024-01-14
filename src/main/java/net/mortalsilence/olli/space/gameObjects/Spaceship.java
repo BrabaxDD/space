@@ -4,7 +4,10 @@ import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.AsteroidMovedListener;
 import net.mortalsilence.olli.space.events.ButtonPressedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
+import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PVector;
+
+import java.awt.event.KeyEvent;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener {
     private PVector pos = new PVector(1000,500);
@@ -35,7 +38,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     @Override
     public void buttonPressed() {
-        if(AsteroidsApplet.asteroidsApplet.key == ' '){
+        if(Keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
             System.out.println("Debug: SpacePressed proccesed by Spaceship");
             wPressed = true;
             PVector traveldirection = new PVector(AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x,AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y);// schlecht programmiert posy   and posx direkt abgefragt
@@ -43,7 +46,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             PVector velmax = traveldirection.mult(velocity);// velmax ist die Geschwindigkeit die das Raumschiff anstrebt
             this.vel = this.vel.mult(0.95f).add(velmax.mult(0.05f));
         }
-        if(AsteroidsApplet.asteroidsApplet.key == 'a'){
+        if(Keyboard.isKeyPressed(KeyEvent.VK_A)){
             if(this.cooldownTurretakt <= 0) {
                 this.cooldownTurretakt = this.cooldownTurret;
                 this.direction = this.direction.normalize();
