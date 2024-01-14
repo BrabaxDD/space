@@ -1,17 +1,20 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
+import org.jetbrains.annotations.NotNull;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 
 import static processing.core.PApplet.*;
 
-public class Asteroid extends GameObject {
+public class Asteroid extends GameObject implements SpaceshipProjektileMovedListener {
     private final ArrayList<PVector> points;
     private PVector deplacement;
     private final int size;
@@ -22,7 +25,7 @@ public class Asteroid extends GameObject {
 
     final private boolean linesOn = true;
 
-    final private  boolean  hitBoxOn = false;
+    final private  boolean  hitBoxOn = true;
 
     final private boolean cornersOn = false;
 
@@ -90,6 +93,7 @@ public class Asteroid extends GameObject {
         for (PVector i : points) {
             i.add(new PVector(this.pos.x, this.pos.y));
         }
+        this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
     }
     public void render() {
 
@@ -139,11 +143,27 @@ public class Asteroid extends GameObject {
     public void asteroidHit() {
         if(this.size > 20) {
             this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,new PVector(this.speed.x,this.speed.y),scene));
+            println("Teil 1");
             this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x,this.speed.y),scene));
+            println("Teil 2");
+            this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
+            this.scene.deleteObject(this);
+            println("Teil 3");
         }else  {
-        this.scene.deleteObject(this);
+            this.scene.deleteObject(this);
         }
-        this.scene.deleteObject(this);
     }
+    @Override
+    public  void spaceshipProjektileMoved (@NotNull PVector pos){
+        if(pos.dist(this.pos) < this.getSize() +10){
+            AsteroidsApplet.asteroidsApplet.background(255,0,0);
+            System.out.println("Debug: Projectile hit bei an Asteroid");
+            this.asteroidHit();
+
+
+        }
+    }
+
+
 }
 

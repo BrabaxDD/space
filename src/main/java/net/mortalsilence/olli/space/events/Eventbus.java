@@ -20,6 +20,10 @@ public class Eventbus {
     public void registerSpaceshipProjektileMovedListener(SpaceshipProjektileMovedListener listener){
         spaceshipProjektileMovedListeners.add(listener);
     }
+    public void deleteSpaceshipProjektileMovedListener(SpaceshipProjektileMovedListener listener){
+        spaceshipProjektileMovedListeners.remove(listener);
+    }
+
     public void registerEventButtonPressed(ButtonPressedListener listener){
         this.buttonPressedListeners.add(listener);
     }
