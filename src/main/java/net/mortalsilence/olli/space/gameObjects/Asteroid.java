@@ -133,7 +133,7 @@ public class Asteroid extends GameObject {
         }
         this.pos.x += this.speed.x;
         this.pos.y += this.speed.y;
-        this.scene.getEventbus().AstroidMoved(this);
+        this.scene.getEventbus().astroidMoved(this);
     }
 
     public void asteroidHit() {
