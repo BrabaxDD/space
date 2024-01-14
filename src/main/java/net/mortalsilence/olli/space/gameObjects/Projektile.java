@@ -19,6 +19,7 @@ public class Projektile extends GameObject{
     public void process(){
         this.pos =this.pos.add(this.vel);
         this.scene.getEventbus().ProjektileMoved((int)pos.x,(int)pos.y);
+        this.scene.getEventbus().spaceshipProjektileMoved(pos);
     }
     @Override
     public void render(){
