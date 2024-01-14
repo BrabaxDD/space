@@ -10,7 +10,6 @@ import processing.core.PVector;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.concurrent.TimeUnit;
 
 import static processing.core.PApplet.*;
 
@@ -146,18 +145,16 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
             println("Teil 1");
             this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x,this.speed.y),scene));
             println("Teil 2");
-            this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
-            this.scene.deleteObject(this);
-            println("Teil 3");
-        }else  {
-            this.scene.deleteObject(this);
         }
+
+        this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
+        this.scene.deleteObject(this);
     }
     @Override
     public  void spaceshipProjektileMoved (@NotNull PVector pos){
-        if(pos.dist(this.pos) < this.getSize() +10){
+        if(pos.dist(this.pos) < this.getSize()){
             AsteroidsApplet.asteroidsApplet.background(255,0,0);
-            System.out.println("Debug: Projectile hit bei an Asteroid");
+            System.out.println("\\u001B[31mDebug: Projectile hit an Asteroid");
             this.asteroidHit();
 
 

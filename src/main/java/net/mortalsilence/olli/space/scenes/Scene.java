@@ -20,22 +20,27 @@ public class Scene {
         this.gameObjects = objects;
     }
     public void process (){
-        if(this.toDelete != null){
-            for(GameObject object : this.toDelete){
-                this.gameObjects.remove(object);
-            }
-            this.toDelete.removeAll(this.toDelete);
-        }
+
 
         for(GameObject object: this.gameObjects){
             object.process();
         }
+
+
+        if(this.toDelete != null){
+            for(GameObject object : this.toDelete){
+                this.gameObjects.remove(object);
+            }
+            this.toDelete = new ArrayList<>();
+        }
         if(this.toAdd != null){
             this.gameObjects.addAll(this.toAdd);
-            this.toAdd.removeAll(this.toAdd);
+            this.toAdd = new ArrayList<>();
         }
+        this.eventbus.cleanup();
 
     }
+
     public void render(){
         for(GameObject object: this.gameObjects){
             object.render();
