@@ -1,6 +1,7 @@
 package net.mortalsilence.olli.space.events;
 
 import net.mortalsilence.olli.space.gameObjects.Asteroid;
+import net.mortalsilence.olli.space.gameObjects.Projektile;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -69,9 +70,9 @@ public class Eventbus {
             listener.buttonPressed();
         }
     }
-    public void ProjektileMoved(int x,int y){
+    public void ProjektileMoved(int x, int y, Projektile projektile){
         for(ProjektileMovedListener projektileMovedListener:this.projektileMovedListeners){
-            projektileMovedListener.ProjektileMoved(x,y);
+            projektileMovedListener.ProjektileMoved(x,y,projektile);
         }
     }
     public void astroidMoved(Asteroid asteroid){
@@ -79,9 +80,9 @@ public class Eventbus {
             asteroidMovedListener.astroidMoved(asteroid);
         }
     }
-    public void spaceshipProjektileMoved(PVector pos){
+    public void spaceshipProjektileMoved(PVector pos, Projektile projektile){
         for(SpaceshipProjektileMovedListener spaceshipProjektileMovedListener: this.spaceshipProjektileMovedListeners){
-            spaceshipProjektileMovedListener.spaceshipProjektileMoved(pos);
+            spaceshipProjektileMovedListener.spaceshipProjektileMoved(pos, projektile);
         }
     }
 

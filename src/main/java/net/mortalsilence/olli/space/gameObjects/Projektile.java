@@ -2,10 +2,11 @@ package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.SpaceshipProjektileHitListener;
+import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PVector;
 
-public class Projektile extends GameObject implements SpaceshipProjektileHitListener {
+public class Projektile extends GameObject implements SpaceshipProjektileMovedListener {
     PVector pos;
     PVector vel;
 
@@ -14,14 +15,14 @@ public class Projektile extends GameObject implements SpaceshipProjektileHitList
         super(scene);
         this.pos = pos;
         this.vel = vel;
-        this.scene.getEventbus().registerSpaceshipProjektileHitListener(this);
+        this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
     }
 
     @Override
     public void process(){
         this.pos =this.pos.add(this.vel);
-        this.scene.getEventbus().ProjektileMoved((int)pos.x,(int)pos.y);
-        this.scene.getEventbus().spaceshipProjektileMoved(pos);
+        this.scene.getEventbus().ProjektileMoved((int)pos.x,(int)pos.y,this);
+        this.scene.getEventbus().spaceshipProjektileMoved(pos,this);
 
     }
     @Override
@@ -34,11 +35,7 @@ public class Projektile extends GameObject implements SpaceshipProjektileHitList
     }
 
     @Override
-    public void spaceshipProjektileHit(boolean hit) {
-        if(hit){
-            this.scene.getEventbus().deleteSpaceshipHitListeners(this);
+    public void spaceshipProjektileMoved(PVector pos, Projektile projektile) {
 
-            this.scene.deleteObject(this);
-        }
     }
 }

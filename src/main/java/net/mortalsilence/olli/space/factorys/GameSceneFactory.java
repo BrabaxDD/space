@@ -21,7 +21,7 @@ public class GameSceneFactory {
         s.addObject(ship);
         Asteroid a1 = new Asteroid(3,150,200,200,new PVector(0,1),s);
         a1.setPos(new PVector(200,200));
-        a1.setSpeed(new PVector(0,0));
+        a1.setSpeed(new PVector(1,0));
         s.addObject(a1);
         AlienUFO Alu1 = new AlienUFO(new PVector(0,(int)AsteroidsApplet.asteroidsApplet.random(0, PApplet.DEFAULT_HEIGHT)) , new PVector(PApplet.DEFAULT_WIDTH,AsteroidsApplet.asteroidsApplet.random(PApplet.DEFAULT_WIDTH, PApplet.DEFAULT_HEIGHT)),s);
         s.addObject(Alu1);
