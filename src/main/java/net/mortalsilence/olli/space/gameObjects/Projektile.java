@@ -1,10 +1,11 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.SpaceshipProjektileHitListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PVector;
 
-public class Projektile extends GameObject{
+public class Projektile extends GameObject implements SpaceshipProjektileHitListener {
     PVector pos;
     PVector vel;
 
@@ -13,6 +14,7 @@ public class Projektile extends GameObject{
         super(scene);
         this.pos = pos;
         this.vel = vel;
+        this.scene.getEventbus().registerSpaceshipProjektileHitListener(this);
     }
 
     @Override
@@ -20,6 +22,7 @@ public class Projektile extends GameObject{
         this.pos =this.pos.add(this.vel);
         this.scene.getEventbus().ProjektileMoved((int)pos.x,(int)pos.y);
         this.scene.getEventbus().spaceshipProjektileMoved(pos);
+
     }
     @Override
     public void render(){
@@ -30,4 +33,12 @@ public class Projektile extends GameObject{
 
     }
 
+    @Override
+    public void spaceshipProjektileHit(boolean hit) {
+        if(hit){
+            this.scene.getEventbus().deleteSpaceshipHitListeners(this);
+
+            this.scene.deleteObject(this);
+        }
+    }
 }

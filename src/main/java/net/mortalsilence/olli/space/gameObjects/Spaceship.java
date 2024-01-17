@@ -72,26 +72,26 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
         PVector v1 = new PVector(AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x,AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y);// schlecht programmiert posy   and posx direkt abgefragt
         v1 = v1.normalize(); // SOLL RICHTUNG
-        System.out.println("Debug: Heading of connection vector Mouse,Spaceship "+v1.heading());
+        //System.out.println("Debug: Heading of connection vector Mouse,Spaceship "+v1.heading());
         float theta = v1.heading()-direction.heading();
-        System.out.println("Debug: theta Spaceship " + theta);
+        //System.out.println("Debug: theta Spaceship " + theta);
         if(theta > Math.PI){
             theta = (float)(theta - 2*Math.PI);
         }
         if(theta < -Math.PI){
             theta = (float) (theta + 2*Math.PI);
         }
-        System.out.println("Debug: theta Spaceship " + theta);
+        //System.out.println("Debug: theta Spaceship " + theta);
         if(theta> turretTurnVelocity){
             theta = (float)Math.PI *turretTurnVelocity;
-            System.out.println("Debug: Spaceship turning right");
+            //System.out.println("Debug: Spaceship turning right");
         }
         if(theta< -turretTurnVelocity){
-            System.out.println("Debug: Spaceship turning left");
+            //System.out.println("Debug: Spaceship turning left");
             theta = -1*(float)Math.PI *turretTurnVelocity;
         }
-        System.out.println("Debug: Turret turning velocity Spaceship " + turretTurnVelocity);
-        System.out.println("Debug: theta Spaceship " + theta);
+        //System.out.println("Debug: Turret turning velocity Spaceship " + turretTurnVelocity);
+        //System.out.println("Debug: theta Spaceship " + theta);
         direction = direction.rotate((float) ( theta));
         this.direction = this.direction.normalize();
 
@@ -101,7 +101,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             this.vel = this.vel.mult(0.95f);
         }
         this.pos.add(vel);
-        System.out.println("Debug: Velx Spaceship: " + vel.x +" Vely Spaceship: " + vel.y);
+        //System.out.println("Debug: Velx Spaceship: " + vel.x +" Vely Spaceship: " + vel.y);
         this.wPressed = false;
 
         //Turret Cooldown
