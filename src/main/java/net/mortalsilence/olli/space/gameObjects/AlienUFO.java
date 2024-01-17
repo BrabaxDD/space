@@ -13,11 +13,10 @@ public class AlienUFO  extends GameObject{
     private PVector endPos;
     private Boolean direction = true;
 
-    //Objekt
     public AlienUFO(PVector startPos, PVector enPos, Scene scene){
         super(scene);
         this.endPos = new PVector(-startPos.x+enPos.x,-startPos.y+enPos.y);
-        this.speed = endPos.normalize(speed);
+        this.speed = endPos.normalize();
         this.pos = startPos;
         this.speed.normalize();
     }
