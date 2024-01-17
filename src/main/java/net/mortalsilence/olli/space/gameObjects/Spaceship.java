@@ -10,6 +10,9 @@ import processing.core.PVector;
 import java.awt.event.KeyEvent;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener {
+
+    private int level;
+    private float exp;
     private PVector pos = new PVector(1000,500);
     private int size;
     private int cooldownTurret;
