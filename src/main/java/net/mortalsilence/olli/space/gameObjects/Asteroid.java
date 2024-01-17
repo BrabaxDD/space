@@ -147,7 +147,6 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
             println("Teil 2");
         }
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
-        this.scene.getEventbus().spaceshipProjektileHit(true,10);
         this.scene.deleteObject(this);
     }
     @Override
