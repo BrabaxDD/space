@@ -85,9 +85,9 @@ public class Eventbus {
         }
     }
 
-    public void spaceshipProjektileHit(boolean isHit) {
+    public void spaceshipProjektileHit(boolean isHit,int exp) {
         for(SpaceshipProjektileHitListener spaceshipProjektileHitListener: this.spaceshipProjektileHitListeners) {
-            spaceshipProjektileHitListener.spaceshipProjektileHit(isHit);
+            spaceshipProjektileHitListener.spaceshipProjektileHit(isHit,exp);
         }
     }
 
