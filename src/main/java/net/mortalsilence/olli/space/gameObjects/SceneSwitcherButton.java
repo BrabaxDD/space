@@ -13,14 +13,15 @@ public class SceneSwitcherButton extends Button{
         super(scene,pos,diagonal);
     }
 
-    @Override
-    public void mouseLeftClick (int x,int y){
-        AsteroidsApplet.asteroidsApplet.switchScene(new GameSceneFactory().buildGameScene());
-    }
 
     @Override
     public void render(){
         super.render();
+    }
+
+    @Override
+    public void buttonPressed(){
+        AsteroidsApplet.asteroidsApplet.switchScene(new GameSceneFactory().buildGameScene());
     }
 
 }
