@@ -31,7 +31,7 @@ public class AlienUFO  extends GameObject{
 
     @Override
     public void process(){
-        pos.add(speed);
+        pos.add(PVector.mult(speed,4));
     }
 
     public PVector getPos(){return pos;}

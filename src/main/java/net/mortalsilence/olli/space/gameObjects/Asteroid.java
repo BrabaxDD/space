@@ -24,7 +24,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
     final private boolean linesOn = true;
 
-    final private  boolean  hitBoxOn = true;
+    final private  boolean  hitBoxOn = false;
 
     final private boolean cornersOn = false;
 
@@ -141,9 +141,9 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
     private void asteroidHit() {
         if(this.size > 20) {
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,new PVector(this.speed.x,this.speed.y),scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x+size/6,(int)this.pos.y+size/6,new PVector(this.speed.x+AsteroidsApplet.asteroidsApplet.random(-1,1),this.speed.y+AsteroidsApplet.asteroidsApplet.random(-1,1)),scene));
             println("Teil 1");
-            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x,this.speed.y),scene));
+            this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x+AsteroidsApplet.asteroidsApplet.random(-1,1),this.speed.y+AsteroidsApplet.asteroidsApplet.random(-1,1)),scene));
             println("Teil 2");
         }
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
@@ -152,7 +152,6 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
     @Override
     public  void spaceshipProjektileMoved (@NotNull PVector pos,Projektile projektile){
         if(pos.dist(this.pos) < this.getSize()){
-            AsteroidsApplet.asteroidsApplet.background(255,0,0);
             System.out.println("\\u001B[31mDebug: Projectile hit an Asteroid");
             this.asteroidHit();
             this.scene.deleteObject(projektile);
