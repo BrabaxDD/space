@@ -2,6 +2,7 @@ package net.mortalsilence.olli.space.events;
 
 import net.mortalsilence.olli.space.gameObjects.Asteroid;
 import net.mortalsilence.olli.space.gameObjects.Projektile;
+import net.mortalsilence.olli.space.gameObjects.Spaceship;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -27,6 +28,9 @@ public class Eventbus {
     private ArrayList<SpaceshipProjektileMovedListener> spaceshipProjektileMovedListenersToAdd = new ArrayList<>();
 
     private ArrayList<SpaceshipProjektileMovedListener> spaceshipProjektileMovedListeners = new ArrayList<>();
+
+
+
     public void registerSpaceshipProjektileMovedListener(SpaceshipProjektileMovedListener listener){
         spaceshipProjektileMovedListenersToAdd.add(listener);
     }
@@ -34,8 +38,15 @@ public class Eventbus {
         spaceshipProjektileMovedListenersToDelete.add(listener);
     }
 
-
-
+    private ArrayList<SpaceshipMovedListener> spaceshipMovedListeners = new ArrayList<>();
+    private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToDelete = new ArrayList<>();
+    private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToAdd = new ArrayList<>();
+    public void registerSpaceshipMovedListener(SpaceshipMovedListener listener){
+        spaceshipMovedListenersToAdd.add(listener);
+    }
+    public void deleteSpaceshipMovedListener(SpaceshipMovedListener listener){
+        spaceshipMovedListenersToDelete.add(listener);
+    }
 
     //modell Listener
 
@@ -92,6 +103,12 @@ public class Eventbus {
         }
     }
 
+    public void spaceshipMoved( PVector pos){
+        for(SpaceshipMovedListener spaceshipMovedListener: this.spaceshipMovedListeners) {
+            spaceshipMovedListener.spaceshipMoved(pos);
+        }
+    }
+
     private ArrayList<SpaceshipProjektileHitListener> spaceshipProjektileHitListenersToDelete = new ArrayList<>();
     private ArrayList<SpaceshipProjektileHitListener> spaceshipProjektileHitListenersToAdd = new ArrayList<>();
 
@@ -124,6 +141,16 @@ public class Eventbus {
             PApplet.println("Projektil wirklich deleted");
         }
         spaceshipProjektileHitListenersToDelete = new ArrayList<>();
+
+        this.spaceshipMovedListeners.addAll(spaceshipMovedListenersToAdd);
+
+        this.spaceshipMovedListenersToAdd  = new ArrayList<>();
+
+        for(SpaceshipMovedListener spaceshipMovedListener:spaceshipMovedListenersToDelete){
+            this.spaceshipMovedListeners.remove(spaceshipMovedListener);
+            PApplet.println("Projektil wirklich deleted");
+        }
+        spaceshipMovedListenersToDelete = new ArrayList<>();
     }
 
 

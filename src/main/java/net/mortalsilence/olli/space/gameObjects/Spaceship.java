@@ -3,13 +3,14 @@ package net.mortalsilence.olli.space.gameObjects;
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.AsteroidMovedListener;
 import net.mortalsilence.olli.space.events.ButtonPressedListener;
+import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 
-public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener {
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener{
     private PVector pos = new PVector(1000,500);
     private int size;
     private int cooldownTurret;
@@ -39,7 +40,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     @Override
     public void buttonPressed() {
         if(Keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
-            System.out.println("Debug: SpacePressed proccesed by Spaceship");
+            //System.out.println("Debug: SpacePressed proccesed by Spaceship");
             wPressed = true;
             PVector traveldirection = new PVector(AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x,AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y);// schlecht programmiert posy   and posx direkt abgefragt
             traveldirection = traveldirection.normalize();
@@ -107,7 +108,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         //Turret Cooldown
 
         this.cooldownTurretakt = this.cooldownTurretakt -1;
-
+        this.scene.getEventbus().spaceshipMoved(new PVector(this.pos.x, this.pos.y));
     }
 
     @Override
@@ -115,7 +116,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         PVector astpos = new PVector(asteroid.getPos().x,asteroid.getPos().y);
         if(astpos.sub(this.pos).mag() < asteroid.getSize() + this.size){
             AsteroidsApplet.asteroidsApplet.background(255,0,0);
-            System.out.println("Debug: Spaceship hit bei an Asteroid");
+            //System.out.println("Debug: Spaceship hit bei an Asteroid");
         }
     }
+
+    public PVector getPos(){return this.pos; }
 }
