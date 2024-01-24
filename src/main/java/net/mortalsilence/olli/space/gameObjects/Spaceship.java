@@ -74,7 +74,6 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.rect(0,0,AsteroidsApplet.asteroidsApplet.width-1,30);
         AsteroidsApplet.asteroidsApplet.fill(0,255,0);
         AsteroidsApplet.asteroidsApplet.rect(1F, 1F, (float) (AsteroidsApplet.asteroidsApplet.width*exp/100/Math.pow(1.5,level)),28);
-        System.out.println(exp);
     }
 
     @Override

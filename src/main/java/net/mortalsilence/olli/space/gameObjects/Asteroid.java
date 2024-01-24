@@ -24,7 +24,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
     final private boolean linesOn = true;
 
-    final private  boolean  hitBoxOn = true;
+    final private  boolean  hitBoxOn = false;
 
     final private boolean cornersOn = false;
 
