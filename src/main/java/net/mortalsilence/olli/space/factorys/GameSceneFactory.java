@@ -18,6 +18,7 @@ public class GameSceneFactory {
         Spaceship ship = new Spaceship(s);
         s.getEventbus().registerEventButtonPressed(ship);
         s.getEventbus().registerAsteroidMovedListener(ship);
+        s.getEventbus().registerSpaceshipProjektileHitListener(ship);
         s.addObject(ship);
         Asteroid a1 = new Asteroid(3,150,200,200,new PVector(0,1),s);
         a1.setPos(new PVector(200,200));

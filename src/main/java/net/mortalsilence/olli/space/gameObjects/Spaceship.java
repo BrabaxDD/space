@@ -3,13 +3,15 @@ package net.mortalsilence.olli.space.gameObjects;
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.AsteroidMovedListener;
 import net.mortalsilence.olli.space.events.ButtonPressedListener;
+import net.mortalsilence.olli.space.events.SpaceshipProjektileHitListener;
+import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 
-public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener {
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener {
 
     private int level;
     private float exp;
@@ -66,6 +68,13 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(255,0,0);
         AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,30,30);
         AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);
+        AsteroidsApplet.asteroidsApplet.color(0,0,0);
+        AsteroidsApplet.asteroidsApplet.fill(0);
+        AsteroidsApplet.asteroidsApplet.stroke(255);
+        AsteroidsApplet.asteroidsApplet.rect(0,0,AsteroidsApplet.asteroidsApplet.width-1,30);
+        AsteroidsApplet.asteroidsApplet.fill(0,255,0);
+        AsteroidsApplet.asteroidsApplet.rect(1F, 1F, (float) (AsteroidsApplet.asteroidsApplet.width*exp/100/Math.pow(1.5,level)),28);
+        System.out.println(exp);
     }
 
     @Override
@@ -119,6 +128,15 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         if(astpos.sub(this.pos).mag() < asteroid.getSize() + this.size){
             AsteroidsApplet.asteroidsApplet.background(255,0,0);
             System.out.println("Debug: Spaceship hit bei an Asteroid");
+        }
+    }
+
+    @Override
+    public void spaceshipProjektileHit(int exp) {
+        this.exp = this.exp + exp;
+        if(this.exp > 100* (Math.pow(1.5,level))){
+            this.exp = 0;
+            this.level++;
         }
     }
 }
