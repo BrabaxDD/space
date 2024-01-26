@@ -61,7 +61,7 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     }
 
     void ufoHit(){
-
+        this.scene.getEventbus().spaceshipProjektileHit(20);
         this.scene.getEventbus().deleteSpaceshipMovedListener(this);
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
         this.scene.deleteObject(this);
