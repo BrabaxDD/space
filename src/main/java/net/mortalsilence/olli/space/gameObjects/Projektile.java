@@ -23,6 +23,9 @@ public class Projektile extends GameObject implements SpaceshipProjektileMovedLi
         this.pos =this.pos.add(this.vel);
         this.scene.getEventbus().ProjektileMoved((int)pos.x,(int)pos.y,this);
         this.scene.getEventbus().spaceshipProjektileMoved(pos,this);
+        if(this.pos.x > AsteroidsApplet.asteroidsApplet.width+ 60 || this.pos.x < - 60 || this.pos.y > AsteroidsApplet.asteroidsApplet.height +60 || this.pos.y < -60){
+            this.deleteProjectile();
+        }
 
     }
     @Override
@@ -32,6 +35,11 @@ public class Projektile extends GameObject implements SpaceshipProjektileMovedLi
         AsteroidsApplet.asteroidsApplet.fill(0,255,0);
         AsteroidsApplet.asteroidsApplet.square(this.pos.x-5,this.pos.y - 5,10);
 
+    }
+
+    private void deleteProjectile() {
+        this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
+        this.scene.deleteObject(this);
     }
 
     @Override

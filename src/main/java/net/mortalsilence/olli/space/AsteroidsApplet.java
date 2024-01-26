@@ -14,6 +14,8 @@ public class AsteroidsApplet extends PApplet {
     private Scene mainmenu;
     private  Scene activeScene;
 
+    private final boolean debugModeOn = false;
+
     public static void main(String[] args) {
         PApplet.main("net.mortalsilence.olli.space.AsteroidsApplet");
     }
@@ -43,6 +45,9 @@ public class AsteroidsApplet extends PApplet {
         this.activeScene.process();
         this.activeScene.render();
         this.mousePressedPreviousFrame = mousePressed;
+        if(debugModeOn){
+            AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
+        }
     }
 
     public void switchScene (Scene scene){
