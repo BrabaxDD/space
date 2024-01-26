@@ -1,6 +1,7 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.AlienUFOMovedListener;
 import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
@@ -30,7 +31,6 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         this.scene.getEventbus().registerSpaceshipMovedListener(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
 
-
         this.speed = new PVector(0,0);
     }
 
@@ -45,6 +45,7 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     @Override
     public void process(){
         this.pos.add(PVector.mult(speed,4));
+        this.scene.getEventbus().alienUFOMoved(this);
     }
 
     public PVector getPos(){return pos;}
@@ -54,7 +55,6 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     @Override
     public void spaceshipMoved( PVector pos) {
         if((abs(this.pos.dist(this.targetPoint)) <=  this.size) || (this.pos.x == 0 && this.targetPoint.y == 0)){
-            println("new Target");
             this.targetPoint = pos;
             this.speed  = new PVector((targetPoint.x-this.pos.x),(targetPoint.y-this.pos.y)).normalize();
         }
@@ -67,6 +67,10 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         this.scene.deleteObject(this);
     }
 
+    public int getSize(){
+        return this.size;
+    }
+
     @Override
     public  void spaceshipProjektileMoved (@NotNull PVector pos, Projektile projektile){
         if(pos.dist(this.pos) < this.size){
@@ -77,4 +81,6 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
 
         }
     }
+
+
 }

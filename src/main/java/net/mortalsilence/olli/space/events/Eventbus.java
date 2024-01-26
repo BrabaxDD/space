@@ -1,5 +1,6 @@
 package net.mortalsilence.olli.space.events;
 
+import net.mortalsilence.olli.space.gameObjects.AlienUFO;
 import net.mortalsilence.olli.space.gameObjects.Asteroid;
 import net.mortalsilence.olli.space.gameObjects.Projektile;
 import net.mortalsilence.olli.space.gameObjects.Spaceship;
@@ -7,6 +8,8 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+
+import static processing.core.PApplet.println;
 
 public class Eventbus {
     private ArrayList<MouseLeftClickListener> mouseLeftClickListeners = new ArrayList<>();
@@ -20,6 +23,8 @@ public class Eventbus {
     public void registerEventMouseLeftClick (MouseLeftClickListener listener){
         this.mouseLeftClickListeners.add(listener);
     }
+
+    private  ArrayList<AlienUFOMovedListener> alienUFOMovedListeners = new ArrayList<>();
 
 
     //Modell Listener
@@ -48,6 +53,12 @@ public class Eventbus {
         spaceshipMovedListenersToDelete.add(listener);
     }
 
+    public void deleteAlienUFOMovedListeners(AlienUFOMovedListener listener){
+        this.alienUFOMovedListeners.remove(listener);
+    }
+
+
+
     //modell Listener
 
 
@@ -55,6 +66,10 @@ public class Eventbus {
 
     public void registerEventButtonPressed(ButtonPressedListener listener){
         this.buttonPressedListeners.add(listener);
+    }
+
+    public void registerAlienUFOMovedListeners(AlienUFOMovedListener listener){
+        this.alienUFOMovedListeners.add(listener);
     }
 
     public void registerAsteroidMovedListener(AsteroidMovedListener asteroidMovedListener){
@@ -68,7 +83,7 @@ public class Eventbus {
 
     public void registerSpaceshipProjektileHitListener(SpaceshipProjektileHitListener listener){
         this.spaceshipProjektileHitListenersToAdd.add(listener);
-        PApplet.println("Projektil Hinzugefügt");
+
     }
 
     public void MouseLeftClick(int x,int y){
@@ -97,6 +112,13 @@ public class Eventbus {
         }
     }
 
+    public void alienUFOMoved(AlienUFO ufo){
+        for(AlienUFOMovedListener alienUFOMovedListener: this.alienUFOMovedListeners) {
+            alienUFOMovedListener.alienUFOMoved(ufo);
+            println("Hit");
+        }
+    }
+
     public void spaceshipProjektileHit(int exp) {
         for(SpaceshipProjektileHitListener spaceshipProjektileHitListener: this.spaceshipProjektileHitListeners) {
             spaceshipProjektileHitListener.spaceshipProjektileHit(exp);
@@ -114,7 +136,7 @@ public class Eventbus {
 
     public void deleteSpaceshipHitListeners(SpaceshipProjektileHitListener listener){
         spaceshipProjektileHitListenersToDelete.add(listener);
-        PApplet.println("Projektil deleted");
+        println("Projektil deleted");
     }
 
 
@@ -138,7 +160,7 @@ public class Eventbus {
 
         for(SpaceshipProjektileHitListener spaceshipProjektileHitListener:spaceshipProjektileHitListenersToDelete){
             this.spaceshipProjektileHitListeners.remove(spaceshipProjektileHitListener);
-            PApplet.println("Projektil wirklich deleted");
+            println("Projektil wirklich deleted");
         }
         spaceshipProjektileHitListenersToDelete = new ArrayList<>();
 
@@ -148,7 +170,7 @@ public class Eventbus {
 
         for(SpaceshipMovedListener spaceshipMovedListener:spaceshipMovedListenersToDelete){
             this.spaceshipMovedListeners.remove(spaceshipMovedListener);
-            PApplet.println("Projektil wirklich deleted");
+            println("Projektil wirklich deleted");
         }
         spaceshipMovedListenersToDelete = new ArrayList<>();
     }

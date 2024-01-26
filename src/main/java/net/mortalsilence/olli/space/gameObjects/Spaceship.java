@@ -1,18 +1,14 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
-import net.mortalsilence.olli.space.events.AsteroidMovedListener;
-import net.mortalsilence.olli.space.events.ButtonPressedListener;
-import net.mortalsilence.olli.space.events.SpaceshipProjektileHitListener;
-import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
-import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
+import net.mortalsilence.olli.space.events.*;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 
-public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener {
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener {
 
     private int level;
     private float exp;
@@ -39,6 +35,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.bulletVelocity = 20.0F;
         this.size = 30;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
+        this.scene.getEventbus().registerAlienUFOMovedListeners(this);
 
     }
 
@@ -131,6 +128,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }
     }
 
+
     public PVector getPos(){return this.pos; }
 
     @Override
@@ -139,6 +137,15 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         if(this.exp > 100* (Math.pow(1.5,level))){
             this.exp = 0;
             this.level++;
+        }
+    }
+
+    @Override
+    public void alienUFOMoved(AlienUFO ufo) {
+        PVector ufpos = new PVector(ufo.getPos().x,ufo.getPos().y);
+        if(ufpos.sub(this.pos).mag() < ufo.getSize() + this.size){
+            AsteroidsApplet.asteroidsApplet.background(255,0,0);
+            //System.out.println("Debug: Spaceship hit bei an Asteroid");
         }
     }
 }
