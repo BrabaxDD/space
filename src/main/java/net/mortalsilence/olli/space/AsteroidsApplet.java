@@ -4,6 +4,7 @@ import net.mortalsilence.olli.space.gameObjects.Button;
 import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PVector;
 
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ public class AsteroidsApplet extends PApplet {
     private Scene mainmenu;
     private  Scene activeScene;
 
-    private final boolean debugModeOn = false;
+    private final boolean debugModeOn = true;
+    //PFont myFont = createFont("Comic Sans MS Fett", 32);
 
     public static void main(String[] args) {
         PApplet.main("net.mortalsilence.olli.space.AsteroidsApplet");
@@ -46,7 +48,9 @@ public class AsteroidsApplet extends PApplet {
         this.activeScene.render();
         this.mousePressedPreviousFrame = mousePressed;
         if(debugModeOn){
+            fill(250,130,145);
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
+            AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
         }
     }
 
@@ -54,4 +58,7 @@ public class AsteroidsApplet extends PApplet {
         this.activeScene = scene;
     }
 
+    public boolean isDebugModeOn(){
+        return debugModeOn;
+    }
 }

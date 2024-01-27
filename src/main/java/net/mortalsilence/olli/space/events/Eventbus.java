@@ -1,9 +1,6 @@
 package net.mortalsilence.olli.space.events;
 
-import net.mortalsilence.olli.space.gameObjects.AlienUFO;
-import net.mortalsilence.olli.space.gameObjects.Asteroid;
-import net.mortalsilence.olli.space.gameObjects.Projektile;
-import net.mortalsilence.olli.space.gameObjects.Spaceship;
+import net.mortalsilence.olli.space.gameObjects.*;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -106,16 +103,15 @@ public class Eventbus {
             asteroidMovedListener.astroidMoved(asteroid);
         }
     }
-    public void spaceshipProjektileMoved(PVector pos, Projektile projektile){
+    public void spaceshipProjektileMoved(PVector pos, Projektile projektile, GameObject shooter){
         for(SpaceshipProjektileMovedListener spaceshipProjektileMovedListener: this.spaceshipProjektileMovedListeners){
-            spaceshipProjektileMovedListener.spaceshipProjektileMoved(pos, projektile);
+            spaceshipProjektileMovedListener.spaceshipProjektileMoved(pos, projektile, shooter);
         }
     }
 
     public void alienUFOMoved(AlienUFO ufo){
         for(AlienUFOMovedListener alienUFOMovedListener: this.alienUFOMovedListeners) {
             alienUFOMovedListener.alienUFOMoved(ufo);
-            println("Hit");
         }
     }
 

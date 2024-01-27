@@ -8,7 +8,7 @@ import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 
-public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener {
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener {
 
     private int level;
     private float exp;
@@ -36,6 +36,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.size = 30;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
+        this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
 
     }
 
@@ -55,7 +56,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
                 this.direction = this.direction.normalize();
                 PVector bulletdirection = new PVector(this.direction.x, this.direction.y);
                 bulletdirection.mult(bulletVelocity);
-                this.scene.addObject(new Projektile(this.scene, new PVector(this.pos.x, this.pos.y), new PVector(bulletdirection.x, bulletdirection.y)));
+                this.scene.addObject(new Projektile(this.scene, new PVector(this.pos.x, this.pos.y), new PVector(bulletdirection.x, bulletdirection.y),this));
             }
         }
     }
@@ -70,8 +71,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(0);
         AsteroidsApplet.asteroidsApplet.stroke(255);
         AsteroidsApplet.asteroidsApplet.rect(0,0,AsteroidsApplet.asteroidsApplet.width-1,30);
-        AsteroidsApplet.asteroidsApplet.fill(0,255,0);
+        AsteroidsApplet.asteroidsApplet.fill(85, 107, 47);
         AsteroidsApplet.asteroidsApplet.rect(1F, 1F, (float) (AsteroidsApplet.asteroidsApplet.width*exp/100/Math.pow(1.5,level)),28);
+        AsteroidsApplet.asteroidsApplet.fill(250,0,0);
+        AsteroidsApplet.asteroidsApplet.text("Level: "+this.level, (float)AsteroidsApplet.asteroidsApplet.width/2, (float) AsteroidsApplet.asteroidsApplet.height/40 );
     }
 
     @Override
@@ -146,6 +149,21 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         if(ufpos.sub(this.pos).mag() < ufo.getSize() + this.size){
             AsteroidsApplet.asteroidsApplet.background(255,0,0);
             //System.out.println("Debug: Spaceship hit bei an Asteroid");
+        }
+    }
+
+    public int getLevel(){return this.level;}
+
+    public float getExp(){return this.exp;}
+
+    @Override
+    public void spaceshipProjektileMoved(PVector pos, Projektile projektile, GameObject shooter) {
+        if(pos.dist(this.pos) < this.size && shooter.getClass() == AlienUFO.class){
+            System.out.println("\\u001B[31mDebug: Projectile hit the Player");
+            this.scene.deleteObject(projektile);
+            this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(projektile);
+            AsteroidsApplet.asteroidsApplet.background(255,0,0);
+
         }
     }
 }

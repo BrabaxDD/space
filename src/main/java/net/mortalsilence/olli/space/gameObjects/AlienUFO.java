@@ -10,6 +10,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.floor;
 import static processing.core.PApplet.println;
 
 public class AlienUFO  extends GameObject implements SpaceshipMovedListener, SpaceshipProjektileMovedListener {
@@ -21,23 +22,34 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     private final int size = 30;
 
     private  PVector targetPoint= new PVector(0,0);
-    private final Boolean direction = true;
+    private final Boolean direction;
+    private int cooldownTurretakt;
+    private int cooldownTurret;
 
-    boolean start = false;
+    private PVector shootingTarget;
+
+    private float bulletVelocity;
 
     public AlienUFO(PVector startPos, Scene scene){
         super(scene);
         this.pos = startPos;
         this.scene.getEventbus().registerSpaceshipMovedListener(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
+        this.shootingTarget = new PVector(0,0);
 
         this.speed = new PVector(0,0);
+        direction = AsteroidsApplet.asteroidsApplet.isDebugModeOn();
+        this.cooldownTurretakt = (int) AsteroidsApplet.asteroidsApplet.random(100,180);
+        this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.random(100,180);
+        this.bulletVelocity = 20.0F;
     }
 
     @Override
     public void render(){
         AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,this.size,this.size);
+        AsteroidsApplet.asteroidsApplet.text(this.shootingTarget.x+this.shootingTarget.y,pos.x,pos.y);
         if(direction){
+            AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.targetPoint.x, this.targetPoint.y);
             AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.pos.x+ this.speed.x*30,this.pos.y+ this.speed.y*30);
         }
     }
@@ -46,6 +58,17 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     public void process(){
         this.pos.add(PVector.mult(speed,4));
         this.scene.getEventbus().alienUFOMoved(this);
+
+
+        if(this.cooldownTurretakt <= 0) {
+            this.cooldownTurretakt = this.cooldownTurret;
+            PVector bulletdirection = new PVector(this.shootingTarget.x-this.pos.x, this.shootingTarget.y-this.pos.y).normalize();
+            bulletdirection.mult(bulletVelocity);
+            PVector bullet =  new PVector(bulletdirection.x, bulletdirection.y);
+            this.scene.addObject(new Projektile(this.scene, new PVector((float) (this.pos.x+bullet.x), (float) (this.pos.y+bullet.y)), bullet, this));
+        }
+        this.cooldownTurretakt --;
+
     }
 
     public PVector getPos(){return pos;}
@@ -54,7 +77,8 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
 
     @Override
     public void spaceshipMoved( PVector pos) {
-        if((abs(this.pos.dist(this.targetPoint)) <=  this.size) || (this.pos.x == 0 && this.targetPoint.y == 0)){
+        this.shootingTarget = pos;
+        if((abs(this.pos.dist(this.targetPoint)) <=  this.size) || (this.targetPoint.x == 0 && this.targetPoint.y == 0)){
             this.targetPoint = pos;
             this.speed  = new PVector((targetPoint.x-this.pos.x),(targetPoint.y-this.pos.y)).normalize();
         }
@@ -72,8 +96,8 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
     }
 
     @Override
-    public  void spaceshipProjektileMoved (@NotNull PVector pos, Projektile projektile){
-        if(pos.dist(this.pos) < this.size){
+    public  void spaceshipProjektileMoved (@NotNull PVector pos, Projektile projektile, GameObject shooter){
+        if(pos.dist(this.pos) < this.size && shooter.getClass() == Spaceship.class){
             System.out.println("\\u001B[31mDebug: Projectile hit an AlienUFO");
             this.scene.deleteObject(projektile);
             this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(projektile);
