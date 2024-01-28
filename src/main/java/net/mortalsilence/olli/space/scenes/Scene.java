@@ -63,6 +63,8 @@ public class Scene {
         return gameObjects.size();
     }
 
+    public ArrayList<GameObject> getGameObjects(){return this.gameObjects;}
+
     public void setEventbus(Eventbus eventbus) {
         this.eventbus = eventbus;
     }
