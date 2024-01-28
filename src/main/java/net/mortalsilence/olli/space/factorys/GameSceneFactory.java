@@ -8,6 +8,7 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 
+import static processing.core.PApplet.pow;
 import static processing.core.PApplet.println;
 
 public class GameSceneFactory {
@@ -57,11 +58,13 @@ public class GameSceneFactory {
 
             GameObject g = AsteroidsApplet.asteroidsApplet.getActiveScene().getGameObjects().get(0);
             int l = 0;
+            int xp = 0;
             if(g.getClass() == Spaceship.class){
                 l = ((Spaceship) g).getLevel();
+                xp = (int) ((Spaceship) g).getExp();
             }
 
-            TextButton text2 = new TextButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),"Level: "+l, new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2),((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -150) ,30);
+            TextButton text2 = new TextButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),"Level: "+l+ " | Xp: "+xp+"/"+(int)Math.pow(1.5,l)*100, new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2),((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -150) ,30);
             s.addObject(text2);
 
             Button b1 = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2)-300,((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -50),new PVector(600,100), 0, "Restart");
