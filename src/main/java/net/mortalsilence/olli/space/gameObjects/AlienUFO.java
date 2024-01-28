@@ -39,15 +39,15 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
 
         this.speed = new PVector(0,0);
         direction = AsteroidsApplet.asteroidsApplet.isDebugModeOn();
-        this.cooldownTurretakt = (int) AsteroidsApplet.asteroidsApplet.random(100,180);
-        this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.random(100,180);
-        this.bulletVelocity = 20.0F;
+        this.cooldownTurretakt = (int) AsteroidsApplet.asteroidsApplet.random(180,240);
+        this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.random(180,240);
+        this.bulletVelocity = 18.0F;
     }
 
     @Override
     public void render(){
         AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,this.size,this.size);
-        AsteroidsApplet.asteroidsApplet.text(this.shootingTarget.x+this.shootingTarget.y,pos.x,pos.y);
+
         if(direction){
             AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.targetPoint.x, this.targetPoint.y);
             AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.pos.x+ this.speed.x*30,this.pos.y+ this.speed.y*30);

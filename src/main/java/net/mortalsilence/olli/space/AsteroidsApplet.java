@@ -15,7 +15,7 @@ public class AsteroidsApplet extends PApplet {
     private Scene mainmenu;
     private  Scene activeScene;
 
-    private final boolean debugModeOn = true;
+    private final boolean debugModeOn = false;
     //PFont myFont = createFont("Comic Sans MS Fett", 32);
 
     public static void main(String[] args) {

@@ -30,6 +30,8 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
     final private int pointsPQuarter;
 
+    final private boolean canShieldPlayer = true;
+
     public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, PVector speed, Scene scene) {
         super(scene);
         this.pointsPQuarter = pointsPerQuarter;
@@ -161,7 +163,8 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
     }
     @Override
     public  void spaceshipProjektileMoved (@NotNull PVector pos,Projektile projektile, GameObject shooter){
-        if(pos.dist(this.pos) < this.getSize() && shooter.getClass() == Spaceship.class){
+
+        if(pos.dist(this.pos) < this.getSize() && (shooter.getClass() == Spaceship.class || (shooter.getClass() == AlienUFO.class && canShieldPlayer))){
             System.out.println("\\u001B[31mDebug: Projectile hit an Asteroid");
             this.asteroidHit();
             this.scene.deleteObject(projektile);
