@@ -87,9 +87,9 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
             cache.sort( Comparator.comparing(v -> v.z));
             Collections.reverse(cache);
-            println("cache: " + cache);
+            //println("cache: " + cache);
             points.addAll(cache);
-            PApplet.println("points: "+points);
+            //PApplet.println("points: "+points);
 
         }
         for (PVector i : points) {

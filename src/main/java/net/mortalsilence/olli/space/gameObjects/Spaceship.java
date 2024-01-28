@@ -2,6 +2,7 @@ package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.*;
+import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PVector;
@@ -139,6 +140,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
                 invincible = false;
                 amountInvincFramesLeft = amountInvincFrames;
             }
+        }
+
+        if(this.hp == 0){
+            AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(2));
         }
     }
 

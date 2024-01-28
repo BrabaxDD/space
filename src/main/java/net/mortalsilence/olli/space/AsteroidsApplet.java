@@ -1,7 +1,9 @@
 package net.mortalsilence.olli.space;
 
+import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.gameObjects.Button;
 import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
+import net.mortalsilence.olli.space.gameObjects.Spawner;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -12,7 +14,8 @@ import java.util.ArrayList;
 public class AsteroidsApplet extends PApplet {
     public static AsteroidsApplet asteroidsApplet;
     private boolean mousePressedPreviousFrame;
-    private Scene mainmenu;
+
+    //private Scene mainmenu; Ist jetzt auf Slot 1 der GameScene Factory
     private  Scene activeScene;
 
     private final boolean debugModeOn = false;
@@ -24,13 +27,12 @@ public class AsteroidsApplet extends PApplet {
 
     @Override
     public void settings() {
-        this.fullScreen(2);
+        this.fullScreen(1);
         AsteroidsApplet.asteroidsApplet = this;
-        this.mainmenu = new Scene(new ArrayList<>());
-        this.activeScene = this.mainmenu;
-        Button b = new SceneSwitcherButton(this.mainmenu,new PVector((AsteroidsApplet.asteroidsApplet.displayWidth/2)-300,(AsteroidsApplet.asteroidsApplet.displayHeight/2) -50),new PVector(600,100));
-        this.activeScene.getEventbus().registerEventMouseLeftClick(b);
-        this.mainmenu.addObject(b);
+        this.activeScene = GameSceneFactory.buildGameScene(1);
+        this.activeScene.render();
+        println(this.activeScene.getObjects());
+        //this.mainmenu.addObject(b);
     }
 
     @Override
@@ -60,5 +62,9 @@ public class AsteroidsApplet extends PApplet {
 
     public boolean isDebugModeOn(){
         return debugModeOn;
+    }
+
+    public Scene getActiveScene() {
+        return activeScene;
     }
 }

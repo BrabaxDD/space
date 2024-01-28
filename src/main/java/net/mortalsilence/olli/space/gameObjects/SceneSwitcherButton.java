@@ -10,8 +10,14 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 public class SceneSwitcherButton extends Button{
-    public SceneSwitcherButton(Scene scene, PVector pos,PVector diagonal) {
+
+     private int toWichScene;
+
+    private String textDisplayed;
+    public SceneSwitcherButton(Scene scene, PVector pos,PVector diagonal, int toWichScene, String textToRender) {
         super(scene,pos,diagonal);
+        this.toWichScene = toWichScene;
+        textDisplayed = textToRender;
     }
 
 
@@ -21,12 +27,12 @@ public class SceneSwitcherButton extends Button{
         AsteroidsApplet.asteroidsApplet.fill(0);
         AsteroidsApplet.asteroidsApplet.textSize(30);
         AsteroidsApplet.asteroidsApplet.textAlign(PConstants.CENTER);
-        AsteroidsApplet.asteroidsApplet.text("Start Game", posLeftUp.x + this.diagonal.x/2 ,posLeftUp.y + this.diagonal.y/2 + 15);
+        AsteroidsApplet.asteroidsApplet.text(textDisplayed, posLeftUp.x + this.diagonal.x/2 ,posLeftUp.y + this.diagonal.y/2 + 15);
     }
 
     @Override
     public void buttonPressed(){
-        AsteroidsApplet.asteroidsApplet.switchScene(new GameSceneFactory().buildGameScene());
+        AsteroidsApplet.asteroidsApplet.switchScene(new GameSceneFactory().buildGameScene(this.toWichScene));
     }
 
 }
