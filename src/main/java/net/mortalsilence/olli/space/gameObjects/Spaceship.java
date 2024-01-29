@@ -47,7 +47,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
-        this.hp = 3;
+        this.hp = AsteroidsApplet.asteroidsApplet.getGameRule(0);
 
     }
 
@@ -165,7 +165,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     @Override
     public void spaceshipProjektileHit(int exp) {
         this.exp = this.exp + exp;
-        if(this.exp > 100* (Math.pow(1.5,level))){
+        if(this.exp >= 100* (Math.pow(1.5,level))){
             this.exp = 0;
             this.level++;
         }

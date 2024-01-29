@@ -25,6 +25,9 @@ public class AsteroidsApplet extends PApplet {
         PApplet.main("net.mortalsilence.olli.space.AsteroidsApplet");
     }
 
+    public String[] gameRules;
+
+
     @Override
     public void settings() {
         this.fullScreen(1);
@@ -32,6 +35,7 @@ public class AsteroidsApplet extends PApplet {
         this.activeScene = GameSceneFactory.buildGameScene(1);
         this.activeScene.render();
         println(this.activeScene.getObjects());
+        this.gameRules  = loadStrings("gameRules.txt");
         //this.mainmenu.addObject(b);
     }
 
@@ -66,5 +70,10 @@ public class AsteroidsApplet extends PApplet {
 
     public Scene getActiveScene() {
         return activeScene;
+    }
+
+    public int getGameRule(int index) {
+        String[] cache = gameRules[0].split(":");
+        return Integer.parseInt(cache[1]);
     }
 }

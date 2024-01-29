@@ -62,7 +62,8 @@ public class GameSceneFactory {
             if(g.getClass() == Spaceship.class){
                 l = ((Spaceship) g).getLevel();
                 xp = (int) ((Spaceship) g).getExp();
-            }
+            }else l = 38803;
+
 
             TextButton text2 = new TextButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),"Level: "+l+ " | Xp: "+xp+"/"+(int)Math.pow(1.5,l)*100, new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2),((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -150) ,30);
             s.addObject(text2);
