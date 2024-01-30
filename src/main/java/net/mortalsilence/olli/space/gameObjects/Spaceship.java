@@ -27,7 +27,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     private int hp;
 
-    private final int amountInvincFrames = 30;
+    private final int amountInvincFrames;
 
     private int amountInvincFramesLeft;
 
@@ -35,19 +35,20 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     public Spaceship(Scene scene) {
         super(scene);
+        this.amountInvincFrames = (int) AsteroidsApplet.asteroidsApplet.getGameRule(2);
         this.amountInvincFramesLeft = this.amountInvincFrames;
-        this.cooldownTurret = 30;
+        this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.getGameRule(5);
         this.cooldownTurretakt = 0;
         this.velocity = 15;
-        this.turretTurnVelocity = (float) 1/23;
+        this.turretTurnVelocity = (float) AsteroidsApplet.asteroidsApplet.getGameRule(4);
         this.direction = new PVector(1,0);
         this.vel = new PVector();
-        this.bulletVelocity = 20.0F;
+        this.bulletVelocity = (float) AsteroidsApplet.asteroidsApplet.getGameRule(6);//20.0F;
         this.size = 30;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
-        this.hp = AsteroidsApplet.asteroidsApplet.getGameRule(0);
+        this.hp = (int) AsteroidsApplet.asteroidsApplet.getGameRule(0);
 
     }
 

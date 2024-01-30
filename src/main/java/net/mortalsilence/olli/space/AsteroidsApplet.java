@@ -8,8 +8,11 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
-
 import java.util.ArrayList;
+import java.util.Objects;
+import processing.sound.*;
+
+
 
 public class AsteroidsApplet extends PApplet {
     public static AsteroidsApplet asteroidsApplet;
@@ -18,7 +21,7 @@ public class AsteroidsApplet extends PApplet {
     //private Scene mainmenu; Ist jetzt auf Slot 1 der GameScene Factory
     private  Scene activeScene;
 
-    private final boolean debugModeOn = false;
+    private boolean debugModeOn;
     //PFont myFont = createFont("Comic Sans MS Fett", 32);
 
     public static void main(String[] args) {
@@ -35,8 +38,11 @@ public class AsteroidsApplet extends PApplet {
         this.activeScene = GameSceneFactory.buildGameScene(1);
         this.activeScene.render();
         println(this.activeScene.getObjects());
-        this.gameRules  = loadStrings("gameRules.txt");
+        this.gameRules  = loadStrings("src/main/java/net/mortalsilence/olli/space/gameRules.txt");
+        println(gameRules[1]);
+        this.debugModeOn = this.getGameRuleBoolean(3);
         //this.mainmenu.addObject(b);
+
     }
 
     @Override
@@ -72,8 +78,17 @@ public class AsteroidsApplet extends PApplet {
         return activeScene;
     }
 
-    public int getGameRule(int index) {
-        String[] cache = gameRules[0].split(":");
-        return Integer.parseInt(cache[1]);
+    public float getGameRule(int index) {
+        String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
+        if(cache[1] != "false" && cache[1] != "true" ){
+            return Float.parseFloat(cache[1]);
+        }else return 0;
+    }
+
+    public boolean getGameRuleBoolean(int index){
+        String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
+        if(Objects.equals(cache[1], "false") || Objects.equals(cache[1], "true")){
+            return Boolean.parseBoolean(cache[1]);
+        }else return false;
     }
 }

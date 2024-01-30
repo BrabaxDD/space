@@ -30,7 +30,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
 
     final private int pointsPQuarter;
 
-    final private boolean canShieldPlayer = true;
+    private final boolean canShieldPlayer;
 
     public Asteroid(int pointsPerQuarter, int sizeH, int xdep, int ydep, PVector speed, Scene scene) {
         super(scene);
@@ -44,6 +44,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
         this.hitBoxOn = AsteroidsApplet.asteroidsApplet.isDebugModeOn();
         PVector xBorder = new PVector(0, 1);
         PVector yBorder = new PVector(-1, 0);
+        this.canShieldPlayer = AsteroidsApplet.asteroidsApplet.getGameRuleBoolean(1);
 
 
 
