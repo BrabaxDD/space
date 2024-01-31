@@ -9,11 +9,14 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class AsteroidsApplet extends PApplet {
     public static AsteroidsApplet asteroidsApplet;
+    public PrintWriter output;
     private boolean mousePressedPreviousFrame;
 
     private BackgroundPlayer backgroundPlayer ;
@@ -29,6 +32,7 @@ public class AsteroidsApplet extends PApplet {
     }
 
     public String[] gameRules;
+
 
 
     @Override
@@ -100,5 +104,8 @@ public class AsteroidsApplet extends PApplet {
     public void setVolumeGlobal(float volumeGlobal){
         this.backgroundPlayer.setVolume(volumeGlobal);
     }
+
+
+
 
 }

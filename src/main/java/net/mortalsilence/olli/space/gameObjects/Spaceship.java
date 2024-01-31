@@ -5,9 +5,14 @@ import net.mortalsilence.olli.space.events.*;
 import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
+import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.Objects;
+
+import static processing.core.PApplet.*;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener {
 
@@ -32,6 +37,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private int amountInvincFramesLeft;
 
     private boolean invincible = false;
+
+    private int highestLevel;
+
+    private int highestExperience;
 
     public Spaceship(Scene scene) {
         super(scene);
@@ -144,6 +153,14 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }
 
         if(this.hp == 0){
+            this.getHighScore();
+            if(this.level > this.highestLevel){
+                this.highestLevel = this.level;
+            }
+            if(this.exp > this.highestExperience){
+                this.highestExperience = (int) this.exp;
+            }
+            this.setHighScore();
             AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(2));
         }
     }
@@ -208,4 +225,31 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     }
 
     public void increaseHp(int amount){this.hp += amount;}
+
+    private void getHighScore(){
+        String[] highString = AsteroidsApplet.asteroidsApplet.loadStrings("src/main/java/net/mortalsilence/olli/space/scores.txt");
+        String[] cache = highString[0].replaceAll("\\s+","").split(":");
+        this.highestLevel = Integer.parseInt(cache[0]);
+        this.highestExperience = Integer.parseInt(cache[1]);
+    }
+
+    public void setHighScore(){
+        AsteroidsApplet.asteroidsApplet.output = AsteroidsApplet.asteroidsApplet.createWriter("src/main/java/net/mortalsilence/olli/space/scores.txt");
+        String cache =  str( this.highestLevel)+" : "+str(this.highestExperience);
+        AsteroidsApplet.asteroidsApplet.output.write(cache);
+        AsteroidsApplet.asteroidsApplet.output.flush();  // Writes the remaining data to the file
+        AsteroidsApplet.asteroidsApplet.output.close();
+    }
+
+    public int getHighestLevel(){return this.highestLevel;}
+
+    public int getHighestExperience(){return this.highestExperience;}
+
+    public void setHighestLevel(int amount){
+        this.highestLevel = amount;
+    }
+    public void setHighestExperience(int amount){
+        this.highestExperience = amount;
+    }
+
 }

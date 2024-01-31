@@ -54,6 +54,12 @@ public class GameSceneFactory {
         }
 
         if(wichSceneToRender == 2){ //Das ist das Game Over Menü
+            String[] highString = AsteroidsApplet.asteroidsApplet.loadStrings("src/main/java/net/mortalsilence/olli/space/scores.txt");
+            String[] cache = highString[0].replaceAll("\\s+","").split(":");
+            int highestLevel = Integer.parseInt(cache[0]);
+            int highestExperience = Integer.parseInt(cache[1]);
+            TextButton text3 = new TextButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),"Highscore : "+highestLevel+" | "+highestExperience+"/"+(int)Math.pow(1.5,highestLevel)*100, new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2),((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) +350) ,50);
+            s.addObject(text3);
 
             TextButton text1 = new TextButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),"GAME OVER", new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2),((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -250) ,30);
             s.addObject(text1);
@@ -81,4 +87,5 @@ public class GameSceneFactory {
 
         return s;
     }
+
 }
