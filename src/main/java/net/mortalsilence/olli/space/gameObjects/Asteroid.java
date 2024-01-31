@@ -18,7 +18,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
     private PVector deplacement;
     private final int size;
 
-    private PVector speed = new PVector(0,0);
+    private PVector speed;
 
     private PVector pos = new PVector();
 

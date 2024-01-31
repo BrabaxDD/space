@@ -19,6 +19,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>clojars.org</id>
+            <url>https://repo.clojars.org</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -34,6 +38,21 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.processing/processing-sound -->
+        <dependency>
+            <groupId>com.github.processing</groupId>
+            <artifactId>processing-sound</artifactId>
+            <version>v2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jsyn</groupId>
+            <artifactId>jsyn</artifactId>
+            <version>20170815</version>
+        </dependency>
+
+
+
     </dependencies>
+
 
 </project>

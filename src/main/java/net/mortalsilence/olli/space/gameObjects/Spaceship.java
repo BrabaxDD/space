@@ -22,7 +22,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private float velocity;
     private float bulletVelocity;
     PVector direction;
-    PVector vel = new PVector(0,0);
+    PVector vel ;
     private boolean wPressed = false;
 
     private int hp;

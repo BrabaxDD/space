@@ -4,19 +4,19 @@ import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.gameObjects.Button;
 import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
 import net.mortalsilence.olli.space.gameObjects.Spawner;
+import net.mortalsilence.olli.space.music.BackgroundPlayer;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
 import java.util.ArrayList;
 import java.util.Objects;
-import processing.sound.*;
-
-
 
 public class AsteroidsApplet extends PApplet {
     public static AsteroidsApplet asteroidsApplet;
     private boolean mousePressedPreviousFrame;
+
+    private BackgroundPlayer backgroundPlayer ;
 
     //private Scene mainmenu; Ist jetzt auf Slot 1 der GameScene Factory
     private  Scene activeScene;
@@ -42,6 +42,10 @@ public class AsteroidsApplet extends PApplet {
         println(gameRules[1]);
         this.debugModeOn = this.getGameRuleBoolean(3);
         //this.mainmenu.addObject(b);
+        this.backgroundPlayer = new BackgroundPlayer();
+        this.setVolumeGlobal(1);
+
+
 
     }
 
@@ -49,7 +53,7 @@ public class AsteroidsApplet extends PApplet {
     public void draw(){
         this.background(0);
         //Inputs
-        if(this.mousePressed == true&& mousePressedPreviousFrame == false){
+        if(this.mousePressed && !mousePressedPreviousFrame){
             this.activeScene.getEventbus().MouseLeftClick(this.mouseX,this.mouseY);
         }
         if(this.keyPressed){
@@ -64,6 +68,7 @@ public class AsteroidsApplet extends PApplet {
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
             AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
         }
+        this.backgroundPlayer.update();
     }
 
     public void switchScene (Scene scene){
@@ -80,7 +85,7 @@ public class AsteroidsApplet extends PApplet {
 
     public float getGameRule(int index) {
         String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
-        if(cache[1] != "false" && cache[1] != "true" ){
+        if(!Objects.equals(cache[1], "false") && !Objects.equals(cache[1], "true")){
             return Float.parseFloat(cache[1]);
         }else return 0;
     }
@@ -91,4 +96,9 @@ public class AsteroidsApplet extends PApplet {
             return Boolean.parseBoolean(cache[1]);
         }else return false;
     }
+
+    public void setVolumeGlobal(float volumeGlobal){
+        this.backgroundPlayer.setVolume(volumeGlobal);
+    }
+
 }

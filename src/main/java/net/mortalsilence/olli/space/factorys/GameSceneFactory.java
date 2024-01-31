@@ -44,9 +44,12 @@ public class GameSceneFactory {
 
         if(wichSceneToRender == 1 ){  //Das ist das Startmenü
 
-            Button b = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector((AsteroidsApplet.asteroidsApplet.displayWidth/2)-300,(AsteroidsApplet.asteroidsApplet.displayHeight/2) -50),new PVector(600,100), 0, "Start Game");
+            Button b = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2)-300,((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -50),new PVector(600,100), 0, "Start Game");
             s.getEventbus().registerEventMouseLeftClick(b);
             s.addObject(b);
+            Button b1 = new VolumeButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(AsteroidsApplet.asteroidsApplet.displayWidth/10*7, AsteroidsApplet.asteroidsApplet.displayHeight/10),new PVector(200,100), "Volume On" );
+            s.getEventbus().registerEventMouseLeftClick(b1);
+            s.addObject(b1);
             println("Button activated");
         }
 
@@ -57,7 +60,7 @@ public class GameSceneFactory {
             AsteroidsApplet.asteroidsApplet.fill(0);
 
             GameObject g = AsteroidsApplet.asteroidsApplet.getActiveScene().getGameObjects().get(0);
-            int l = 0;
+            int l;
             int xp = 0;
             if(g.getClass() == Spaceship.class){
                 l = ((Spaceship) g).getLevel();

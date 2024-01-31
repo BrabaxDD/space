@@ -32,7 +32,7 @@ public class SceneSwitcherButton extends Button{
 
     @Override
     public void buttonPressed(){
-        AsteroidsApplet.asteroidsApplet.switchScene(new GameSceneFactory().buildGameScene(this.toWichScene));
+        AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(this.toWichScene));
     }
 
 }
