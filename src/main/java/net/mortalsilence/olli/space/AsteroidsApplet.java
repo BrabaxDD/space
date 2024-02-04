@@ -5,6 +5,7 @@ import net.mortalsilence.olli.space.gameObjects.Button;
 import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
 import net.mortalsilence.olli.space.gameObjects.Spawner;
 import net.mortalsilence.olli.space.music.BackgroundPlayer;
+import net.mortalsilence.olli.space.music.FxPlayer;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -33,7 +34,7 @@ public class AsteroidsApplet extends PApplet {
 
     public String[] gameRules;
 
-
+    public FxPlayer fxPlayer;
 
     @Override
     public void settings() {
@@ -47,8 +48,14 @@ public class AsteroidsApplet extends PApplet {
         this.debugModeOn = this.getGameRuleBoolean(3);
         //this.mainmenu.addObject(b);
         this.backgroundPlayer = new BackgroundPlayer();
-        this.setVolumeGlobal(1);
-
+        this.backgroundPlayer.setVolume(0);
+        this.fxPlayer = new FxPlayer(2);
+        String[] options = loadStrings("src/main/java/net/mortalsilence/olli/space/options.txt");
+        this.backgroundPlayer.setVolume(Float.parseFloat(options[0]));
+        PApplet.println("Volume loaded background: "+Float.parseFloat(options[0]));
+        options = loadStrings("src/main/java/net/mortalsilence/olli/space/optionsfx.txt");
+        this.fxPlayer.setVolume(Float.parseFloat(options[0]));
+        PApplet.println("Volume loaded fx: "+Float.parseFloat(options[0]));
 
 
     }
@@ -56,6 +63,7 @@ public class AsteroidsApplet extends PApplet {
     @Override
     public void draw(){
         this.background(0);
+        this.backgroundPlayer.update();
         //Inputs
         if(this.mousePressed && !mousePressedPreviousFrame){
             this.activeScene.getEventbus().MouseLeftClick(this.mouseX,this.mouseY);
@@ -72,7 +80,7 @@ public class AsteroidsApplet extends PApplet {
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
             AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
         }
-        this.backgroundPlayer.update();
+
     }
 
     public void switchScene (Scene scene){
@@ -105,7 +113,9 @@ public class AsteroidsApplet extends PApplet {
         this.backgroundPlayer.setVolume(volumeGlobal);
     }
 
+    public FxPlayer getFxPlayer(){return fxPlayer;}
 
+    public BackgroundPlayer getBackgroundPlayer(){return  backgroundPlayer;}
 
 
 }

@@ -6,10 +6,10 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import static processing.core.PApplet.pow;
-import static processing.core.PApplet.println;
+import static processing.core.PApplet.*;
 
 public class GameSceneFactory {
     public static Scene buildGameScene(int wichSceneToRender){ //Das ist das Startfeld
@@ -43,14 +43,25 @@ public class GameSceneFactory {
         }
 
         if(wichSceneToRender == 1 ){  //Das ist das Startmenü
+            String[] options = PApplet.loadStrings(new File("src/main/java/net/mortalsilence/olli/space/options.txt"));
+            float lo = Float.parseFloat(options[0]);
+            options = PApplet.loadStrings(new File("src/main/java/net/mortalsilence/olli/space/optionsfx.txt"));
+            float floa = Float.parseFloat(options[0]);
+            println("floa: "+floa);
 
             Button b = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2)-300,((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -50),new PVector(600,100), 0, "Start Game");
             s.getEventbus().registerEventMouseLeftClick(b);
             s.addObject(b);
-            Button b1 = new VolumeButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(AsteroidsApplet.asteroidsApplet.displayWidth/10*7, AsteroidsApplet.asteroidsApplet.displayHeight/10),new PVector(200,100), "Volume On" );
+            /*Button b1 = new VolumeButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(AsteroidsApplet.asteroidsApplet.displayWidth/10*7, AsteroidsApplet.asteroidsApplet.displayHeight/10),new PVector(200,100), "Volume On" );
             s.getEventbus().registerEventMouseLeftClick(b1);
-            s.addObject(b1);
-            println("Button activated");
+            s.addObject(b1);*/
+
+            VolumeSlider slider = new VolumeSlider(new PVector((float) AsteroidsApplet.asteroidsApplet.displayWidth /10*7, (float) AsteroidsApplet.asteroidsApplet.displayHeight /10), new PVector(400,50), lo, 100,"Music Volume", s, false);
+            s.getEventbus().registerEventMouseLeftClick(slider);
+            s.addObject(slider);
+            VolumeSlider fx = new VolumeSlider(new PVector((float) AsteroidsApplet.asteroidsApplet.displayWidth /10*7, (float) AsteroidsApplet.asteroidsApplet.displayHeight /10*3), new PVector(400,50), floa, 100,"FX Volume", s, true);
+            s.getEventbus().registerEventMouseLeftClick(fx);
+            s.addObject(fx);
         }
 
         if(wichSceneToRender == 2){ //Das ist das Game Over Menü

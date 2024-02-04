@@ -32,11 +32,11 @@ public class VolumeButton extends Button {
     @Override
     public void buttonPressed(){
         if(this.state){
-        AsteroidsApplet.asteroidsApplet.setVolumeGlobal(0);
+        AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(0);
         this.textDisplayed = "Volume ON";
         this.state = false;
         }else{
-            AsteroidsApplet.asteroidsApplet.setVolumeGlobal(1);
+            AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(1);
             this.textDisplayed = "Volume OFF";
             this.state = true;
 

@@ -158,6 +158,7 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
             this.scene.addObject(new Asteroid(this.pointsPQuarter,this.size/3,(int)this.pos.x-size/(6),(int)this.pos.y-size/6,new PVector(this.speed.x+AsteroidsApplet.asteroidsApplet.random(-1,1),this.speed.y+AsteroidsApplet.asteroidsApplet.random(-1,1)),scene));
             println("Teil 2");
         }
+        AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(1);
         this.scene.getEventbus().spaceshipProjektileHit(10);
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
         this.scene.deleteObject(this);

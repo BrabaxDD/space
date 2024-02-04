@@ -78,6 +78,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
                 PVector bulletdirection = new PVector(this.direction.x, this.direction.y);
                 bulletdirection.mult(bulletVelocity);
                 this.scene.addObject(new Projektile(this.scene, new PVector(this.pos.x, this.pos.y), new PVector(bulletdirection.x, bulletdirection.y),this));
+                AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(0);
             }
         }
     }
@@ -221,6 +222,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             this.hp -= amount;
             this.invincible = true;
             this.setPos(new PVector((float) AsteroidsApplet.asteroidsApplet.width /2, (float) AsteroidsApplet.asteroidsApplet.height /2));
+
+            AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(3);
         }
     }
 
