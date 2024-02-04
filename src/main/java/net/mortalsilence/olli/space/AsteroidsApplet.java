@@ -46,7 +46,6 @@ public class AsteroidsApplet extends PApplet {
         this.gameRules  = loadStrings("src/main/java/net/mortalsilence/olli/space/gameRules.txt");
         println(gameRules[1]);
         this.debugModeOn = this.getGameRuleBoolean(3);
-        //this.mainmenu.addObject(b);
         this.backgroundPlayer = new BackgroundPlayer();
         this.backgroundPlayer.setVolume(0);
         this.fxPlayer = new FxPlayer(2);

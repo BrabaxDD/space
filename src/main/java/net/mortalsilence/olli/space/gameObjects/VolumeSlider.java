@@ -40,7 +40,7 @@ public class VolumeSlider extends Slider{
         amountP = p/diagonal.x*4;
         //PApplet.println("amountP: "+amountP);
         if(!this.type) {
-            AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(amountP);
+           AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(amountP);
         }else AsteroidsApplet.asteroidsApplet.getFxPlayer().setVolume(amountP);
     }
 

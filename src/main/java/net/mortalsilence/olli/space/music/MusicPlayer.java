@@ -16,7 +16,7 @@ public class MusicPlayer implements VolumeTolggledListener {
     String folderPath;
 
     boolean onOff;
-    private String currentWorkingDirectory = AsteroidsApplet.asteroidsApplet.sketchPath("src\\main\\java\\net\\mortalsilence\\olli\\space\\music");
+    private String currentWorkingDirectory = AsteroidsApplet.asteroidsApplet.sketchPath("src"+ File.separator+"main"+File.separator+"java"+File.separator+"net"+File.separator+"mortalsilence"+File.separator+"olli"+File.separator+"space"+File.separator+"music");
     public MusicPlayer(float startVolume, String relativeFolderPath){
         this.setVolume(startVolume);
         this.folderPath =  currentWorkingDirectory + File.separator + relativeFolderPath;
