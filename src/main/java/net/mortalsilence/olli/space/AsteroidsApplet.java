@@ -63,7 +63,6 @@ public class AsteroidsApplet extends PApplet {
     @Override
     public void draw(){
         this.background(0);
-        this.backgroundPlayer.update();
         //Inputs
         if(this.mousePressed && !mousePressedPreviousFrame){
             this.activeScene.getEventbus().MouseLeftClick(this.mouseX,this.mouseY);
@@ -80,6 +79,7 @@ public class AsteroidsApplet extends PApplet {
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
             AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
         }
+        this.backgroundPlayer.update();
 
     }
 

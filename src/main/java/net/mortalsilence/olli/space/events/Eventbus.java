@@ -1,5 +1,6 @@
 package net.mortalsilence.olli.space.events;
 
+import com.lowagie.text.DocWriter;
 import net.mortalsilence.olli.space.gameObjects.*;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -16,6 +17,7 @@ public class Eventbus {
     private ArrayList<AsteroidMovedListener> asteroidMovedListeners = new ArrayList<>();
 
     private  ArrayList<SpaceshipProjektileHitListener> spaceshipProjektileHitListeners = new ArrayList<>();
+    private ArrayList<VolumeTolggledListener> volumeTolggledListenersToDelete = new ArrayList<>();
 
     public void registerEventMouseLeftClick (MouseLeftClickListener listener){
         this.mouseLeftClickListeners.add(listener);
@@ -43,6 +45,8 @@ public class Eventbus {
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListeners = new ArrayList<>();
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToDelete = new ArrayList<>();
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToAdd = new ArrayList<>();
+    private ArrayList<VolumeTolggledListener> volumeTolggledListenersToAdd = new ArrayList<>();
+    private ArrayList<VolumeTolggledListener> volumeTolggledListeners = new ArrayList<>();
     public void registerSpaceshipMovedListener(SpaceshipMovedListener listener){
         spaceshipMovedListenersToAdd.add(listener);
     }
@@ -80,7 +84,20 @@ public class Eventbus {
 
     public void registerSpaceshipProjektileHitListener(SpaceshipProjektileHitListener listener){
         this.spaceshipProjektileHitListenersToAdd.add(listener);
+    }
 
+    public void registerVolumeToggledListener(VolumeTolggledListener volumeTolggledListener){
+        this.volumeTolggledListenersToAdd.add(volumeTolggledListener);
+    }
+
+    public void deleteVolumeToggledListener(VolumeTolggledListener volumeTolggledListener){
+        this.volumeTolggledListenersToDelete.add(volumeTolggledListener);
+    }
+
+    public void volumeToggled(){
+        for(VolumeTolggledListener listener: this.volumeTolggledListeners){
+            listener.volumeToggled();
+        }
     }
 
     public void MouseLeftClick(int x,int y){
@@ -169,6 +186,11 @@ public class Eventbus {
             println("Projektil wirklich deleted");
         }
         spaceshipMovedListenersToDelete = new ArrayList<>();
+
+        this.volumeTolggledListeners.addAll(volumeTolggledListenersToAdd);
+        for(VolumeTolggledListener volumeTolggledListener :volumeTolggledListeners){
+            this.volumeTolggledListeners.remove(volumeTolggledListener);
+        }
     }
 
 

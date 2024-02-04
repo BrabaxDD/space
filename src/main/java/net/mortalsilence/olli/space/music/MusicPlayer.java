@@ -1,6 +1,7 @@
 package net.mortalsilence.olli.space.music;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.VolumeTolggledListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.sound.SoundFile;
@@ -10,17 +11,21 @@ import java.io.SerializablePermission;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MusicPlayer {
+public class MusicPlayer implements VolumeTolggledListener {
     protected float volume;
     String folderPath;
 
-
+    boolean onOff;
     private String currentWorkingDirectory = AsteroidsApplet.asteroidsApplet.sketchPath("src\\main\\java\\net\\mortalsilence\\olli\\space\\music");
     public MusicPlayer(float startVolume, String relativeFolderPath){
         this.setVolume(startVolume);
         this.folderPath =  currentWorkingDirectory + File.separator + relativeFolderPath;
     }
-    public void update() {}
+    public void update() {
+        if(!this.onOff){
+            AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(0);
+        }
+    }
 
 
     protected boolean isAudioFile(String fileName) {
@@ -58,4 +63,9 @@ public class MusicPlayer {
         }
         return soundFiles;
     }
+    @Override
+    public void volumeToggled(){
+        onOff = !onOff;
+    }
+
 }

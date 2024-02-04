@@ -18,6 +18,7 @@ public class VolumeButton extends Button {
         this.scene = scene;
         this.state = true;
         this.textDisplayed = textDisplayed;
+
     }
 
     @Override
@@ -30,13 +31,16 @@ public class VolumeButton extends Button {
     }
 
     @Override
+    public void process(){
+
+    }
+
+    @Override
     public void buttonPressed(){
         if(this.state){
-        AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(0);
         this.textDisplayed = "Volume ON";
-        this.state = false;
+        this.scene.getEventbus().volumeToggled();
         }else{
-            AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(1);
             this.textDisplayed = "Volume OFF";
             this.state = true;
 
