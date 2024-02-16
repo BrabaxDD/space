@@ -94,11 +94,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     public void render(){
         //Altes Modell
-        /*AsteroidsApplet.asteroidsApplet.color(255,0,0);
-        AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
-        AsteroidsApplet.asteroidsApplet.fill(255,0,0);
-        AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,30,30);
-        AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);*/
+
 
         //Texture
         PImage texture;
@@ -128,6 +124,13 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
         AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
 
+        if(AsteroidsApplet.asteroidsApplet.isDebugModeOn()){
+            AsteroidsApplet.asteroidsApplet.color(255,0,0);
+            AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
+            AsteroidsApplet.asteroidsApplet.fill(250,130,145);
+            AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,30,30);
+            AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);
+        }
     }
 
     @Override

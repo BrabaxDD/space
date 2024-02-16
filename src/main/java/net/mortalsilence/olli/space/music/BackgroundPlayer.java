@@ -5,11 +5,12 @@ import net.mortalsilence.olli.space.AsteroidsApplet;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.apache.batik.util.RunnableQueue;
 import processing.core.PApplet;
 import processing.core.PSketch;
 import processing.sound.*;
 
-public class BackgroundPlayer extends MusicPlayer {
+public class BackgroundPlayer extends MusicPlayer implements Runnable {
     private ArrayList<SoundFile> soundFiles;
 
     private int currentlyPlaying;
@@ -44,5 +45,24 @@ public class BackgroundPlayer extends MusicPlayer {
     @Override
     public void setVolume(float volume){
         this.volume = volume;
+    }
+
+    @Override //Spielt dauerhaft bei gleicher lautstärke die Musik auf anderem Thread ab
+    public void run() {
+        soundFiles.get(currentlyPlaying).amp(volume);
+        if (!soundFiles.get(currentlyPlaying).isPlaying()) {
+            if (currentlyPlaying == soundFiles.size()-1) {
+                currentlyPlaying = 0;
+            } else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+                currentlyPlaying++;
+
+            soundFiles.get(currentlyPlaying).play();
+        }
     }
 }

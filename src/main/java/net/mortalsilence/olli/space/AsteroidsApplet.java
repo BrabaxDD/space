@@ -59,6 +59,7 @@ public class AsteroidsApplet extends PApplet {
         this.fxPlayer.setVolume(Float.parseFloat(options[1]));
         PApplet.println("Volume loaded fx: "+Float.parseFloat(options[1]));
         this.writerLine = new WriterLine();
+        new Thread(backgroundPlayer).start();
 
     }
 
