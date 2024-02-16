@@ -138,6 +138,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         if(!Keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
             this.accelerating = false;
         }
+        if(AsteroidsApplet.asteroidsApplet.getGameRuleBoolean(10)){
+            this.invincible = true;
+            amountInvincFramesLeft = 10000;
+        }
 
         //facing Turret
 

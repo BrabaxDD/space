@@ -26,6 +26,11 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
 
     private int playerLevelPrevious;
 
+    static final int AMOUNT_ASTEROIDS = (int) AsteroidsApplet.asteroidsApplet.getGameRule(11);
+
+    static final int AMOUNT_ALIENUFO = (int) AsteroidsApplet.asteroidsApplet.getGameRule(12);
+
+
     public Spawner(Scene s){
         super(s);
         this.spawnrateAlienUFO = (float) 0.25;
@@ -37,7 +42,18 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
     }
     @Override
     public void process(){
-        if(timer[0] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAsteroid ){
+         int anzAsteroiden = 0;
+
+         int anzAlienUFOs = 0;
+
+        for(GameObject object : scene.getGameObjects()){
+            if(object.getClass() == Asteroid.class){
+                anzAsteroiden++;
+            } else if (object.getClass() == AlienUFO.class) {
+                anzAlienUFOs++;
+            }
+        }
+        if(timer[0] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAsteroid && anzAsteroiden < AMOUNT_ASTEROIDS ){
             PVector test = new PVector((int)AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.width),(int)AsteroidsApplet.asteroidsApplet.random(0 , AsteroidsApplet.asteroidsApplet.height));
             int sizeTest = (int)AsteroidsApplet.asteroidsApplet.random(100,150);
             while(playerPos.dist(test) < (float) sizeTest /2 + 80){
@@ -47,7 +63,7 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
             timer[0] = 0;
             PApplet.println("new Asteroid spawned!");
         }
-        if(timer[1] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAlienUFO){
+        if(timer[1] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAlienUFO && anzAlienUFOs < AMOUNT_ALIENUFO){
             int type = (int)AsteroidsApplet.asteroidsApplet.random(0,2);
             if(type == 0) {
                 this.scene.addObject((new AlienUFO(new PVector(0, (int) AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.height)), this.scene)));
@@ -72,6 +88,7 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
             AsteroidsApplet.asteroidsApplet.text("Spawnrate Asteroids: "+this.spawnrateAsteroid+"/s" , AsteroidsApplet.asteroidsApplet.width-250,250);
             AsteroidsApplet.asteroidsApplet.text("Spawnrate AlienUFO: "+ this.spawnrateAlienUFO+"/s" ,AsteroidsApplet.asteroidsApplet.width-250,200);
         }
+
     }
 
     @Override

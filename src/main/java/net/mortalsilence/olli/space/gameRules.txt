@@ -8,3 +8,6 @@ Spaceship bullet velocity : 20
 AlienUFO bullet velocity : 15
 AlienUFO cooldownTurretakt low bar : 180
 AlienUFO cooldownTurretakt high bar : 240
+Invincible : false
+Max amount Asteroids : 100
+Max amount AlienUFO : 10
