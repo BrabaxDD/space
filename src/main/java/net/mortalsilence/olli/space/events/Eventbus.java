@@ -2,6 +2,7 @@ package net.mortalsilence.olli.space.events;
 
 import com.lowagie.text.DocWriter;
 import net.mortalsilence.olli.space.gameObjects.*;
+import org.apache.xmlgraphics.image.loader.impl.PreloaderGIF;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -11,6 +12,7 @@ import static processing.core.PApplet.println;
 
 public class Eventbus {
     private ArrayList<MouseLeftClickListener> mouseLeftClickListeners = new ArrayList<>();
+    private ArrayList<MouseWheelListener> mouseWheelListeners = new ArrayList<>();
     private ArrayList<ButtonPressedListener> buttonPressedListeners = new ArrayList<>();
 
     private ArrayList<ProjektileMovedListener> projektileMovedListeners = new ArrayList<>();
@@ -22,6 +24,10 @@ public class Eventbus {
 
     public void registerEventMouseLeftClick (MouseLeftClickListener listener){
         this.mouseLeftClickListeners.add(listener);
+    }
+
+    public void registerEventMouseWheeled(MouseWheelListener listener){
+        this.mouseWheelListeners.add(listener);
     }
 
     private  ArrayList<AlienUFOMovedListener> alienUFOMovedListeners = new ArrayList<>();
@@ -94,6 +100,11 @@ public class Eventbus {
     public void MouseLeftClick(int x,int y){
         for(MouseLeftClickListener listener: this.mouseLeftClickListeners){
             listener.mouseLeftClick(x,y);
+        }
+    }
+    public void MouseWheeled(int y){
+        for(MouseWheelListener listener: this.mouseWheelListeners){
+            listener.mouseWheeled(y);
         }
     }
     public void ButtonPressed(){

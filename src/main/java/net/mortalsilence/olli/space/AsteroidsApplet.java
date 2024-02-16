@@ -11,6 +11,7 @@ import net.mortalsilence.olli.space.utility.WriterLine;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
+import processing.event.MouseEvent;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -120,5 +121,9 @@ public class AsteroidsApplet extends PApplet {
 
     public WriterLine getWriterLine(){return this.writerLine;}
 
+    @Override
+    public void mouseWheel(MouseEvent event){
+        this.activeScene.getEventbus().MouseWheeled(event.getCount());
+    }
 
 }

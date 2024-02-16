@@ -29,6 +29,7 @@ public class Slider extends GameObject implements MouseLeftClickListener {
         this.valueCap = cap;
         this.value = value;
         this.text = textToDisplay;
+        this.scene.getEventbus().registerEventMouseLeftClick(this);
     }
 
     @Override

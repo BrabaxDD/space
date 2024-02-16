@@ -40,12 +40,12 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
         if(timer[0] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAsteroid ){
             PVector test = new PVector((int)AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.width),(int)AsteroidsApplet.asteroidsApplet.random(0 , AsteroidsApplet.asteroidsApplet.height));
             int sizeTest = (int)AsteroidsApplet.asteroidsApplet.random(100,150);
-            while(playerPos.dist(test) < (float) sizeTest /2 + 140){
+            while(playerPos.dist(test) < (float) sizeTest /2 + 80){
                 test = new PVector((int)AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.width),(int)AsteroidsApplet.asteroidsApplet.random(0 , AsteroidsApplet.asteroidsApplet.height));
             }
             this.scene.addObject((new Asteroid(3,120,(int)test.x,(int)test.y,new PVector(AsteroidsApplet.asteroidsApplet.random(-1,1),AsteroidsApplet.asteroidsApplet.random(-1,1)),scene)));
             timer[0] = 0;
-            AsteroidsApplet.asteroidsApplet.println("new Asteroid spawned!");
+            PApplet.println("new Asteroid spawned!");
         }
         if(timer[1] >= AsteroidsApplet.asteroidsApplet.frameRate* 1/spawnrateAlienUFO){
             int type = (int)AsteroidsApplet.asteroidsApplet.random(0,2);
@@ -54,14 +54,14 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
             }else
                 this.scene.addObject((new AlienUFO(new PVector(AsteroidsApplet.asteroidsApplet.width, (int) AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.height)), this.scene)));
             timer[1] = 0;
-            AsteroidsApplet.asteroidsApplet.println("new Asteroid spawned!");
+            PApplet.println("new Asteroid spawned!");
         }
         for(int i=0; i< timer.length; i++){
             timer[i]++;
         }
         if(playerLevel != playerLevelPrevious){
-            this.spawnrateAlienUFO += (float) playerLevel /20 ;
-            this.spawnrateAsteroid += (float) playerLevel /10;
+            this.spawnrateAlienUFO += (float) playerLevel /30 ;
+            this.spawnrateAsteroid += (float) playerLevel /15;
 
             playerLevelPrevious = playerLevel;
         }

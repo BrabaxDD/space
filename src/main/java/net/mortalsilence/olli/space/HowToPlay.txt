@@ -1,0 +1,33 @@
+Wie wird das Spiel gespielt?
+
+Hier erkläre ich es dir!
+
+Um geradeaus zu fliegen, drücke SPACE.
+Damit beschleunigt dein Raumschiff in Richtung der Maus.
+
+Um zu schießen, drücke "a".
+
+Die Asteroiden werden auf zufälligen Bahnen fliegen,
+die Alien UFOs werden dich aber VERFOLGEN und zwischendurch abschießen.
+Sie sind die wirkliche Gefahr.
+
+Sobald du in einen Asteroiden oder ein Alien UFO fliegst oder die dich abschießen
+verlierst du ein Leben.
+Danach wirst du in der Mitte des Bildschirmes respawnen.
+Damit du nicht direkt wieder stirbst, hast du eine Sekunde Unverwundbarkeit.
+Wenn keine Leben mehr übrig sind, endet das Spiel.
+
+
+Immer, wenn du etwas triffst, bekommst du XP.
+Du brauchst eine bestimmte Anzahl an XP, um im Level aufzusteigen.
+Deinen Fortschritt zum nächsten Level siehst du, genau wie deine restlichen Leben,
+am oberen Bildschirmrand.
+
+Dein Ziel ist es natürlich, ein möglich hohes Level zu erreichen.
+Aber pass auf; das Spiel wird immer schwieriger, ja weiter du kommst.
+
+Viel Spaß beim Spielen.
+
+
+PS:
+Viele der Einstellungen lassen sich in dem Textfile "gameRules.txt" ändern.
