@@ -91,6 +91,8 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
             bulletdirection.mult(bulletVelocity);
             PVector bullet =  new PVector(bulletdirection.x, bulletdirection.y);
             this.scene.addObject(new Projektile(this.scene, new PVector((float) (this.pos.x+bullet.x), (float) (this.pos.y+bullet.y)), bullet, this));
+
+            AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(0);
         }
         this.cooldownTurretakt --;
 

@@ -62,10 +62,10 @@ public class VolumeSlider extends Slider{
         // Writes the remaining data to the file
         if (!this.type) {
             String cache = str(this.p);
-            AsteroidsApplet.asteroidsApplet.writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 1, cache );
+            AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 1, cache );
         }else{
             String cache = str(this.p);
-            AsteroidsApplet.asteroidsApplet.writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, cache );
+            AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, cache );
 
         }
     }

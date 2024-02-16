@@ -44,7 +44,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     private int highestExperience;
 
-    PImage texture;
+    private PImage textureNormal;
+
+    private PImage textureAccelerating;
+    private boolean accelerating = false;
 
     public Spaceship(Scene scene) {
         super(scene);
@@ -62,7 +65,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
         this.hp = (int) AsteroidsApplet.asteroidsApplet.getGameRule(0);
-        texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2.png");
+        textureNormal = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2.png");
+        textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2_beschleunigend.png");
     }
 
     @Override
@@ -74,6 +78,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             traveldirection = traveldirection.normalize();
             PVector velmax = traveldirection.mult(velocity);// velmax ist die Geschwindigkeit die das Raumschiff anstrebt
             this.vel = this.vel.mult(0.95f).add(velmax.mult(0.05f));
+            this.accelerating = true;
         }
         if(Keyboard.isKeyPressed(KeyEvent.VK_A)){
             if(this.cooldownTurretakt <= 0) {
@@ -96,6 +101,12 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);*/
 
         //Texture
+        PImage texture;
+        if(accelerating){
+            texture = this.textureAccelerating;
+        }else {
+            texture = this.textureNormal;
+        }
         float alpha = (float) (AsteroidsApplet.atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
         AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
         AsteroidsApplet.asteroidsApplet.pushMatrix();
@@ -121,6 +132,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     @Override
     public void process() {
+        if(!Keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
+            this.accelerating = false;
+        }
 
         //facing Turret
 
@@ -257,11 +271,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     }
 
     public void setHighScore(){
-        AsteroidsApplet.asteroidsApplet.output = AsteroidsApplet.asteroidsApplet.createWriter("src/main/java/net/mortalsilence/olli/space/scores.txt");
+
         String cache =  str( this.highestLevel)+" : "+str(this.highestExperience);
-        AsteroidsApplet.asteroidsApplet.output.write(cache);
-        AsteroidsApplet.asteroidsApplet.output.flush();  // Writes the remaining data to the file
-        AsteroidsApplet.asteroidsApplet.output.close();
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/scores.txt",0,cache);
     }
 
     public int getHighestLevel(){return this.highestLevel;}
