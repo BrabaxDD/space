@@ -16,8 +16,9 @@ public class Eventbus {
     private ArrayList<ProjektileMovedListener> projektileMovedListeners = new ArrayList<>();
     private ArrayList<AsteroidMovedListener> asteroidMovedListeners = new ArrayList<>();
 
+    private ArrayList<PlayerLevelListener> playerLevelListeners = new ArrayList<>();
+
     private  ArrayList<SpaceshipProjektileHitListener> spaceshipProjektileHitListeners = new ArrayList<>();
-    private ArrayList<VolumeTolggledListener> volumeTolggledListenersToDelete = new ArrayList<>();
 
     public void registerEventMouseLeftClick (MouseLeftClickListener listener){
         this.mouseLeftClickListeners.add(listener);
@@ -45,8 +46,6 @@ public class Eventbus {
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListeners = new ArrayList<>();
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToDelete = new ArrayList<>();
     private ArrayList<SpaceshipMovedListener> spaceshipMovedListenersToAdd = new ArrayList<>();
-    private ArrayList<VolumeTolggledListener> volumeTolggledListenersToAdd = new ArrayList<>();
-    private ArrayList<VolumeTolggledListener> volumeTolggledListeners = new ArrayList<>();
     public void registerSpaceshipMovedListener(SpaceshipMovedListener listener){
         spaceshipMovedListenersToAdd.add(listener);
     }
@@ -86,19 +85,11 @@ public class Eventbus {
         this.spaceshipProjektileHitListenersToAdd.add(listener);
     }
 
-    public void registerVolumeToggledListener(VolumeTolggledListener volumeTolggledListener){
-        this.volumeTolggledListenersToAdd.add(volumeTolggledListener);
+    public void registerPlayerLevelListener(PlayerLevelListener listener){
+        this.playerLevelListeners.add(listener);
     }
 
-    public void deleteVolumeToggledListener(VolumeTolggledListener volumeTolggledListener){
-        this.volumeTolggledListenersToDelete.add(volumeTolggledListener);
-    }
 
-    public void volumeToggled(){
-        for(VolumeTolggledListener listener: this.volumeTolggledListeners){
-            listener.volumeToggled();
-        }
-    }
 
     public void MouseLeftClick(int x,int y){
         for(MouseLeftClickListener listener: this.mouseLeftClickListeners){
@@ -141,6 +132,12 @@ public class Eventbus {
     public void spaceshipMoved( PVector pos){
         for(SpaceshipMovedListener spaceshipMovedListener: this.spaceshipMovedListeners) {
             spaceshipMovedListener.spaceshipMoved(pos);
+        }
+    }
+
+    public void playerLevelListen(int level, int xp){
+        for(PlayerLevelListener listener : this.playerLevelListeners){
+            listener.playerLevelListen(level, xp);
         }
     }
 
@@ -187,10 +184,7 @@ public class Eventbus {
         }
         spaceshipMovedListenersToDelete = new ArrayList<>();
 
-        this.volumeTolggledListeners.addAll(volumeTolggledListenersToAdd);
-        for(VolumeTolggledListener volumeTolggledListener :volumeTolggledListeners){
-            this.volumeTolggledListeners.remove(volumeTolggledListener);
-        }
+
     }
 
 

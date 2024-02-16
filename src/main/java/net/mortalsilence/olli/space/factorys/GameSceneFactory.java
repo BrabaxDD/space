@@ -45,8 +45,7 @@ public class GameSceneFactory {
         if(wichSceneToRender == 1 ){  //Das ist das Startmenü
             String[] options = PApplet.loadStrings(new File("src/main/java/net/mortalsilence/olli/space/options.txt"));
             float lo = Float.parseFloat(options[0]);
-            options = PApplet.loadStrings(new File("src/main/java/net/mortalsilence/olli/space/optionsfx.txt"));
-            float floa = Float.parseFloat(options[0]);
+            float floa = Float.parseFloat(options[1]);
             println("floa: "+floa);
 
             Button b = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(),new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth /2)-300,((float) AsteroidsApplet.asteroidsApplet.displayHeight /2) -50),new PVector(600,100), 0, "Start Game");

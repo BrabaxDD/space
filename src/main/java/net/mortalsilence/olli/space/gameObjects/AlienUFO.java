@@ -7,11 +7,13 @@ import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import org.jetbrains.annotations.NotNull;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 import static processing.core.PApplet.println;
+import static processing.core.PConstants.CENTER;
 
 public class AlienUFO  extends GameObject implements SpaceshipMovedListener, SpaceshipProjektileMovedListener {
     //KOAM
@@ -30,6 +32,10 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
 
     private float bulletVelocity;
 
+    private PImage textureBase;
+
+    private PImage textureTurrent;
+
     public AlienUFO(PVector startPos, Scene scene){
         super(scene);
         this.pos = startPos;
@@ -42,16 +48,35 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         this.cooldownTurretakt = (int) AsteroidsApplet.asteroidsApplet.random(AsteroidsApplet.asteroidsApplet.getGameRule(8),AsteroidsApplet.asteroidsApplet.getGameRule(9));
         this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.random(AsteroidsApplet.asteroidsApplet.getGameRule(8),AsteroidsApplet.asteroidsApplet.getGameRule(9));
         this.bulletVelocity = AsteroidsApplet.asteroidsApplet.getGameRule(7);
+        textureBase = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/AlienUFO_base.png");
+        textureTurrent = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/AlienUFO_turrent.png");
     }
 
     @Override
     public void render(){
-        AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,this.size,this.size);
+        //AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,this.size,this.size);
 
         if(direction){
             AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.targetPoint.x, this.targetPoint.y);
             AsteroidsApplet.asteroidsApplet.line(this.pos.x, this.pos.y,this.pos.x+ this.speed.x*30,this.pos.y+ this.speed.y*30);
         }
+
+        float alpha = (float) (AsteroidsApplet.atan2(this.targetPoint.y - this.pos.y, this.targetPoint.x- this.pos.x) +89.55);
+        AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
+        AsteroidsApplet.asteroidsApplet.pushMatrix();
+        AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+        AsteroidsApplet.asteroidsApplet.rotate((alpha));
+        AsteroidsApplet.asteroidsApplet.image(textureBase, 0,0);
+        AsteroidsApplet.asteroidsApplet.translate(0,0);
+        AsteroidsApplet.asteroidsApplet.popMatrix();
+        alpha = (float) (AsteroidsApplet.atan2(this.shootingTarget.y - this.pos.y, this.shootingTarget.x- this.pos.x) +89.55);
+        AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
+        AsteroidsApplet.asteroidsApplet.pushMatrix();
+        AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+        AsteroidsApplet.asteroidsApplet.rotate((alpha));
+        AsteroidsApplet.asteroidsApplet.image(textureTurrent, 0,0);
+        AsteroidsApplet.asteroidsApplet.translate(0,0);
+        AsteroidsApplet.asteroidsApplet.popMatrix();
     }
 
     @Override

@@ -39,7 +39,6 @@ public class VolumeButton extends Button {
     public void buttonPressed(){
         if(this.state){
         this.textDisplayed = "Volume ON";
-        this.scene.getEventbus().volumeToggled();
         }else{
             this.textDisplayed = "Volume OFF";
             this.state = true;

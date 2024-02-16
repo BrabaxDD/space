@@ -6,18 +6,20 @@ import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Objects;
 
+import static processing.awt.ShimAWT.loadImage;
 import static processing.core.PApplet.*;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener {
 
     private int level;
-    private float exp;
+    private int exp;
     private PVector pos = new PVector(1000,500);
     private int size;
     private int cooldownTurret;
@@ -42,6 +44,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     private int highestExperience;
 
+    PImage texture;
+
     public Spaceship(Scene scene) {
         super(scene);
         this.amountInvincFrames = (int) AsteroidsApplet.asteroidsApplet.getGameRule(2);
@@ -58,7 +62,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
         this.hp = (int) AsteroidsApplet.asteroidsApplet.getGameRule(0);
-
+        texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2.png");
     }
 
     @Override
@@ -84,11 +88,24 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     }
 
     public void render(){
-        AsteroidsApplet.asteroidsApplet.color(255,0,0);
+        //Altes Modell
+        /*AsteroidsApplet.asteroidsApplet.color(255,0,0);
         AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
         AsteroidsApplet.asteroidsApplet.fill(255,0,0);
         AsteroidsApplet.asteroidsApplet.ellipse(pos.x,pos.y,30,30);
-        AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);
+        AsteroidsApplet.asteroidsApplet.line(pos.x,pos.y,pos.x+direction.x*20,pos.y+direction.y*20);*/
+
+        //Texture
+        float alpha = (float) (AsteroidsApplet.atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
+        AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
+        AsteroidsApplet.asteroidsApplet.pushMatrix();
+        AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+        AsteroidsApplet.asteroidsApplet.rotate((alpha));
+        AsteroidsApplet.asteroidsApplet.image(texture, 0,0);
+        AsteroidsApplet.asteroidsApplet.translate(0,0);
+        AsteroidsApplet.asteroidsApplet.popMatrix();
+
+        //XP-Bar
         AsteroidsApplet.asteroidsApplet.color(0,0,0);
         AsteroidsApplet.asteroidsApplet.fill(0);
         AsteroidsApplet.asteroidsApplet.stroke(255);
@@ -98,7 +115,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(250,0,0);
         AsteroidsApplet.asteroidsApplet.text("Level: "+this.level, (float)AsteroidsApplet.asteroidsApplet.width/2, (float) AsteroidsApplet.asteroidsApplet.height/40 );
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
-        AsteroidsApplet.asteroidsApplet.text(this.hp,this.pos.x,this.pos.y);
+        AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
+
     }
 
     @Override
@@ -164,6 +182,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             this.setHighScore();
             AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(2));
         }
+
+        this.scene.getEventbus().playerLevelListen(this.level, this.exp);
     }
 
     @Override

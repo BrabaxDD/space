@@ -1,6 +1,7 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.PlayerLevelListener;
 import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.gameObjects.Asteroid;
 import net.mortalsilence.olli.space.gameObjects.GameObject;
@@ -8,7 +9,7 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Spawner extends GameObject implements SpaceshipMovedListener {
+public class Spawner extends GameObject implements SpaceshipMovedListener, PlayerLevelListener {
     private float spawnrateAsteroid; //in Asteroiden * s^-1 ungefähr
 
     private float spawnrateAlienUFO;
@@ -19,12 +20,19 @@ public class Spawner extends GameObject implements SpaceshipMovedListener {
 
     private int[] timer = new int[2];
 
+    private int playerLevel;
+
+    private int playerXP;
+
+    private int playerLevelPrevious;
+
     public Spawner(Scene s){
         super(s);
         this.spawnrateAlienUFO = (float) 0.25;
         this.spawnrateAsteroid = (float) 0.5;
         this.scene = s;
         this.scene.getEventbus().registerSpaceshipMovedListener(this);
+        this.scene.getEventbus().registerPlayerLevelListener(this);
 
     }
     @Override
@@ -51,10 +59,29 @@ public class Spawner extends GameObject implements SpaceshipMovedListener {
         for(int i=0; i< timer.length; i++){
             timer[i]++;
         }
+        if(playerLevel != playerLevelPrevious){
+            this.spawnrateAlienUFO += (float) playerLevel /20 ;
+            this.spawnrateAsteroid += (float) playerLevel /10;
+
+            playerLevelPrevious = playerLevel;
+        }
+
+
+        if(AsteroidsApplet.asteroidsApplet.isDebugModeOn()){
+            AsteroidsApplet.asteroidsApplet.fill(250,130,145);
+            AsteroidsApplet.asteroidsApplet.text("Spawnrate Asteroids: "+this.spawnrateAsteroid+"/s" , AsteroidsApplet.asteroidsApplet.width-250,250);
+            AsteroidsApplet.asteroidsApplet.text("Spawnrate AlienUFO: "+ this.spawnrateAlienUFO+"/s" ,AsteroidsApplet.asteroidsApplet.width-250,200);
+        }
     }
 
     @Override
     public void spaceshipMoved(PVector pos) {
         this.playerPos = pos;
+    }
+
+    @Override
+    public void playerLevelListen(int level, int xp) {
+        this.playerLevel = level;
+        this.playerXP = level;
     }
 }

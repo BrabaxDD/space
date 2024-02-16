@@ -6,6 +6,8 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.io.*;
+
 import static processing.core.PApplet.str;
 
 public class VolumeSlider extends Slider{
@@ -59,15 +61,14 @@ public class VolumeSlider extends Slider{
         amountP = valueCap/diagonal.x*p;
         // Writes the remaining data to the file
         if (!this.type) {
-            AsteroidsApplet.asteroidsApplet.output = AsteroidsApplet.asteroidsApplet.createWriter("src/main/java/net/mortalsilence/olli/space/options.txt");
             String cache = str(this.p);
-            AsteroidsApplet.asteroidsApplet.output.write(cache);
+            AsteroidsApplet.asteroidsApplet.writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 1, cache );
         }else{
-            AsteroidsApplet.asteroidsApplet.output = AsteroidsApplet.asteroidsApplet.createWriter("src/main/java/net/mortalsilence/olli/space/optionsfx.txt");
-        String cache = str(this.p);
-        AsteroidsApplet.asteroidsApplet.output.write(cache);
+            String cache = str(this.p);
+            AsteroidsApplet.asteroidsApplet.writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, cache );
+
         }
-        AsteroidsApplet.asteroidsApplet.output.flush();  // Writes the remaining data to the file
-        AsteroidsApplet.asteroidsApplet.output.close();
     }
+
+
 }
