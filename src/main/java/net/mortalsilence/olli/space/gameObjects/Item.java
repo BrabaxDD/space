@@ -3,19 +3,18 @@ package net.mortalsilence.olli.space.gameObjects;
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
-import processing.core.PApplet;
 import processing.core.PVector;
 
 import static java.lang.Math.abs;
 
 public class Item extends GameObject implements SpaceshipMovedListener, Runnable {
-    private Scene scene;
-    private int pickupRadius = 100;
-    private PVector pos;
-    private PVector speed = new PVector(0,0);
-    private  PVector playerPos;
+    private final Scene scene;
+    private final int pickupRadius = 100;
+    private final PVector pos;
     private int lifespan; //in millisek
     private boolean toSee = true;
+    int framesLeft = this.lifespan;
+
     public Item(Scene scene, PVector pos) {
         super(scene);
         this.scene = scene;
@@ -25,8 +24,8 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
     }
 
     @Override
-    public void render(){
-        if(toSee) {
+    public void render() {
+        if (toSee) {
             if (AsteroidsApplet.asteroidsApplet.isDebugModeOn()) {
                 AsteroidsApplet.asteroidsApplet.stroke(200);
                 AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, pickupRadius);
@@ -38,17 +37,16 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
 
     @Override
     public void spaceshipMoved(PVector pos) {
-        this.playerPos = pos;
-        if(abs(this.pos.dist(playerPos))<this.pickupRadius){
-            speed = new PVector(playerPos.x-this.pos.x, playerPos.y-this.pos.y).normalize();
+        if (abs(this.pos.dist(pos)) < this.pickupRadius) {
+            PVector speed = new PVector(pos.x - this.pos.x, pos.y - this.pos.y).normalize();
             this.pos.add(speed.mult(3));
         }
-        if(abs(this.pos.dist(playerPos))<20){
-           deleteItem();
+        if (abs(this.pos.dist(pos)) < 20) {
+            deleteItem();
         }
     }
 
-    private void deleteItem(){
+    private void deleteItem() {
         this.scene.getEventbus().itemPickedUp(this);
         this.toSee = false;
         this.scene.getEventbus().deleteSpaceshipMovedListener(this);
@@ -58,14 +56,25 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
 
     @Override
     public void run() {
-        int framesLeft = this.lifespan;
-        try {
-            Thread.sleep(lifespan);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        framesLeft = this.lifespan;
+
+        for (int i = 0; i < lifespan; i++) {
+            try {
+                Thread.sleep(1);
+                framesLeft--;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+
         this.scene.getEventbus().itemTimeUp(this);
 
         this.scene.deleteObject(this);
     }
+
+    public int getTimeLeft() {
+        return this.framesLeft;
+    }
+
 }

@@ -5,16 +5,12 @@ import net.mortalsilence.olli.space.events.*;
 import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
-import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static processing.awt.ShimAWT.loadImage;
 import static processing.core.PApplet.*;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener, ItemPickedUpListener, ItemTimeUpListener {
@@ -22,8 +18,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private int level;
     private int exp;
     private PVector pos = new PVector(1000,500);
-    private int size;
-    private int cooldownTurret;
+    private final int size;
+    private final int cooldownTurret;
+    @SuppressWarnings("SpellCheckingInspection")
     private int cooldownTurretakt;
 
     public float turretTurnVelocity;
@@ -45,9 +42,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     private int highestExperience;
 
-    private PImage textureNormal;
+    private final PImage textureNormal;
 
-    private PImage textureAccelerating;
+    private final PImage textureAccelerating;
     private boolean accelerating = false;
 
     private ArrayList<Item> items = new ArrayList<>();
@@ -74,6 +71,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2_beschleunigend.png");
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @Override
     public void buttonPressed() {
         if(Keyboard.isKeyPressed(KeyEvent.VK_SPACE)){
@@ -132,7 +130,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
         AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
         AsteroidsApplet.asteroidsApplet.text("Aktive Items: "+this.items.size(),(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40*4);
-
+        if(!this.items.isEmpty()) {
+            AsteroidsApplet.asteroidsApplet.text("Time left: " + this.items.get(0).getTimeLeft(), (float) AsteroidsApplet.asteroidsApplet.width / 20, (float) AsteroidsApplet.asteroidsApplet.height / 40 * 5);
+        }
         if(AsteroidsApplet.asteroidsApplet.isDebugModeOn()){
             AsteroidsApplet.asteroidsApplet.color(255,0,0);
             AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
