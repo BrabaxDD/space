@@ -26,9 +26,9 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
 
     private int playerLevelPrevious;
 
-    static final int AMOUNT_ASTEROIDS = (int) AsteroidsApplet.asteroidsApplet.getGameRule(11);
+    static private final int AMOUNT_ASTEROIDS = (int) AsteroidsApplet.asteroidsApplet.getGameRule(11);
 
-    static final int AMOUNT_ALIENUFO = (int) AsteroidsApplet.asteroidsApplet.getGameRule(12);
+    static private final int AMOUNT_ALIENUFO = (int) AsteroidsApplet.asteroidsApplet.getGameRule(12);
 
 
     public Spawner(Scene s){

@@ -13,6 +13,7 @@ import processing.core.PFont;
 import processing.core.PVector;
 import processing.event.MouseEvent;
 
+import javax.print.DocFlavor;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -44,6 +45,7 @@ public class AsteroidsApplet extends PApplet {
     public void settings() {
         this.fullScreen(1);
         AsteroidsApplet.asteroidsApplet = this;
+        this.writerLine = new WriterLine();
         this.activeScene = GameSceneFactory.buildGameScene(1);
         this.activeScene.render();
         println(this.activeScene.getObjects());
@@ -51,15 +53,14 @@ public class AsteroidsApplet extends PApplet {
         println(gameRules[1]);
         this.debugModeOn = this.getGameRuleBoolean(3);
         this.backgroundPlayer = new BackgroundPlayer();
-        this.backgroundPlayer.setVolume(0);
         this.fxPlayer = new FxPlayer(2);
         String[] options = loadStrings("src/main/java/net/mortalsilence/olli/space/options.txt");
         this.backgroundPlayer.setVolume(Float.parseFloat(options[0]));
         PApplet.println("Volume loaded background: "+Float.parseFloat(options[0]));
         this.fxPlayer.setVolume(Float.parseFloat(options[1]));
         PApplet.println("Volume loaded fx: "+Float.parseFloat(options[1]));
-        this.writerLine = new WriterLine();
-        new Thread(backgroundPlayer).start();
+        //new Thread(backgroundPlayer).start();
+
 
     }
 
@@ -112,7 +113,25 @@ public class AsteroidsApplet extends PApplet {
         }else return false;
     }
 
+    public void setGameRuleFloat(int index, float value ){
+        String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
+        cache[1] = str(value);
+        String toWrite = cache[0]+ " : " + cache[1];
+        writerLine.writeToLine("src/main/java/net/mortalsilence/olli/space/gameRules.txt", index+1,toWrite );
+        loadGameRules();
+    }
+
+    public void setGameRuleBoolean(int index, boolean value ){
+        String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
+        cache[1] = str(value);
+        String toWrite = cache[0]+ " : " + cache[1];
+        writerLine.writeToLine("src/main/java/net/mortalsilence/olli/space/gameRules.txt", index+1,toWrite );
+        loadGameRules();
+
+    }
+
     public void setVolumeGlobal(float volumeGlobal){
+        this.fxPlayer.setVolume(volumeGlobal);
         this.backgroundPlayer.setVolume(volumeGlobal);
     }
 
@@ -125,6 +144,11 @@ public class AsteroidsApplet extends PApplet {
     @Override
     public void mouseWheel(MouseEvent event){
         this.activeScene.getEventbus().MouseWheeled(event.getCount());
+    }
+
+    public void loadGameRules(){
+        this.gameRules  = loadStrings("src/main/java/net/mortalsilence/olli/space/gameRules.txt");
+        this.debugModeOn = this.getGameRuleBoolean(3);
     }
 
 }

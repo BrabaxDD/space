@@ -6,12 +6,18 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
 import static processing.core.PApplet.*;
 
 public class GameSceneFactory {
+
+    static public final int GAME = 0;
+    static public final int HOME = 1;
+    static public final int OVER = 2;
+    static public final int HTP = 3;
     public static Scene buildGameScene(int wichSceneToRender){ //Das ist das Startfeld
         Scene s = new Scene(new ArrayList<>());
         switch (wichSceneToRender) {
@@ -64,6 +70,21 @@ public class GameSceneFactory {
                 b = new SceneSwitcherButton(AsteroidsApplet.asteroidsApplet.getActiveScene(), new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth / 2) - 300, ((float) AsteroidsApplet.asteroidsApplet.displayHeight / 2) + 100), new PVector(600, 100), 3, "How To Play" );
                 s.getEventbus().registerEventMouseLeftClick(b);
                 s.addObject(b);
+
+               /* b = new Button(AsteroidsApplet.asteroidsApplet.getActiveScene(), new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth / 10*7) + 300, ((float) AsteroidsApplet.asteroidsApplet.displayHeight / 10 * 8) + 100), new PVector(120, 20) )
+            {
+                @Override
+                public void buttonPressed() {
+                    String eingabe = JOptionPane.showInputDialog("Ternimal: ");
+                }
+            };
+                s.getEventbus().registerEventMouseLeftClick(b);
+                s.addObject(b);*/
+
+                b = new ConsoleButton(AsteroidsApplet.asteroidsApplet.getActiveScene(), new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth / 10*7) + 300, ((float) AsteroidsApplet.asteroidsApplet.displayHeight / 10 * 8) + 100), new PVector(240, 40));
+                s.getEventbus().registerEventMouseLeftClick(b);
+                s.addObject(b);
+
                 break;
 
             case 2: //Das ist das Game Over Menü

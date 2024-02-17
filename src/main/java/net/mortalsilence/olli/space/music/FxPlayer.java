@@ -1,5 +1,6 @@
 package net.mortalsilence.olli.space.music;
 
+import net.mortalsilence.olli.space.AsteroidsApplet;
 import processing.core.PApplet;
 import processing.sound.SoundFile;
 
@@ -22,6 +23,8 @@ public class FxPlayer extends MusicPlayer {
 
     @Override
     public void setVolume(float volume){
+        String voluume = PApplet.str(volume*100);
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, voluume );
         this.volume = volume;
     }
 

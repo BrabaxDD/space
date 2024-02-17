@@ -1,13 +1,13 @@
 Amount of player lives : 3
 Asteroids can shield players : true
 Amount of invincibility frames : 60
-Debug mode : true
+Debugmode : false
 Spaceship turret turning velocity : 0.04347826087
 Spaceship cooldown Turret : 30
 Spaceship bullet velocity : 20
 AlienUFO bullet velocity : 15
 AlienUFO cooldownTurretakt low bar : 180
 AlienUFO cooldownTurretakt high bar : 240
-Invincible : false
-Max amount Asteroids : 100
+Invincible : true
+Max amount Asteroids : 40
 Max amount AlienUFO : 10

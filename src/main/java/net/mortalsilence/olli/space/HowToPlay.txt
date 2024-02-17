@@ -7,6 +7,10 @@ Damit beschleunigt dein Raumschiff in Richtung der Maus.
 
 Um zu schießen, drücke "a".
 
+Wenn du aus irgendeinem Grund aus dem Spiel ins Hauptmenü willst, ohne zu sterben,
+drücke "p".
+Aber pass auf! Der Spielstand wird trotzdem nicht gespeichert.
+
 Die Asteroiden werden auf zufälligen Bahnen fliegen,
 die Alien UFOs werden dich aber VERFOLGEN und zwischendurch abschießen.
 Sie sind die wirkliche Gefahr.

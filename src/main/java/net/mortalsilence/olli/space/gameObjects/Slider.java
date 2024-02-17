@@ -38,7 +38,7 @@ public class Slider extends GameObject implements MouseLeftClickListener {
         //AsteroidsApplet.asteroidsApplet.circle(200,200,50);
         if(AsteroidsApplet.asteroidsApplet.mouseX > this.pos.x && AsteroidsApplet.asteroidsApplet.mouseX < this.pos.x + this.diagonal.x && AsteroidsApplet.asteroidsApplet.mouseY > this.pos.y && AsteroidsApplet.asteroidsApplet.mouseY < this.pos.y + this.diagonal.y){
             this.buttonPressed();
-            System.out.println("Value:"+value);
+            //System.out.println("Value:"+value);
         }
 
     }

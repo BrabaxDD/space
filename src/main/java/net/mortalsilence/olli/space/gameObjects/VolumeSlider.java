@@ -23,6 +23,8 @@ public class VolumeSlider extends Slider{
 
     private boolean type;
     private float p;
+
+    private float pprev = 0;
     //type: 0 ==> background;     1 ==> fx
     public VolumeSlider(PVector pos, PVector diagonal, float value, float cap,String text, Scene scene, boolean type) {
         super(pos, diagonal, value, cap, text,scene);
@@ -41,9 +43,12 @@ public class VolumeSlider extends Slider{
         p = this.getValue();
         amountP = p/diagonal.x*4;
         //PApplet.println("amountP: "+amountP);
-        if(!this.type) {
-           AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(amountP);
-        }else AsteroidsApplet.asteroidsApplet.getFxPlayer().setVolume(amountP);
+        if(this.p != this.pprev) {
+            if (!this.type) {
+                AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(amountP);
+            } else AsteroidsApplet.asteroidsApplet.getFxPlayer().setVolume(amountP);
+        }
+        pprev = this.p;
     }
 
 
@@ -58,16 +63,7 @@ public class VolumeSlider extends Slider{
     public void mouseLeftClick(int x, int y) {
         super.mouseLeftClick(x, y);
         p = this.getValue();
-        amountP = valueCap/diagonal.x*p;
-        // Writes the remaining data to the file
-        if (!this.type) {
-            String cache = str(this.p);
-            AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 1, cache );
-        }else{
-            String cache = str(this.p);
-            AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, cache );
 
-        }
     }
 
 

@@ -90,6 +90,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
                 AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(0);
             }
         }
+        if(Keyboard.isKeyPressed(KeyEvent.VK_P)){
+            AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(GameSceneFactory.HOME));
+        }
     }
 
     public void render(){

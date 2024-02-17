@@ -18,9 +18,7 @@ public class MusicPlayer {
         this.folderPath =  currentWorkingDirectory + File.separator + relativeFolderPath;
     }
     public void update() {
-        if(!this.onOff){
-            AsteroidsApplet.asteroidsApplet.getBackgroundPlayer().setVolume(0);
-        }
+
     }
 
 
