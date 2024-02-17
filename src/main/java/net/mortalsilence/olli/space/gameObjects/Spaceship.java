@@ -11,12 +11,13 @@ import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static processing.awt.ShimAWT.loadImage;
 import static processing.core.PApplet.*;
 
-public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener {
+public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener, ItemPickedUpListener, ItemTimeUpListener {
 
     private int level;
     private int exp;
@@ -49,6 +50,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private PImage textureAccelerating;
     private boolean accelerating = false;
 
+    private ArrayList<Item> items = new ArrayList<>();
+
     public Spaceship(Scene scene) {
         super(scene);
         this.amountInvincFrames = (int) AsteroidsApplet.asteroidsApplet.getGameRule(2);
@@ -64,6 +67,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
+        this.scene.getEventbus().registerItemPickedUpListener(this);
+        this.scene.getEventbus().registerItemTimeUpListener(this);
         this.hp = (int) AsteroidsApplet.asteroidsApplet.getGameRule(0);
         textureNormal = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2.png");
         textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2_beschleunigend.png");
@@ -126,6 +131,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.text("Level: "+this.level, (float)AsteroidsApplet.asteroidsApplet.width/2, (float) AsteroidsApplet.asteroidsApplet.height/40 );
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
         AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
+        AsteroidsApplet.asteroidsApplet.text("Aktive Items: "+this.items.size(),(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40*4);
 
         if(AsteroidsApplet.asteroidsApplet.isDebugModeOn()){
             AsteroidsApplet.asteroidsApplet.color(255,0,0);
@@ -175,7 +181,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
         //Movement
 
-        if(this.wPressed == false){
+        if(!this.wPressed){
             this.vel = this.vel.mult(0.95f);
         }
         this.pos.add(vel);
@@ -297,4 +303,13 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.highestExperience = amount;
     }
 
+    @Override
+    public void itemPickedUp(Item item) {
+        this.items.add(item);
+    }
+
+    @Override
+    public void itemTimeUp(Item item) {
+        this.items.remove(item);
+    }
 }

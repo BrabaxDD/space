@@ -63,11 +63,35 @@ public class Eventbus {
         this.alienUFOMovedListeners.remove(listener);
     }
 
+    private ArrayList<ItemPickedUpListener> itemPickedUpListeners = new ArrayList<>();
+
+    private ArrayList<ItemPickedUpListener> itemPickedUpListenersToAdd = new ArrayList<>();
+
+    private ArrayList<ItemPickedUpListener> itemPickedUpListenersToDelete = new ArrayList<>();
+
+    private ArrayList<ItemTimeUpListener> itemTimeUpListeners = new ArrayList<>();
+
+    private ArrayList<ItemTimeUpListener> itemTimeUpListenersToAdd = new ArrayList<>();
+
+    private ArrayList<ItemTimeUpListener> itemTimeUpListenersToDelete = new ArrayList<>();
 
 
     //modell Listener
 
 
+    public void registerItemPickedUpListener(ItemPickedUpListener listener){
+        this.itemPickedUpListenersToAdd.add(listener);
+    }
+    public void deleteItemPickedUpListener(ItemPickedUpListener listener){
+        this.itemPickedUpListenersToDelete.add(listener);
+    }
+
+    public void registerItemTimeUpListener(ItemTimeUpListener listener){
+        this.itemTimeUpListenersToAdd.add(listener);
+    }
+    public void deleteItemTimeUpListener(ItemTimeUpListener listener){
+        this.itemTimeUpListenersToDelete.add(listener);
+    }
 
 
     public void registerEventButtonPressed(ButtonPressedListener listener){
@@ -96,6 +120,18 @@ public class Eventbus {
     }
 
 
+    public void itemTimeUp(Item item){
+        for(ItemTimeUpListener listener : this.itemTimeUpListeners){
+            listener.itemTimeUp(item);
+            System.out.println("Item ausgelaufen!");
+        }
+    }
+    public void itemPickedUp(Item item){
+        for(ItemPickedUpListener listener : this.itemPickedUpListeners){
+            listener.itemPickedUp(item);
+            System.out.println("Item aufgenommen!");
+        }
+    }
 
     public void MouseLeftClick(int x,int y){
         for(MouseLeftClickListener listener: this.mouseLeftClickListeners){
@@ -195,7 +231,27 @@ public class Eventbus {
         }
         spaceshipMovedListenersToDelete = new ArrayList<>();
 
+        this.itemPickedUpListeners.addAll(itemPickedUpListenersToAdd);
 
+        this.itemPickedUpListenersToAdd  = new ArrayList<>();
+
+        for(ItemPickedUpListener itemPickedUpListener:itemPickedUpListenersToDelete){
+            this.itemPickedUpListeners.remove(itemPickedUpListener);
+            println("Item wirklich deleted");
+        }
+        itemPickedUpListenersToDelete = new ArrayList<>();
+
+
+
+        this.itemTimeUpListeners.addAll(itemTimeUpListenersToAdd);
+
+        this.itemTimeUpListenersToAdd  = new ArrayList<>();
+
+        for(ItemTimeUpListener itemTimeUpListener:itemTimeUpListenersToDelete){
+            this.itemTimeUpListeners.remove(itemTimeUpListener);
+            println("Item Zeit abgelaufen");
+        }
+        itemTimeUpListenersToDelete = new ArrayList<>();
     }
 
 
