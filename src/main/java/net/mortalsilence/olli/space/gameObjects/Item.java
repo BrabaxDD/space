@@ -1,8 +1,10 @@
 package net.mortalsilence.olli.space.gameObjects;
 
+import com.sun.javafx.application.ParametersImpl;
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import static java.lang.Math.abs;
@@ -15,12 +17,22 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
     private boolean toSee = true;
     int framesLeft = this.lifespan;
 
-    public Item(Scene scene, PVector pos) {
+    private PImage texture;
+
+    private int type;   //type = 1 --> Shield
+
+    public Item(Scene scene,int type, PVector pos, int lifespan) {
         super(scene);
         this.scene = scene;
         this.pos = pos;
         this.scene.getEventbus().registerSpaceshipMovedListener(this);
-        this.lifespan = 1000;
+        this.lifespan = lifespan;
+        switch (type){
+            case 1:
+                texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/ShieldItem.png");
+                break;
+        }
+        this.type = type;
     }
 
     @Override
@@ -30,8 +42,12 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
                 AsteroidsApplet.asteroidsApplet.stroke(200);
                 AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, pickupRadius);
             }
+
+
             AsteroidsApplet.asteroidsApplet.stroke(100);
             AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, 30);
+            AsteroidsApplet.asteroidsApplet.image(texture, this.pos.x, this.pos.y);
+
         }
     }
 
@@ -75,6 +91,10 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
 
     public int getTimeLeft() {
         return this.framesLeft;
+    }
+
+    public int getType(){
+        return this.type;
     }
 
 }

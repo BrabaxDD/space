@@ -43,9 +43,9 @@ public class GameSceneFactory {
                 s.addObject(a3);
                 AlienUFO Alu1 = new AlienUFO(new PVector(0,(int)AsteroidsApplet.asteroidsApplet.random(0, PApplet.DEFAULT_HEIGHT)) ,s);
                 s.addObject(Alu1);*/
-                        //Spawner spawner = new Spawner(s);
-                        //s.addObject(spawner);
-                Item item = new Item(s, new PVector(200,200));
+                Spawner spawner = new Spawner(s);
+                s.addObject(spawner);
+                Item item = new Item(s,1, new PVector(200,200), 10000);
                 s.addObject(item);
                 break;
 

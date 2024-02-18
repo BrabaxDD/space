@@ -83,6 +83,10 @@ public class AsteroidsApplet extends PApplet {
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
             AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
         }
+        if(getGameRuleBoolean(10)){
+            fill(250,130,145);
+            AsteroidsApplet.asteroidsApplet.text( "Invincible!!!",250,150);
+        }
         this.backgroundPlayer.update();
 
     }

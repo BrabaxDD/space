@@ -93,7 +93,6 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
 
     @Override
     public void spaceshipMoved(PVector pos) {
-        System.out.println("Teil 1");
         this.playerPos = pos;
     }
 

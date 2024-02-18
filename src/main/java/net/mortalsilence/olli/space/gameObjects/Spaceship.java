@@ -109,7 +109,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }else {
             texture = this.textureNormal;
         }
-        float alpha = (float) (AsteroidsApplet.atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
+        float alpha = (float) (atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
         AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
         AsteroidsApplet.asteroidsApplet.pushMatrix();
         AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
@@ -214,6 +214,16 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }
 
         this.scene.getEventbus().playerLevelListen(this.level, this.exp);
+
+        //Items
+        for(Item item : items) {
+            if(item.getType() == 1){
+                this.invincible = true;
+                this.amountInvincFramesLeft = 2;
+                AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, 100);
+            }
+
+        }
     }
 
     @Override
@@ -268,10 +278,25 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     }
 
     public void drainHp(int amount){
-        if(!this.invincible && this.amountInvincFramesLeft == amountInvincFrames){
+        int isSheeld = -1;
+        for(int i = 0; i< items.size(); i++){
+            if(items.get(i).getType() == 1){
+                isSheeld = i;
+                System.out.println("Gefunge, isSheeld: "+isSheeld);
+                break;
+            }
+        }
+        if(isSheeld != -1){
+            items.remove(isSheeld);
+            System.out.println("Schild gelöscht");
+            this.amountInvincFramesLeft = 30;
+        }
+        if(!this.invincible && this.amountInvincFramesLeft == amountInvincFrames && isSheeld == -1){
             this.hp -= amount;
             this.invincible = true;
             this.setPos(new PVector((float) AsteroidsApplet.asteroidsApplet.width /2, (float) AsteroidsApplet.asteroidsApplet.height /2));
+            //Delete all items
+            items = new ArrayList<>();
 
             AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(3);
         }
