@@ -45,8 +45,8 @@ public class GameSceneFactory {
                 s.addObject(Alu1);*/
                 Spawner spawner = new Spawner(s);
                 s.addObject(spawner);
-                Item item = new Item(s,1, new PVector(200,200), 10000);
-                s.addObject(item);
+                /*Item item = new Item(s,1, new PVector(200,200), 10000);
+                s.addObject(item);*/
                 break;
 
             case 1:  //Das ist das Startmenü
@@ -72,15 +72,7 @@ public class GameSceneFactory {
                 s.getEventbus().registerEventMouseLeftClick(b);
                 s.addObject(b);
 
-               /* b = new Button(AsteroidsApplet.asteroidsApplet.getActiveScene(), new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth / 10*7) + 300, ((float) AsteroidsApplet.asteroidsApplet.displayHeight / 10 * 8) + 100), new PVector(120, 20) )
-            {
-                @Override
-                public void buttonPressed() {
-                    String eingabe = JOptionPane.showInputDialog("Ternimal: ");
-                }
-            };
-                s.getEventbus().registerEventMouseLeftClick(b);
-                s.addObject(b);*/
+
 
                 b = new ConsoleButton(AsteroidsApplet.asteroidsApplet.getActiveScene(), new PVector(((float) AsteroidsApplet.asteroidsApplet.displayWidth / 10*7) + 300, ((float) AsteroidsApplet.asteroidsApplet.displayHeight / 10 * 8) + 100), new PVector(240, 40));
                 s.getEventbus().registerEventMouseLeftClick(b);

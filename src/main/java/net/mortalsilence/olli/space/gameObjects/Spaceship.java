@@ -48,6 +48,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private final PImage textureAccelerating;
 
     private final PImage textureEMP;
+
+    private final PImage textureShield;
     private boolean accelerating = false;
 
     private ArrayList<Item> items = new ArrayList<>();
@@ -61,6 +63,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     boolean canUseEmp = true;
 
     private int amountCooldownFramesLeft;
+
+    private float alpha = 0;
 
 
     public Spaceship(Scene scene) {
@@ -85,6 +89,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         textureNormal = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"Spaceship_v2.png");
         textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"Spaceship_v2_beschleunigend.png");
         textureEMP = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"EMP_blast.png");
+        textureShield = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"SchildEffect.png");
+
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -148,7 +154,6 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.text("Level: "+this.level, (float)AsteroidsApplet.asteroidsApplet.width/2, (float) AsteroidsApplet.asteroidsApplet.height/40 );
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
         AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
-        AsteroidsApplet.asteroidsApplet.text("Aktive Items: "+this.items.size(),(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40*4);
 
         if(this.amountMPBlast == 0){
             AsteroidsApplet.asteroidsApplet.text("Amount EMPs: " + this.amountMPBlast, (float) AsteroidsApplet.asteroidsApplet.width / 2, (float) AsteroidsApplet.asteroidsApplet.height / 40 * 4);
@@ -218,7 +223,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.scene.getEventbus().spaceshipMoved(new PVector(this.pos.x, this.pos.y));
 
         if(invincible){
-            AsteroidsApplet.asteroidsApplet.text("Invincibel ", AsteroidsApplet.asteroidsApplet.width/2, AsteroidsApplet.asteroidsApplet.height/2);
+
             amountInvincFramesLeft --;
             if(amountInvincFramesLeft <= 0){
                 invincible = false;
@@ -228,6 +233,8 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
         if(!canUseEmp){
             AsteroidsApplet.asteroidsApplet.image(textureEMP,this.pos.x,this.pos.y);
+
+
             amountCooldownFramesLeft --;
             if(amountCooldownFramesLeft <= 0){
                 canUseEmp= true;
@@ -254,7 +261,15 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             if(item.getType() == 1){
                 this.invincible = true;
                 this.amountInvincFramesLeft = 2;
-                AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, 100);
+                AsteroidsApplet.asteroidsApplet.image(textureShield, this.pos.x, this.pos.y);
+                AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
+                AsteroidsApplet.asteroidsApplet.pushMatrix();
+                AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+                AsteroidsApplet.asteroidsApplet.rotate((alpha));
+                AsteroidsApplet.asteroidsApplet.image(textureShield, 0,0);
+                AsteroidsApplet.asteroidsApplet.translate(0,0);
+                AsteroidsApplet.asteroidsApplet.popMatrix();
+                alpha += 0.02;
             }
 
         }
@@ -352,7 +367,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     public void setHighScore(){
 
         String cache =  str( this.highestLevel)+" : "+str(this.highestExperience);
-        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine(AsteroidsApplet.ADRESS_TO_SPACE+"scores.txt",0,cache);
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine(AsteroidsApplet.ADRESS_TO_SPACE+"scores.txt",1,cache);
     }
 
     public int getHighestLevel(){return this.highestLevel;}
