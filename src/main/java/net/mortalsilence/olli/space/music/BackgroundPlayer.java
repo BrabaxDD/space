@@ -45,7 +45,7 @@ public class BackgroundPlayer extends MusicPlayer implements Runnable {
     @Override
     public void setVolume(float volume){
         String voluume = PApplet.str(volume*100);
-        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 1, voluume );
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine(AsteroidsApplet.ADRESS_TO_SPACE+"options.txt", 1, voluume );
         this.volume = volume;
     }
 

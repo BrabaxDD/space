@@ -24,7 +24,7 @@ public class FxPlayer extends MusicPlayer {
     @Override
     public void setVolume(float volume){
         String voluume = PApplet.str(volume*100);
-        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/options.txt", 2, voluume );
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine(AsteroidsApplet.ADRESS_TO_SPACE+"options.txt", 2, voluume );
         this.volume = volume;
     }
 

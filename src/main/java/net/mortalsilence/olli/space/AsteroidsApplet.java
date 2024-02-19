@@ -1,21 +1,14 @@
 package net.mortalsilence.olli.space;
 
 import net.mortalsilence.olli.space.factorys.GameSceneFactory;
-import net.mortalsilence.olli.space.gameObjects.Button;
-import net.mortalsilence.olli.space.gameObjects.SceneSwitcherButton;
-import net.mortalsilence.olli.space.gameObjects.Spawner;
 import net.mortalsilence.olli.space.music.BackgroundPlayer;
 import net.mortalsilence.olli.space.music.FxPlayer;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.WriterLine;
 import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PVector;
 import processing.event.MouseEvent;
 
-import javax.print.DocFlavor;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class AsteroidsApplet extends PApplet {
@@ -32,6 +25,7 @@ public class AsteroidsApplet extends PApplet {
     //PFont myFont = createFont("Comic Sans MS Fett", 32);
 
     public static void main(String[] args) {
+
         PApplet.main("net.mortalsilence.olli.space.AsteroidsApplet");
     }
 
@@ -41,20 +35,26 @@ public class AsteroidsApplet extends PApplet {
 
     private WriterLine writerLine;
 
+    public static String ADRESS_TO_SPACE;
+
     @Override
     public void settings() {
         this.fullScreen(1);
         AsteroidsApplet.asteroidsApplet = this;
+        ADRESS_TO_SPACE =  asteroidsApplet.sketchPath()+File.separator+ "src"+ File.separator+"main"+File.separator+"java"+File.separator+"net"+File.separator+"mortalsilence"+File.separator+"olli"+File.separator+"space"+File.separator;
+        System.out.println(ADRESS_TO_SPACE);
+
         this.writerLine = new WriterLine();
         this.activeScene = GameSceneFactory.buildGameScene(1);
         this.activeScene.render();
         println(this.activeScene.getObjects());
-        this.gameRules  = loadStrings("src/main/java/net/mortalsilence/olli/space/gameRules.txt");
+
+        this.gameRules  = loadStrings(ADRESS_TO_SPACE+"gameRules.txt");
         println(gameRules[1]);
         this.debugModeOn = this.getGameRuleBoolean(3);
         this.backgroundPlayer = new BackgroundPlayer();
         this.fxPlayer = new FxPlayer(2);
-        String[] options = loadStrings("src/main/java/net/mortalsilence/olli/space/options.txt");
+        String[] options = loadStrings(ADRESS_TO_SPACE+"options.txt");
         this.backgroundPlayer.setVolume(Float.parseFloat(options[0]));
         PApplet.println("Volume loaded background: "+Float.parseFloat(options[0]));
         this.fxPlayer.setVolume(Float.parseFloat(options[1]));
@@ -121,7 +121,7 @@ public class AsteroidsApplet extends PApplet {
         String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
         cache[1] = str(value);
         String toWrite = cache[0]+ " : " + cache[1];
-        writerLine.writeToLine("src/main/java/net/mortalsilence/olli/space/gameRules.txt", index+1,toWrite );
+        writerLine.writeToLine(ADRESS_TO_SPACE+"gameRules.txt", index+1,toWrite );
         loadGameRules();
     }
 
@@ -129,7 +129,7 @@ public class AsteroidsApplet extends PApplet {
         String[] cache = gameRules[index].replaceAll("\\s+","").split(":");
         cache[1] = str(value);
         String toWrite = cache[0]+ " : " + cache[1];
-        writerLine.writeToLine("src/main/java/net/mortalsilence/olli/space/gameRules.txt", index+1,toWrite );
+        writerLine.writeToLine(ADRESS_TO_SPACE+"gameRules.txt", index+1,toWrite );
         loadGameRules();
 
     }
@@ -151,7 +151,7 @@ public class AsteroidsApplet extends PApplet {
     }
 
     public void loadGameRules(){
-        this.gameRules  = loadStrings("src/main/java/net/mortalsilence/olli/space/gameRules.txt");
+        this.gameRules  = loadStrings(ADRESS_TO_SPACE+"gameRules.txt");
         this.debugModeOn = this.getGameRuleBoolean(3);
     }
 

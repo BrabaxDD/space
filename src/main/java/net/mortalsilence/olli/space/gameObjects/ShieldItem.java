@@ -33,3 +33,4 @@ public class ShieldItem extends Item{
         //AsteroidsApplet.asteroidsApplet.image(texture, pos.x, pos.y);
     }
 }
+

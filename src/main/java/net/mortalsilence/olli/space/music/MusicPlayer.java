@@ -12,7 +12,7 @@ public class MusicPlayer {
     String folderPath;
 
     boolean onOff;
-    private String currentWorkingDirectory = AsteroidsApplet.asteroidsApplet.sketchPath("src"+ File.separator+"main"+File.separator+"java"+File.separator+"net"+File.separator+"mortalsilence"+File.separator+"olli"+File.separator+"space"+File.separator+"music");
+    private String currentWorkingDirectory = AsteroidsApplet.asteroidsApplet.sketchPath(AsteroidsApplet.ADRESS_TO_SPACE +"music");
     public MusicPlayer(float startVolume, String relativeFolderPath){
         this.setVolume(startVolume);
         this.folderPath =  currentWorkingDirectory + File.separator + relativeFolderPath;

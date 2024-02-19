@@ -10,8 +10,11 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import java.io.File;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
+import static processing.core.PApplet.ARGS_DISPLAY;
 import static processing.core.PApplet.println;
 import static processing.core.PConstants.CENTER;
 
@@ -48,8 +51,8 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         this.cooldownTurretakt = (int) AsteroidsApplet.asteroidsApplet.random(AsteroidsApplet.asteroidsApplet.getGameRule(8),AsteroidsApplet.asteroidsApplet.getGameRule(9));
         this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.random(AsteroidsApplet.asteroidsApplet.getGameRule(8),AsteroidsApplet.asteroidsApplet.getGameRule(9));
         this.bulletVelocity = AsteroidsApplet.asteroidsApplet.getGameRule(7);
-        textureBase = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/AlienUFO_base.png");
-        textureTurrent = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/AlienUFO_turrent.png");
+        textureBase = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"AlienUFO_base.png");
+        textureTurrent = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"AlienUFO_turrent.png");
     }
 
     @Override
@@ -111,12 +114,20 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         }
     }
 
-    private void ufoHit(){
+    public void ufoHit(){
         this.scene.getEventbus().spaceshipProjektileHit(20);
         this.scene.getEventbus().deleteSpaceshipMovedListener(this);
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
         AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(2);
+
+        int item = (int) AsteroidsApplet.asteroidsApplet.random(0, 3);
+        System.out.println(item);
+        if (item == 1) {
+            this.scene.addObject(new BombItem(this.scene, this.pos,(int) AsteroidsApplet.asteroidsApplet.random(2)));
+        }
+
         this.scene.deleteObject(this);
+
     }
 
     public int getSize(){

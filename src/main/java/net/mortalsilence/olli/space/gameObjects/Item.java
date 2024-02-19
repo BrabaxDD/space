@@ -7,6 +7,8 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import java.io.File;
+
 import static java.lang.Math.abs;
 
 public class Item extends GameObject implements SpaceshipMovedListener, Runnable {
@@ -19,7 +21,7 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
 
     private PImage texture;
 
-    private int type;   //type = 1 --> Shield
+    private int type;   //type = 1 --> Shield  type = 2 --> EMPblast
 
     public Item(Scene scene,int type, PVector pos, int lifespan) {
         super(scene);
@@ -29,11 +31,15 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
         this.lifespan = lifespan;
         switch (type){
             case 1:
-                texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/ShieldItem.png");
+                texture = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"ShieldItem.png");
+                break;
+            case 2:
+                texture = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"EMP.png");
                 break;
         }
         this.type = type;
     }
+
 
     @Override
     public void render() {

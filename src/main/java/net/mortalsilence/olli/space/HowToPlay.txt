@@ -27,6 +27,13 @@ Du brauchst eine bestimmte Anzahl an XP, um im Level aufzusteigen.
 Deinen Fortschritt zum nächsten Level siehst du, genau wie deine restlichen Leben,
 am oberen Bildschirmrand.
 
+Manchmal kann es passieren, dass deine Gegner Items fallen lassen.
+Bei den Asteroiden kann das ein Schild sein, dass dich für eine bestimmte
+Zeit gegen einen Angriff schützt.
+Bei Alien UFOs kann das ein EMP-Blast sein. Du siehst am oberen Bildschirmrand, wie viele
+du zurzeit hast.
+Wenn du sie auslöst, zerstören sie alles in einem Kreis um dich herum.
+
 Dein Ziel ist es natürlich, ein möglich hohes Level zu erreichen.
 Aber pass auf; das Spiel wird immer schwieriger, ja weiter du kommst.
 

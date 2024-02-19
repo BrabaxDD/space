@@ -2,11 +2,11 @@ package net.mortalsilence.olli.space.factorys;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.gameObjects.*;
+import net.mortalsilence.olli.space.gameObjects.GUI.*;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 

@@ -7,6 +7,8 @@ import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import java.io.File;
+
 import static processing.core.PConstants.CENTER;
 
 public class Projektile extends GameObject implements SpaceshipProjektileMovedListener {
@@ -24,9 +26,9 @@ public class Projektile extends GameObject implements SpaceshipProjektileMovedLi
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
         this.shooter = shoot;
         if(this.shooter.getClass() == Spaceship.class) {
-            this.texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Projektile.png");
+            this.texture = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"Projektile.png");
         }else{
-            this.texture = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Projektile_AlienUFO.png");
+            this.texture = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"Projektile_AlienUFO.png");
         }
     }
 

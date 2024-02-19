@@ -9,6 +9,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import static processing.core.PApplet.*;
@@ -45,14 +46,28 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     private final PImage textureNormal;
 
     private final PImage textureAccelerating;
+
+    private final PImage textureEMP;
     private boolean accelerating = false;
 
     private ArrayList<Item> items = new ArrayList<>();
+
+    private ArrayList<Item> itemsToDelete = new ArrayList<>();
+
+    private int amountMPBlast = 0;
+    private int empSize = 300;
+    private Thread bombTimer;
+
+    boolean canUseEmp = true;
+
+    private int amountCooldownFramesLeft;
+
 
     public Spaceship(Scene scene) {
         super(scene);
         this.amountInvincFrames = (int) AsteroidsApplet.asteroidsApplet.getGameRule(2);
         this.amountInvincFramesLeft = this.amountInvincFrames;
+        amountCooldownFramesLeft = 10;
         this.cooldownTurret = (int) AsteroidsApplet.asteroidsApplet.getGameRule(5);
         this.cooldownTurretakt = 0;
         this.velocity = 15;
@@ -60,15 +75,16 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.direction = new PVector(1,0);
         this.vel = new PVector();
         this.bulletVelocity = (float) AsteroidsApplet.asteroidsApplet.getGameRule(6);//20.0F;
-        this.size = 30;
+        this.size = 5;
         System.out.println("Debug: Initial turretTurningVelocity " + turretTurnVelocity);
         this.scene.getEventbus().registerAlienUFOMovedListeners(this);
         this.scene.getEventbus().registerSpaceshipProjektileMovedListener(this);
         this.scene.getEventbus().registerItemPickedUpListener(this);
         this.scene.getEventbus().registerItemTimeUpListener(this);
         this.hp = (int) AsteroidsApplet.asteroidsApplet.getGameRule(0);
-        textureNormal = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2.png");
-        textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage("src/main/java/net/mortalsilence/olli/space/textures/Spaceship_v2_beschleunigend.png");
+        textureNormal = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+ File.separator+"Spaceship_v2.png");
+        textureAccelerating = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"Spaceship_v2_beschleunigend.png");
+        textureEMP = AsteroidsApplet.asteroidsApplet.loadImage(AsteroidsApplet.ADRESS_TO_SPACE+"textures"+File.separator+"EMP_blast.png");
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -95,6 +111,9 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }
         if(Keyboard.isKeyPressed(KeyEvent.VK_P)){
             AsteroidsApplet.asteroidsApplet.switchScene(GameSceneFactory.buildGameScene(GameSceneFactory.HOME));
+        }
+        if(Keyboard.isKeyPressed(KeyEvent.VK_R) && this.amountMPBlast > 0){
+            useEMP();
         }
     }
 
@@ -130,9 +149,13 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         AsteroidsApplet.asteroidsApplet.fill(250,250,40);
         AsteroidsApplet.asteroidsApplet.text("HP: "+this.hp,(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40);
         AsteroidsApplet.asteroidsApplet.text("Aktive Items: "+this.items.size(),(float)AsteroidsApplet.asteroidsApplet.width/20,(float) AsteroidsApplet.asteroidsApplet.height/40*4);
-        if(!this.items.isEmpty()) {
-            AsteroidsApplet.asteroidsApplet.text("Time left: " + this.items.get(0).getTimeLeft(), (float) AsteroidsApplet.asteroidsApplet.width / 20, (float) AsteroidsApplet.asteroidsApplet.height / 40 * 5);
+
+        if(this.amountMPBlast == 0){
+            AsteroidsApplet.asteroidsApplet.text("Amount EMPs: " + this.amountMPBlast, (float) AsteroidsApplet.asteroidsApplet.width / 2, (float) AsteroidsApplet.asteroidsApplet.height / 40 * 4);
+        }else {
+            AsteroidsApplet.asteroidsApplet.text("Amount EMPs: " + this.amountMPBlast + " (press R)", (float) AsteroidsApplet.asteroidsApplet.width / 2, (float) AsteroidsApplet.asteroidsApplet.height / 40 * 4);
         }
+
         if(AsteroidsApplet.asteroidsApplet.isDebugModeOn()){
             AsteroidsApplet.asteroidsApplet.color(255,0,0);
             AsteroidsApplet.asteroidsApplet.stroke(255,0,0);
@@ -151,6 +174,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             this.invincible = true;
             amountInvincFramesLeft = 10000;
         }
+
 
         //facing Turret
 
@@ -194,10 +218,20 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         this.scene.getEventbus().spaceshipMoved(new PVector(this.pos.x, this.pos.y));
 
         if(invincible){
+            AsteroidsApplet.asteroidsApplet.text("Invincibel ", AsteroidsApplet.asteroidsApplet.width/2, AsteroidsApplet.asteroidsApplet.height/2);
             amountInvincFramesLeft --;
             if(amountInvincFramesLeft <= 0){
                 invincible = false;
                 amountInvincFramesLeft = amountInvincFrames;
+            }
+        }
+
+        if(!canUseEmp){
+            AsteroidsApplet.asteroidsApplet.image(textureEMP,this.pos.x,this.pos.y);
+            amountCooldownFramesLeft --;
+            if(amountCooldownFramesLeft <= 0){
+                canUseEmp= true;
+                amountCooldownFramesLeft = 5;
             }
         }
 
@@ -224,6 +258,10 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             }
 
         }
+
+        //WICHTIG NACH DEM DARÜBER
+        this.items.removeAll(itemsToDelete);
+        this.itemsToDelete = new ArrayList<>();
     }
 
     @Override
@@ -289,7 +327,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         if(isSheeld != -1){
             items.remove(isSheeld);
             System.out.println("Schild gelöscht");
-            this.amountInvincFramesLeft = 30;
+            this.amountInvincFramesLeft = 10;
         }
         if(!this.invincible && this.amountInvincFramesLeft == amountInvincFrames && isSheeld == -1){
             this.hp -= amount;
@@ -305,7 +343,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     public void increaseHp(int amount){this.hp += amount;}
 
     private void getHighScore(){
-        String[] highString = AsteroidsApplet.asteroidsApplet.loadStrings("src/main/java/net/mortalsilence/olli/space/scores.txt");
+        String[] highString = AsteroidsApplet.asteroidsApplet.loadStrings(AsteroidsApplet.ADRESS_TO_SPACE+"scores.txt");
         String[] cache = highString[0].replaceAll("\\s+","").split(":");
         this.highestLevel = Integer.parseInt(cache[0]);
         this.highestExperience = Integer.parseInt(cache[1]);
@@ -314,7 +352,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     public void setHighScore(){
 
         String cache =  str( this.highestLevel)+" : "+str(this.highestExperience);
-        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine("src/main/java/net/mortalsilence/olli/space/scores.txt",0,cache);
+        AsteroidsApplet.asteroidsApplet.getWriterLine().writeToLine(AsteroidsApplet.ADRESS_TO_SPACE+"scores.txt",0,cache);
     }
 
     public int getHighestLevel(){return this.highestLevel;}
@@ -330,11 +368,43 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
 
     @Override
     public void itemPickedUp(Item item) {
-        this.items.add(item);
+        if(item.getType() == 1){
+            this.items.add(item);
+        }
+        if(item.getType() == 2){
+            this.amountMPBlast ++;
+        }
     }
 
     @Override
     public void itemTimeUp(Item item) {
-        this.items.remove(item);
+            this.itemsToDelete.add(item);
+    }
+
+    public void useEMP(){
+
+        if(this.canUseEmp) {
+
+           // AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, this.empSize);
+            this.amountMPBlast--;
+            for (GameObject object : scene.getGameObjects()) {
+                if (object.getClass() == Asteroid.class) {
+                    PVector pos = object.getPos();
+                    if (pos.dist(this.pos) < empSize) {
+                        ((Asteroid) object).asteroidHit();
+                    }
+                }
+                if (object.getClass() == AlienUFO.class) {
+                    PVector pos = object.getPos();
+                    if (pos.dist(this.pos) < empSize) {
+                        ((AlienUFO) object).ufoHit();
+                    }
+                }
+
+            }
+            this.amountCooldownFramesLeft = 5;
+            canUseEmp = false;
+
+        }
     }
 }
