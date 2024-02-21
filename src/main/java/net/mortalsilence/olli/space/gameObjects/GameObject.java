@@ -7,11 +7,16 @@ import processing.core.PVector;
 
 public class GameObject {
     protected Scene scene;
-    protected PVector pos;
+    public PVector pos;
+    protected int size;
     public GameObject(Scene scene){
         this.scene = scene;
     }
     public void render(){}
     public void process() {}
     public PVector getPos(){return pos;}
+
+    public int getSize(){
+        return size;
+    }
 }

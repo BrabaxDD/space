@@ -75,4 +75,9 @@ public class Slider extends GameObject implements MouseLeftClickListener {
 
     @Override
     public void process(){}
+
+    @Override
+    public PVector getPos(){
+        return this.pos;
+    }
 }

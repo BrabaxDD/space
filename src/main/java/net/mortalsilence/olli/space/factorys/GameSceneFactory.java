@@ -4,6 +4,7 @@ import net.mortalsilence.olli.space.AsteroidsApplet;
 import net.mortalsilence.olli.space.gameObjects.*;
 import net.mortalsilence.olli.space.gameObjects.GUI.*;
 import net.mortalsilence.olli.space.scenes.Scene;
+import net.mortalsilence.olli.space.utility.SweepAndPrune;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -19,7 +20,7 @@ public class GameSceneFactory {
     static public final int OVER = 2;
     static public final int HTP = 3;
     public static Scene buildGameScene(int wichSceneToRender){ //Das ist das Startfeld
-        Scene s = new Scene(new ArrayList<>());
+        Scene s = new Scene(new ArrayList<>(), AsteroidsApplet.asteroidsApplet.getSap());
         switch (wichSceneToRender) {
             case 0:
 
@@ -41,6 +42,11 @@ public class GameSceneFactory {
                 a3.setPos(new PVector(200,200));
                 a3.setSpeed(new PVector(1,0));
                 s.addObject(a3);
+                AlienUFO Alu1 = new AlienUFO(new PVector(0,(int)AsteroidsApplet.asteroidsApplet.random(0, PApplet.DEFAULT_HEIGHT)) ,s);
+                s.addObject(Alu1);*/
+                /*Asteroid a1 = new Asteroid(3,120,(int)AsteroidsApplet.asteroidsApplet.random(0, AsteroidsApplet.asteroidsApplet.width),(int)AsteroidsApplet.asteroidsApplet.random(0 , AsteroidsApplet.asteroidsApplet.height),new PVector(0,1),s);
+                a1.setSpeed(new PVector(0,0));
+                s.addObject(a1);
                 AlienUFO Alu1 = new AlienUFO(new PVector(0,(int)AsteroidsApplet.asteroidsApplet.random(0, PApplet.DEFAULT_HEIGHT)) ,s);
                 s.addObject(Alu1);*/
                 Spawner spawner = new Spawner(s);

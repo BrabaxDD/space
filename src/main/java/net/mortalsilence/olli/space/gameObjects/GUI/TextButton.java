@@ -27,4 +27,9 @@ public class TextButton extends GameObject {
         AsteroidsApplet.asteroidsApplet.textAlign(PConstants.CENTER);
         AsteroidsApplet.asteroidsApplet.text(textToDisplay, this.pos.x ,this.pos.y);
     }
+
+    @Override
+    public PVector getPos(){
+        return this.pos;
+    }
 }

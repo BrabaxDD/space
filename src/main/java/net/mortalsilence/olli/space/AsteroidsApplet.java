@@ -1,14 +1,18 @@
 package net.mortalsilence.olli.space;
 
 import net.mortalsilence.olli.space.factorys.GameSceneFactory;
+import net.mortalsilence.olli.space.gameObjects.GameObject;
 import net.mortalsilence.olli.space.music.BackgroundPlayer;
 import net.mortalsilence.olli.space.music.FxPlayer;
 import net.mortalsilence.olli.space.scenes.Scene;
+import net.mortalsilence.olli.space.utility.SweepAndPrune;
 import net.mortalsilence.olli.space.utility.WriterLine;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
+import processing.sound.SoundFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AsteroidsApplet extends PApplet {
@@ -37,10 +41,14 @@ public class AsteroidsApplet extends PApplet {
 
     public static String ADRESS_TO_SPACE;
 
+    private SweepAndPrune sap;
+
     @Override
     public void settings() {
         this.fullScreen(1);
         AsteroidsApplet.asteroidsApplet = this;
+
+        sap = new SweepAndPrune(this);
         ADRESS_TO_SPACE =  asteroidsApplet.sketchPath()+File.separator+ "src"+ File.separator+"main"+File.separator+"java"+File.separator+"net"+File.separator+"mortalsilence"+File.separator+"olli"+File.separator+"space"+File.separator;
         System.out.println(ADRESS_TO_SPACE);
 
@@ -61,7 +69,6 @@ public class AsteroidsApplet extends PApplet {
         PApplet.println("Volume loaded fx: "+Float.parseFloat(options[1]));
         //new Thread(backgroundPlayer).start();
 
-
     }
 
     @Override
@@ -76,22 +83,30 @@ public class AsteroidsApplet extends PApplet {
         }
 
         this.activeScene.process();
+        this.sap.process();
         this.activeScene.render();
         this.mousePressedPreviousFrame = mousePressed;
         if(debugModeOn){
             fill(250,130,145);
             AsteroidsApplet.asteroidsApplet.text( "Number of entities:"+this.activeScene.getObjects(),250,250);
             AsteroidsApplet.asteroidsApplet.text( "FPS: "+(int)this.frameRate,250,200);
+
+            AsteroidsApplet.asteroidsApplet.text( "Playing Fx: "+fxPlayer.getPlaying(),250,150);
         }
         if(getGameRuleBoolean(10)){
             fill(250,130,145);
-            AsteroidsApplet.asteroidsApplet.text( "Invincible!!!",250,150);
+            AsteroidsApplet.asteroidsApplet.text( "Invincible!!!",250,100);
         }
+        this.fxPlayer.update();
         this.backgroundPlayer.update();
 
     }
 
     public void switchScene (Scene scene){
+        for(GameObject obj : this.activeScene.getGameObjects()){
+            sap.removeObject(obj);
+        }
+
         this.activeScene = scene;
     }
 
@@ -154,5 +169,8 @@ public class AsteroidsApplet extends PApplet {
         this.gameRules  = loadStrings(ADRESS_TO_SPACE+"gameRules.txt");
         this.debugModeOn = this.getGameRuleBoolean(3);
     }
+
+    public SweepAndPrune getSap(){return this.sap;}
+    public void setSap(SweepAndPrune s){this.sap = s;}
 
 }

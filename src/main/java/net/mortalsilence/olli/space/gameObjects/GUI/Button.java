@@ -38,5 +38,10 @@ public class Button extends GameObject implements MouseLeftClickListener {
     }
     protected void buttonPressed(){}
 
+    @Override
+    public PVector getPos(){
+        return this.posLeftUp;
+    }
+
 
 }

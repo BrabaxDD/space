@@ -102,4 +102,9 @@ public class Spawner extends GameObject implements SpaceshipMovedListener, Playe
         this.playerLevel = level;
         this.playerXP = level;
     }
+
+    @Override
+    public PVector getPos(){
+        return new PVector(-1000000000, 1000000000);
+    }
 }

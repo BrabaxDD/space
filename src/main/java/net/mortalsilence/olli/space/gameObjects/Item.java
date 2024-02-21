@@ -103,4 +103,9 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
         return this.type;
     }
 
+    @Override
+    public PVector getPos(){
+        return this.pos;
+    }
+
 }

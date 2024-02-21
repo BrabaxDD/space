@@ -5,6 +5,6 @@ import net.mortalsilence.olli.space.gameObjects.Projektile;
 import processing.core.PVector;
 
 public interface SpaceshipProjektileMovedListener {
-    public void spaceshipProjektileMoved(PVector pos, Projektile projektile, GameObject shooter);
+    public void spaceshipProjektileMoved(Projektile projektile,GameObject shooter, GameObject target);
 
 }

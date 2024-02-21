@@ -1,6 +1,7 @@
 package net.mortalsilence.olli.space.gameObjects;
 
 import net.mortalsilence.olli.space.AsteroidsApplet;
+import net.mortalsilence.olli.space.events.AsteroidMovedListener;
 import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,7 @@ import java.util.Comparator;
 
 import static processing.core.PApplet.*;
 
-public class Asteroid extends GameObject implements SpaceshipProjektileMovedListener {
+public class Asteroid extends GameObject implements SpaceshipProjektileMovedListener, AsteroidMovedListener {
     private final ArrayList<PVector> points;
     private PVector deplacement;
     private final int size;
@@ -140,9 +141,9 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
         }
         this.pos.x += this.speed.x;
         this.pos.y += this.speed.y;
-        this.scene.getEventbus().astroidMoved(this);
+        //this.scene.getEventbus().astroidMoved(this);
         if(this.pos.x > AsteroidsApplet.asteroidsApplet.width+ (float) this.size /2 || this.pos.x < - (float) this.size /2 || this.pos.y > AsteroidsApplet.asteroidsApplet.height +(float) this.size/2 || this.pos.y < -(float) this.size){
-            this.deleteAsteroid();
+            deleteAsteroid();
         }
     }
 
@@ -169,16 +170,15 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
         }
 
 
-
         AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(1);
         this.scene.getEventbus().spaceshipProjektileHit(10);
         this.scene.getEventbus().deleteSpaceshipProjektileMovedListener(this);
         this.scene.deleteObject(this);
     }
     @Override
-    public  void spaceshipProjektileMoved (@NotNull PVector pos,Projektile projektile, GameObject shooter){
+    public  void spaceshipProjektileMoved (Projektile projektile,GameObject shooter, GameObject target){
 
-        if(pos.dist(this.pos) < this.getSize() && (shooter.getClass() == Spaceship.class || (shooter.getClass() == AlienUFO.class && canShieldPlayer))){
+        if((shooter.getClass() == Spaceship.class || (shooter.getClass() == AlienUFO.class && canShieldPlayer)) && target == this ){
             System.out.println("\\u001B[31mDebug: Projectile hit an Asteroid");
             this.asteroidHit();
             this.scene.deleteObject(projektile);
@@ -188,5 +188,11 @@ public class Asteroid extends GameObject implements SpaceshipProjektileMovedList
     }
 
 
+    @Override
+    public void astroidMoved(Asteroid asteroid) {
+        if(asteroid == this) {
+            this.asteroidHit();
+        }
+    }
 }
 

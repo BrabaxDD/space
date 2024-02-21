@@ -18,6 +18,10 @@ public class Eventbus {
     private ArrayList<ProjektileMovedListener> projektileMovedListeners = new ArrayList<>();
     private ArrayList<AsteroidMovedListener> asteroidMovedListeners = new ArrayList<>();
 
+    private ArrayList<AsteroidMovedListener> asteroidMovedListenersToAdd = new ArrayList<>();
+
+    private ArrayList<AsteroidMovedListener> asteroidMovedListenersToDelete = new ArrayList<>();
+
     private ArrayList<PlayerLevelListener> playerLevelListeners = new ArrayList<>();
 
     private  ArrayList<SpaceshipProjektileHitListener> spaceshipProjektileHitListeners = new ArrayList<>();
@@ -103,7 +107,11 @@ public class Eventbus {
     }
 
     public void registerAsteroidMovedListener(AsteroidMovedListener asteroidMovedListener){
-        this.asteroidMovedListeners.add(asteroidMovedListener);
+        this.asteroidMovedListenersToAdd.add(asteroidMovedListener);
+    }
+
+    public void deleteAsteroidMovedListener(AsteroidMovedListener asteroidMovedListener){
+        this.asteroidMovedListenersToDelete.add(asteroidMovedListener);
     }
 
 
@@ -158,16 +166,18 @@ public class Eventbus {
             asteroidMovedListener.astroidMoved(asteroid);
         }
     }
-    public void spaceshipProjektileMoved(PVector pos, Projektile projektile, GameObject shooter){
+    public void spaceshipProjektileMoved(Projektile projektile,GameObject shooter, GameObject target){
         for(SpaceshipProjektileMovedListener spaceshipProjektileMovedListener: this.spaceshipProjektileMovedListeners){
-            spaceshipProjektileMovedListener.spaceshipProjektileMoved(pos, projektile, shooter);
+            spaceshipProjektileMovedListener.spaceshipProjektileMoved(projektile,shooter, target);
         }
+        System.out.println(spaceshipProjektileMovedListeners);
     }
 
     public void alienUFOMoved(AlienUFO ufo){
         for(AlienUFOMovedListener alienUFOMovedListener: this.alienUFOMovedListeners) {
             alienUFOMovedListener.alienUFOMoved(ufo);
         }
+
     }
 
     public void spaceshipProjektileHit(int exp) {
@@ -252,6 +262,16 @@ public class Eventbus {
             println("Item Zeit abgelaufen");
         }
         itemTimeUpListenersToDelete = new ArrayList<>();
+
+        this.asteroidMovedListeners.addAll(asteroidMovedListenersToAdd);
+
+        this.asteroidMovedListenersToAdd  = new ArrayList<>();
+
+        for(AsteroidMovedListener asteroidMovedListener:asteroidMovedListenersToDelete){
+            this.asteroidMovedListeners.remove(asteroidMovedListener);
+            println("Item Zeit abgelaufen");
+        }
+        asteroidMovedListenersToDelete = new ArrayList<>();
     }
 
 
