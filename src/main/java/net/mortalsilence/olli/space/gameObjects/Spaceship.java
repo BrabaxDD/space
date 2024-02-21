@@ -348,6 +348,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
             this.setPos(new PVector((float) AsteroidsApplet.asteroidsApplet.width /2, (float) AsteroidsApplet.asteroidsApplet.height /2));
             //Delete all items
             items = new ArrayList<>();
+            this.amountMPBlast = 0;
 
             AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(3);
         }
