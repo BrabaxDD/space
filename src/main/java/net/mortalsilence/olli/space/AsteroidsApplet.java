@@ -9,10 +9,9 @@ import net.mortalsilence.olli.space.utility.SweepAndPrune;
 import net.mortalsilence.olli.space.utility.WriterLine;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
-import processing.sound.SoundFile;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.Objects;
 
 public class AsteroidsApplet extends PApplet {

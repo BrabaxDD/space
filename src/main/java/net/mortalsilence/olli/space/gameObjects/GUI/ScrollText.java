@@ -5,6 +5,7 @@ import net.mortalsilence.olli.space.events.MouseWheelListener;
 import net.mortalsilence.olli.space.gameObjects.GameObject;
 import net.mortalsilence.olli.space.scenes.Scene;
 import processing.core.PConstants;
+import processing.core.PVector;
 
 public class ScrollText extends GameObject implements MouseWheelListener {
 
@@ -41,4 +42,7 @@ public class ScrollText extends GameObject implements MouseWheelListener {
             this.scroll -= 20 * y;
         }
     }
+
+    @Override
+    public PVector getPos(){return new PVector(100,100);}
 }

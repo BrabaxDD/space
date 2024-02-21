@@ -21,8 +21,8 @@ public class Button extends GameObject implements MouseLeftClickListener {
     @Override
     public void mouseLeftClick(int x, int y) {
         if(AsteroidsApplet.asteroidsApplet.mouseX > this.posLeftUp.x && AsteroidsApplet.asteroidsApplet.mouseX < this.posLeftUp.x + this.diagonal.x && AsteroidsApplet.asteroidsApplet.mouseY > this.posLeftUp.y && AsteroidsApplet.asteroidsApplet.mouseY < this.posLeftUp.y + this.diagonal.y){
+            AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(4);
             this.buttonPressed();
-            System.out.println("Button Pressed");
         }
     }
     @Override

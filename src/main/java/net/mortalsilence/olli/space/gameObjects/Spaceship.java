@@ -338,6 +338,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
         }
         if(isSheeld != -1){
             items.remove(isSheeld);
+            AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(7);
             System.out.println("Schild gelöscht");
             this.amountInvincFramesLeft = 10;
         }
@@ -396,7 +397,7 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     public void useEMP(){
 
         if(this.canUseEmp) {
-
+            AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(6);
            // AsteroidsApplet.asteroidsApplet.circle(this.pos.x, this.pos.y, this.empSize);
             this.amountMPBlast--;
             for (GameObject object : scene.getGameObjects()) {

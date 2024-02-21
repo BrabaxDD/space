@@ -42,3 +42,14 @@ Viel Spaß beim Spielen.
 
 PS:
 Viele der Einstellungen lassen sich in dem Textfile "gameRules.txt" ändern.
+
+
+
+
+
+
+
+
+
+
+Für Debug-Mode: $et Game Rule debut to on

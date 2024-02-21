@@ -42,13 +42,14 @@ public class MusicPlayer {
         //PApplet.println(folder);
         //PApplet.println(folderPath);
         if (folder.exists() && folder.isDirectory()) {
-            PApplet.println("Hey hier");
             File[] files = folder.listFiles();
 
+            assert files != null;
             for (File file : files) {
 
                 if (file.isFile() && isAudioFile(file.getName())) {
                     // Füge SoundFile-Objekt zur ArrayList hinzu
+                    System.out.println(file);
                     SoundFile soundFile = new SoundFile(AsteroidsApplet.asteroidsApplet, file.getPath());
                     PApplet.println(file.getName());
                     soundFiles.add(soundFile);

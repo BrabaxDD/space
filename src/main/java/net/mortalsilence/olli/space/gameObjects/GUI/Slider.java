@@ -66,6 +66,7 @@ public class Slider extends GameObject implements MouseLeftClickListener {
 
     public void buttonPressed(){
         this.value = constrain(PApplet.map(mouseClicked.x, this.pos.x, this.pos.x + this.diagonal.x, 0, valueCap), 0,valueCap);
+        AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(4);
         setValue(this.value);
     }
 

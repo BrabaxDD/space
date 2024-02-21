@@ -69,6 +69,7 @@ public class Item extends GameObject implements SpaceshipMovedListener, Runnable
     }
 
     private void deleteItem() {
+        AsteroidsApplet.asteroidsApplet.getFxPlayer().playSound(5);
         this.scene.getEventbus().itemPickedUp(this);
         this.toSee = false;
         this.scene.getEventbus().deleteSpaceshipMovedListener(this);
