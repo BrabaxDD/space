@@ -81,61 +81,59 @@ public class SweepAndPrune {
             Interval intervalA = intervalsX.get(i);
             for (int j = i + 1; j < intervalsX.size(); j++) {
                 Interval intervalB = intervalsX.get(j);
-                /*if(intervalA.obj.getClass() == Projektile.class ||intervalB.obj.getClass() == Projektile.class){
 
-                    System.out.println("Objekt 1: "+intervalA.obj + "   Objekt 2: "+intervalB.obj);
-                }*/
-                // Wenn Intervall A aufhört, bevor Intervall B anfängt, aufhören
-                if (intervalA.end < intervalB.start)
-                    break;
-                // Otherwise, check for overlap
-                if (intervalA.end >= intervalB.start && intervalA.start <= intervalB.end) {
-                    Class<? extends GameObject> classA = intervalA.obj.getClass();
-                    Class<? extends GameObject> classB = intervalB.obj.getClass();
-                    // Auf x-Achse überschneiden
+                Class<? extends GameObject> classA = intervalA.obj.getClass();
+                Class<? extends GameObject> classB = intervalB.obj.getClass();
 
-                    if(abs(intervalA.obj.getPos().y - (intervalB.obj.getPos().y)) < intervalB.obj.getSize()+ intervalA.obj.getSize() ){
-                        //Wenn Asteroid und Raumschiff zusammenstoßen
-                        if(classB == Asteroid.class && classA == Spaceship.class){
-                            AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().astroidMoved((Asteroid) intervalB.obj);
-                            break;
-                        }
-                        else if(classA == Asteroid.class && classB == Spaceship.class){
-                            AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().astroidMoved((Asteroid) intervalA.obj);
-                            break;
-                        }
+                if(!(classA == Asteroid.class && classB == Asteroid.class) && !(classA == Item.class || classB == Item.class)) {
+                    // Wenn Intervall A aufhört, bevor Intervall B anfängt, aufhören
+                    if (intervalA.end < intervalB.start)
+                        break;
+                    // Otherwise, check for overlap
+                    if (intervalA.end >= intervalB.start && intervalA.start <= intervalB.end) {
+                        // Auf x-Achse überschneiden
 
-                        //Wenn AlienUFO und Raumschiff zusammenstoßen
-                        if(classB == AlienUFO.class && classA == Spaceship.class){
-                            AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().alienUFOMoved((AlienUFO) intervalB.obj);
-                            break;
-                        }
-                        if(classA == AlienUFO.class && classB == Spaceship.class){
-                            AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().alienUFOMoved((AlienUFO) intervalA.obj);
-                            break;
-                        }
-
-                        //Bei Projektilzusammenstoß
-
-
-                        if(classB == Projektile.class){
-                            Projektile p = (Projektile) intervalB.obj;
-                            if(p.getShooter() != intervalA.obj){
-                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().spaceshipProjektileMoved((Projektile)intervalB.obj,  (GameObject)  p.getShooter(), intervalA.obj);
+                        if (abs(intervalA.obj.getPos().y - (intervalB.obj.getPos().y)) < intervalB.obj.getSize() + intervalA.obj.getSize()) {
+                            //Wenn Asteroid und Raumschiff zusammenstoßen
+                            if (classB == Asteroid.class && classA == Spaceship.class) {
+                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().astroidMoved((Asteroid) intervalB.obj);
+                                break;
+                            } else if (classA == Asteroid.class && classB == Spaceship.class) {
+                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().astroidMoved((Asteroid) intervalA.obj);
+                                break;
                             }
-                            break;
-                        }
-                        if(classA == Projektile.class){
-                            Projektile p = (Projektile) intervalA.obj;
-                            if(p.getShooter() != intervalB.obj) {
-                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().spaceshipProjektileMoved((Projektile) intervalA.obj, (GameObject) p.getShooter(), intervalB.obj);
+
+                            //Wenn AlienUFO und Raumschiff zusammenstoßen
+                            if (classB == AlienUFO.class && classA == Spaceship.class) {
+                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().alienUFOMoved((AlienUFO) intervalB.obj);
+                                break;
                             }
-                            break;
+                            if (classA == AlienUFO.class && classB == Spaceship.class) {
+                                AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().alienUFOMoved((AlienUFO) intervalA.obj);
+                                break;
+                            }
+
+                            //Bei Projektilzusammenstoß
+
+
+                            if (classB == Projektile.class) {
+                                Projektile p = (Projektile) intervalB.obj;
+                                if (p.getShooter() != intervalA.obj) {
+                                    AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().spaceshipProjektileMoved((Projektile) intervalB.obj, (GameObject) p.getShooter(), intervalA.obj);
+                                }
+                                break;
+                            }
+                            if (classA == Projektile.class) {
+                                Projektile p = (Projektile) intervalA.obj;
+                                if (p.getShooter() != intervalB.obj) {
+                                    AsteroidsApplet.asteroidsApplet.getActiveScene().getEventbus().spaceshipProjektileMoved((Projektile) intervalA.obj, (GameObject) p.getShooter(), intervalB.obj);
+                                }
+                                break;
+                            }
                         }
+
+
                     }
-
-
-
                 }
             }
         }
