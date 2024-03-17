@@ -5,6 +5,7 @@ import net.mortalsilence.olli.space.events.AlienUFOMovedListener;
 import net.mortalsilence.olli.space.events.SpaceshipMovedListener;
 import net.mortalsilence.olli.space.events.SpaceshipProjektileMovedListener;
 import net.mortalsilence.olli.space.scenes.Scene;
+import net.mortalsilence.olli.space.utility.Particle_effect;
 import org.jetbrains.annotations.NotNull;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -126,7 +127,7 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         if (item == 1) {
             this.scene.addObject(new BombItem(this.scene, this.pos,(int) AsteroidsApplet.asteroidsApplet.random(2)));
         }
-
+        AsteroidsApplet.asteroidsApplet.partef = new Particle_effect(new PVector(this.pos.x,this.pos.y));
         this.scene.deleteObject(this);
 
     }

@@ -5,9 +5,11 @@ import net.mortalsilence.olli.space.gameObjects.GameObject;
 import net.mortalsilence.olli.space.music.BackgroundPlayer;
 import net.mortalsilence.olli.space.music.FxPlayer;
 import net.mortalsilence.olli.space.scenes.Scene;
+import net.mortalsilence.olli.space.utility.Particle_effect;
 import net.mortalsilence.olli.space.utility.SweepAndPrune;
 import net.mortalsilence.olli.space.utility.WriterLine;
 import processing.core.PApplet;
+import processing.core.PVector;
 import processing.event.MouseEvent;
 
 import java.io.File;
@@ -42,6 +44,8 @@ public class AsteroidsApplet extends PApplet {
 
     private SweepAndPrune sap;
 
+    public Particle_effect partef;
+
     @Override
     public void settings() {
         this.fullScreen(1);
@@ -67,6 +71,7 @@ public class AsteroidsApplet extends PApplet {
         this.fxPlayer.setVolume(Float.parseFloat(options[1]));
         PApplet.println("Volume loaded fx: "+Float.parseFloat(options[1]));
         //new Thread(backgroundPlayer).start();
+        this.partef = new Particle_effect(new PVector(0,0));
 
     }
 
@@ -98,6 +103,7 @@ public class AsteroidsApplet extends PApplet {
         }
         this.fxPlayer.update();
         this.backgroundPlayer.update();
+        this.partef.run();
 
     }
 

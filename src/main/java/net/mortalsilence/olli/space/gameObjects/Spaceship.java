@@ -5,14 +5,18 @@ import net.mortalsilence.olli.space.events.*;
 import net.mortalsilence.olli.space.factorys.GameSceneFactory;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.Keyboard;
+import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.core.PVector;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
 import static processing.core.PApplet.*;
+import static processing.opengl.PShapeOpenGL.createShape;
 
 public class Spaceship extends GameObject implements ButtonPressedListener, AsteroidMovedListener, SpaceshipProjektileHitListener, AlienUFOMovedListener, SpaceshipProjektileMovedListener, ItemPickedUpListener, ItemTimeUpListener {
 
@@ -128,22 +132,39 @@ public class Spaceship extends GameObject implements ButtonPressedListener, Aste
     public void render(){
         //Altes Modell
 
+        float alpha = (float) (atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) );
 
         //Texture
         PImage texture;
         if(accelerating){
             texture = this.textureAccelerating;
+            AsteroidsApplet.asteroidsApplet.pushMatrix();
+
+            AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+            AsteroidsApplet.asteroidsApplet.rotate(alpha);
+            AsteroidsApplet.asteroidsApplet.fill(0);
+            AsteroidsApplet.asteroidsApplet.triangle(30,0, -30,-20, -30,+20);
+            AsteroidsApplet.asteroidsApplet.fill(148,37,22);
+            AsteroidsApplet.asteroidsApplet.triangle(-40,0, -30,-20, -30,+20);
+            AsteroidsApplet.asteroidsApplet.popMatrix();
         }else {
             texture = this.textureNormal;
+            AsteroidsApplet.asteroidsApplet.pushMatrix();
+
+            AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
+            AsteroidsApplet.asteroidsApplet.rotate(alpha);
+            AsteroidsApplet.asteroidsApplet.fill(0);
+            AsteroidsApplet.asteroidsApplet.triangle(30,0, -30,-20, -30,+20);
+            AsteroidsApplet.asteroidsApplet.popMatrix();
         }
-        float alpha = (float) (atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
+        /*float alpha = (float) (atan2(AsteroidsApplet.asteroidsApplet.mouseY - this.pos.y, AsteroidsApplet.asteroidsApplet.mouseX - this.pos.x) +89.55);
         AsteroidsApplet.asteroidsApplet.imageMode(CENTER);
         AsteroidsApplet.asteroidsApplet.pushMatrix();
         AsteroidsApplet.asteroidsApplet.translate(this.pos.x, this.pos.y);
         AsteroidsApplet.asteroidsApplet.rotate((alpha));
         AsteroidsApplet.asteroidsApplet.image(texture, 0,0);
         AsteroidsApplet.asteroidsApplet.translate(0,0);
-        AsteroidsApplet.asteroidsApplet.popMatrix();
+        AsteroidsApplet.asteroidsApplet.popMatrix();*/
 
         //XP-Bar
         AsteroidsApplet.asteroidsApplet.color(0,0,0);

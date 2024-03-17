@@ -6,6 +6,7 @@ import net.mortalsilence.olli.space.gameObjects.GUI.*;
 import net.mortalsilence.olli.space.scenes.Scene;
 import net.mortalsilence.olli.space.utility.SweepAndPrune;
 import processing.core.PApplet;
+import processing.core.PShape;
 import processing.core.PVector;
 
 import java.io.File;
