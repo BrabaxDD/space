@@ -127,7 +127,7 @@ public class AlienUFO  extends GameObject implements SpaceshipMovedListener, Spa
         if (item == 1) {
             this.scene.addObject(new BombItem(this.scene, this.pos,(int) AsteroidsApplet.asteroidsApplet.random(2)));
         }
-        AsteroidsApplet.asteroidsApplet.partef = new Particle_effect(new PVector(this.pos.x,this.pos.y));
+        AsteroidsApplet.asteroidsApplet.newEffect(this.pos);
         this.scene.deleteObject(this);
 
     }

@@ -1,5 +1,6 @@
 package net.mortalsilence.olli.space.utility;
 
+import net.mortalsilence.olli.space.AsteroidsApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
@@ -28,5 +29,8 @@ public class Particle_effect {
             }
         }
         this.particles.removeAll(toDelete);
+        if(particles.size() <= 0){
+            AsteroidsApplet.asteroidsApplet.deleteEffect(this);
+        }
     }
 }

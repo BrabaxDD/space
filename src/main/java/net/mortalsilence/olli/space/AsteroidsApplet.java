@@ -14,6 +14,7 @@ import processing.event.MouseEvent;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AsteroidsApplet extends PApplet {
@@ -44,7 +45,10 @@ public class AsteroidsApplet extends PApplet {
 
     private SweepAndPrune sap;
 
-    public Particle_effect partef;
+
+    private ArrayList<Particle_effect> effects = new ArrayList<>();
+
+    private ArrayList<Particle_effect> effectsToDelete = new ArrayList<>();
 
     @Override
     public void settings() {
@@ -71,7 +75,6 @@ public class AsteroidsApplet extends PApplet {
         this.fxPlayer.setVolume(Float.parseFloat(options[1]));
         PApplet.println("Volume loaded fx: "+Float.parseFloat(options[1]));
         //new Thread(backgroundPlayer).start();
-        this.partef = new Particle_effect(new PVector(0,0));
 
     }
 
@@ -101,10 +104,14 @@ public class AsteroidsApplet extends PApplet {
             fill(250,130,145);
             AsteroidsApplet.asteroidsApplet.text( "Invincible!!!",250,100);
         }
+
+        for(Particle_effect particleEffect : effects){
+            particleEffect.run();
+        }
+        effects.removeAll(effectsToDelete);
+
         this.fxPlayer.update();
         this.backgroundPlayer.update();
-        this.partef.run();
-
     }
 
     public void switchScene (Scene scene){
@@ -178,4 +185,11 @@ public class AsteroidsApplet extends PApplet {
     public SweepAndPrune getSap(){return this.sap;}
     public void setSap(SweepAndPrune s){this.sap = s;}
 
+    public void newEffect(PVector pos){
+        this.effects.add(new Particle_effect(pos));
+    }
+
+    public void deleteEffect(Particle_effect partef){
+        this.effectsToDelete.add(partef);
+    }
 }
